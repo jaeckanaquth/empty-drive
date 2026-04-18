@@ -48,11 +48,11 @@ const comparison = {
     unitChoice: 'Limited to what\'s available in resale',
     riskLevel: 'Low',
     qualityVerification: 'See exactly what you buy',
-    priceUpside: 'Higher sticker price but no GST saves ₹12.5L on ₹2.5 Cr',
+    priceUpside: 'Higher sticker price but no GST saves ₹15L on ₹3 Cr',
     stampDuty: '5% + 10% cess + 1% reg',
     tone: 'success' as const,
     pros: [
-      'No GST — saves ~5% (₹10–12L on ₹2–2.5 Cr property)',
+      'No GST — saves ~5% (₹12–15L on ₹2.5–3 Cr property)',
       'See the flat, floor, view, light before buying',
       'Immediate possession — stop paying rent from day 1',
       'OC obtained = legally safe, bank loan straightforward',
@@ -120,7 +120,7 @@ export default function PropertyTypeConfig() {
 
       <Stack gap={4}>
         <H1>Property Type & Configuration</H1>
-        <Text tone="secondary">Yelahanka · Single adult · WFH 3 days · ₹2.5 Cr</Text>
+        <Text tone="secondary">Yelahanka · Single adult · WFH 3 days · ₹3 Cr</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>

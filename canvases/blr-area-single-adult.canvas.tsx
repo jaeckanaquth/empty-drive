@@ -28,7 +28,7 @@ interface Area {
   pricePerSqft: string;
   pricePerSqftMid: number;
   whatYouGet: string;
-  sqftAt25Cr: string;
+  sqftAt3Cr: string;
   scores: SingleAdultScore;
   total: number;
   valueVerdict: 'overpriced' | 'fair' | 'undervalued';
@@ -45,8 +45,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '35–50 min peak · 20 min off-peak',
     pricePerSqft: '₹5,800–8,500',
     pricePerSqftMid: 7000,
-    whatYouGet: '3–3.5 BHK · 1,700–2,100 sqft · spacious balconies',
-    sqftAt25Cr: '~1,900–2,100 sqft',
+    whatYouGet: '3–4 BHK · 2,050–2,500 sqft · spacious balconies',
+    sqftAt3Cr: '~2,050–2,500 sqft',
     vibe: 'Quiet suburb — planned, clean, green. Think Sunday morning runs, home as your sanctuary.',
     scores: {
       greeneryFitness: 9,
@@ -72,8 +72,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '28–40 min peak · 18 min off-peak',
     pricePerSqft: '₹5,500–7,500',
     pricePerSqftMid: 6400,
-    whatYouGet: '3–4 BHK · 1,800–2,200 sqft · lake-adjacent options',
-    sqftAt25Cr: '~2,000–2,200 sqft',
+    whatYouGet: '3–4 BHK · 2,150–2,650 sqft · lake-adjacent options',
+    sqftAt3Cr: '~2,200–2,650 sqft',
     vibe: 'Nature-first. Near Jakkur Lake. Quiet, outdoor-lifestyle-friendly. Still developing socially.',
     scores: {
       greeneryFitness: 8,
@@ -99,8 +99,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '20–35 min peak · 12 min off-peak',
     pricePerSqft: '₹6,500–9,500',
     pricePerSqftMid: 7800,
-    whatYouGet: '3 BHK · 1,400–1,650 sqft · modern RERA society',
-    sqftAt25Cr: '~1,400–1,700 sqft',
+    whatYouGet: '3 BHK · 1,680–2,050 sqft · modern RERA society',
+    sqftAt3Cr: '~1,700–2,050 sqft',
     vibe: 'Active urban. Young Manyata crowd, café culture growing fast. More "alive" on weeknights.',
     scores: {
       greeneryFitness: 6,
@@ -126,8 +126,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '25–40 min peak · 15 min off-peak',
     pricePerSqft: '₹7,500–10,000',
     pricePerSqftMid: 8700,
-    whatYouGet: '2 BHK · 1,100–1,350 sqft · older stock or builder floor',
-    sqftAt25Cr: '~1,100–1,400 sqft',
+    whatYouGet: '2–3 BHK · 1,320–1,650 sqft · older stock or builder floor',
+    sqftAt3Cr: '~1,320–1,650 sqft',
     vibe: 'Walkable, old-school Bangalore. Great for daily errands on foot. Small flat though.',
     scores: {
       greeneryFitness: 5,
@@ -153,8 +153,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '10–20 min peak · 8 min off-peak',
     pricePerSqft: '₹10,000–15,000',
     pricePerSqftMid: 12000,
-    whatYouGet: '2 BHK · 900–1,050 sqft · premium high-rise',
-    sqftAt25Cr: '~900–1,100 sqft',
+    whatYouGet: '2–3 BHK · 1,080–1,300 sqft · premium high-rise',
+    sqftAt3Cr: '~1,080–1,300 sqft',
     vibe: 'High-rise urban. Premium address. But 900 sqft is genuinely small for daily living.',
     scores: {
       greeneryFitness: 4,
@@ -180,8 +180,8 @@ const areas: Record<AreaKey, Area> = {
     commute: '25–40 min peak · 18 min off-peak',
     pricePerSqft: '₹5,200–7,000',
     pricePerSqftMid: 6000,
-    whatYouGet: '3.5–4 BHK · 1,900–2,300 sqft · gated township',
-    sqftAt25Cr: '~2,000–2,300 sqft',
+    whatYouGet: '3.5–4 BHK · 2,280–2,760 sqft · gated township',
+    sqftAt3Cr: '~2,280–2,760 sqft',
     vibe: 'Quiet township living. Big internal amenities. Social scene outside the gate is sparse.',
     scores: {
       greeneryFitness: 7,
@@ -260,13 +260,13 @@ export default function SingleAdultAreaAnalysis() {
       <Stack gap={12}>
         <H2>Updated Value-for-Money Matrix</H2>
         <Table
-          headers={['Area', 'Price/sqft', 'Livability /100', 'Value Score', 'Size @ ₹2.5 Cr', 'Verdict', 'Vibe']}
+          headers={['Area', 'Price/sqft', 'Livability /100', 'Value Score', 'Size @ ₹3 Cr', 'Verdict', 'Vibe']}
           rows={keys.map(k => [
             areas[k].shortLabel,
             areas[k].pricePerSqft,
             `${areas[k].total}/100`,
             valueScore(k),
-            areas[k].sqftAt25Cr,
+            areas[k].sqftAt3Cr,
             areas[k].valueVerdict === 'undervalued' ? 'Undervalued' : areas[k].valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair',
             areas[k].vibe.split('.')[0],
           ])}
@@ -292,7 +292,7 @@ export default function SingleAdultAreaAnalysis() {
               <Stack gap={8}>
                 <Grid columns={2} gap={10}>
                   <Stat value="73/100" label="Livability Score" />
-                  <Stat value="~1,500 sqft" label="Size at ₹2.5 Cr" tone="warning" />
+                  <Stat value="~1,800 sqft" label="Size at ₹3 Cr" tone="warning" />
                 </Grid>
                 <Table
                   headers={['Factor', 'Score']}
@@ -320,7 +320,7 @@ export default function SingleAdultAreaAnalysis() {
               <Stack gap={8}>
                 <Grid columns={2} gap={10}>
                   <Stat value="74/100" label="Livability Score" tone="success" />
-                  <Stat value="~2,000 sqft" label="Size at ₹2.5 Cr" tone="success" />
+                  <Stat value="~2,300 sqft" label="Size at ₹3 Cr" tone="success" />
                 </Grid>
                 <Table
                   headers={['Factor', 'Score']}
@@ -385,7 +385,7 @@ export default function SingleAdultAreaAnalysis() {
         <Grid columns={4} gap={14}>
           <Stat value={`${a.total}/100`} label="Livability (Single Adult)" tone={a.total >= 72 ? 'success' : a.total >= 65 ? undefined : 'warning'} />
           <Stat value={valueScore(active)} label="Value Score" tone={parseFloat(valueScore(active)) >= 10 ? 'success' : parseFloat(valueScore(active)) >= 8 ? undefined : 'danger'} />
-          <Stat value={a.sqftAt25Cr} label="Size at ₹2.5 Cr" />
+          <Stat value={a.sqftAt3Cr} label="Size at ₹3 Cr" />
           <Stat value={a.valueVerdict === 'undervalued' ? 'Undervalued' : a.valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair'} label="Price Verdict" tone={a.valueVerdict === 'undervalued' ? 'success' : a.valueVerdict === 'overpriced' ? 'danger' : undefined} />
         </Grid>
 
@@ -421,7 +421,7 @@ export default function SingleAdultAreaAnalysis() {
               headers={['Detail', 'Value']}
               rows={[
                 ['Price per sqft', a.pricePerSqft],
-                ['What ₹2.5 Cr gets', a.whatYouGet],
+                ['What ₹3 Cr gets', a.whatYouGet],
                 ['Commute to Manyata', a.commute],
                 ['5yr appreciation', `~${a.appreciation5yr}%`],
               ]}
@@ -450,7 +450,7 @@ export default function SingleAdultAreaAnalysis() {
           <Card>
             <CardHeader>Home Gym / Hobby Room</CardHeader>
             <CardBody>
-              <Text size="small">Extra room = no gym membership needed. Squat rack, treadmill, yoga area. At ₹2.5 Cr in Yelahanka you get 2,000 sqft — room for all of this.</Text>
+              <Text size="small">Extra room = no gym membership needed. Squat rack, treadmill, yoga area. At ₹3 Cr in Yelahanka you get 2,300+ sqft — room for all of this.</Text>
             </CardBody>
           </Card>
           <Card>
@@ -462,7 +462,7 @@ export default function SingleAdultAreaAnalysis() {
         </Grid>
 
         <Table
-          headers={['Area', 'Size at ₹2.5 Cr', 'Rooms possible', 'WFH Room?', 'Gym Room?', 'Guest Room?']}
+          headers={['Area', 'Size at ₹3 Cr', 'Rooms possible', 'WFH Room?', 'Gym Room?', 'Guest Room?']}
           rows={[
             ['Yelahanka', '~2,000 sqft', '3 BHK + study', 'Yes', 'Yes', 'Yes'],
             ['Jakkur', '~2,100 sqft', '3–4 BHK', 'Yes', 'Yes', 'Yes'],

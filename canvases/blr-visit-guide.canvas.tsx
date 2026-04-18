@@ -34,7 +34,7 @@ const visits = [
     address: 'Kogilu Road, Agrahara Layout, Yelahanka, Bangalore – 560064',
     mapSearch: 'Brigade Northridge Kogilu Road Yelahanka',
     type: 'RTM resale',
-    priceRange: '₹1.55–2.5 Cr',
+    priceRange: '₹1.55–3 Cr',
     size: '1,230–1,880 sqft SBA',
     contactApproach: 'Search Housing.com + PropTiger for resale. Ask broker specifically for units ≥ 1,700 sqft (larger 3 BHK variants). Pre-RERA project — insist on OC copy before scheduling.',
     bestVisitTime: 'Weekday morning — quieter, guards more available to answer questions',

@@ -627,7 +627,7 @@ export default function PropertyShortlist3Cr() {
                 <Row gap={5} wrap>
                   <Pill label="Grade A" tone="success" size="sm" />
                   <Pill label="RTM" tone="success" size="sm" />
-                  <Pill label="₹1.55–2.5 Cr" size="sm" />
+                  <Pill label="₹1.55–3 Cr" size="sm" />
                   <Pill label="1,880 sqft max" size="sm" />
                 </Row>
                 <Text size="small">Brigade quality at the best sqft rate among Grade A options. Largest unit available (1,880 sqft). 7-acre society on quieter Kogilu Rd. Pre-RERA project — verify OC/CC documents independently.</Text>
@@ -678,7 +678,7 @@ export default function PropertyShortlist3Cr() {
         <CardBody>
           <Stack gap={5}>
             {[
-              ['Week 1 — Research', 'On 99acres and Housing.com: search "Prestige Royale Gardens Yelahanka resale" and "Brigade Northridge Kogilu Road resale". Filter: 3 BHK, ₹1.5–2.5 Cr, RTM. Contact 2 listing agents each.'],
+              ['Week 1 — Research', 'On 99acres and Housing.com: search "Prestige Royale Gardens Yelahanka resale" and "Brigade Northridge Kogilu Road resale". Filter: 3 BHK, ₹1.5–3 Cr, RTM. Contact 2 listing agents each.'],
               ['Week 2 — Visit', 'Visit both projects on a weekday morning. Talk to 3 residents each. Bring the legal checklist (blr-legal-documentation canvas). Ask specifically about: sinking fund, water supply, maintenance charges, and OC status.'],
               ['Week 2 — Sobha check', 'Also visit Sobha City on Thanisandra Main Rd. Ask for RTM units. Compare Sobha construction quality in person vs Brigade/Prestige.'],
               ['Week 3 — Shortlist 1', 'Pick your preferred unit. Engage a Bangalore property lawyer (₹20–25K) for full title check — EC, A-Khata, OC, parent documents for at least 15 years back.'],

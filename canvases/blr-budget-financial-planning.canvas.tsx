@@ -72,11 +72,11 @@ export default function BudgetFinancialPlanning() {
       {/* ── header ── */}
       <Stack gap={4}>
         <H1>Budget & Financial Planning</H1>
-        <Text tone="secondary">Buying a property in Bangalore — under ₹2.5 Crore</Text>
+        <Text tone="secondary">Buying a property in Bangalore — up to ₹3 Crore</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="₹2.5 Cr" label="Total Budget Ceiling" />
+        <Stat value="₹3 Cr" label="Total Budget Ceiling" />
         <Stat value="~₹2.35 Cr" label="Max Property Price (RTM)" tone="warning" />
         <Stat value="~₹2.22 Cr" label="Max Property Price (UC)" tone="danger" />
         <Stat value="~6.5–12%" label="Extra Over Property Price" tone="danger" />
@@ -86,9 +86,9 @@ export default function BudgetFinancialPlanning() {
 
       {/* ── 1. The Budget Reality ── */}
       <Stack gap={12}>
-        <H2>1. The Budget Reality — What ₹2.5 Cr Actually Means</H2>
+        <H2>1. The Budget Reality — What ₹3 Cr Actually Means</H2>
         <Text tone="secondary" size="small">
-          Your ₹2.5 Cr budget is NOT the property price — it's the total outflow. Government
+          Your ₹3 Cr budget is NOT the property price — it's the total outflow. Government
           charges, GST (for under-construction), and fees eat 6–12% on top.
         </Text>
 
@@ -120,7 +120,7 @@ export default function BudgetFinancialPlanning() {
                 <Stat value="₹2.14 Cr" label="Total Outflow" tone="warning" />
               </Grid>
               <Text size="small" tone="secondary" style={{ marginTop: 10 }}>
-                If your all-in budget is ₹2.5 Cr, max RTM property price ≈ <Text weight="semibold" as="span">₹2.35 Cr</Text>
+                If your all-in budget is ₹3 Cr, max RTM property price ≈ <Text weight="semibold" as="span">₹2.82 Cr</Text>
               </Text>
             </CardBody>
           </Card>
@@ -135,7 +135,7 @@ export default function BudgetFinancialPlanning() {
                 <Stat value="₹2.24 Cr" label="Total Outflow" tone="danger" />
               </Grid>
               <Text size="small" tone="secondary" style={{ marginTop: 10 }}>
-                If your all-in budget is ₹2.5 Cr, max UC property price ≈ <Text weight="semibold" as="span">₹2.22 Cr</Text>
+                If your all-in budget is ₹3 Cr, max UC property price ≈ <Text weight="semibold" as="span">₹2.67 Cr</Text>
               </Text>
             </CardBody>
           </Card>
@@ -261,6 +261,7 @@ export default function BudgetFinancialPlanning() {
             ['₹2.0 Cr', '₹40L', '₹13L', '₹10L', '₹1.25L', '₹54.25L', '₹64.25L'],
             ['₹2.2 Cr', '₹44L', '₹14.3L', '₹11L', '₹1.25L', '₹59.55L', '₹70.55L'],
             ['₹2.5 Cr', '₹50L', '₹16.25L', '₹12.5L', '₹1.5L', '₹67.75L', '₹80.25L'],
+            ['₹3.0 Cr', '₹60L', '₹19.5L', '₹15L', '₹1.5L', '₹81L', '₹96L'],
           ]}
           rowTone={[undefined, undefined, 'warning', 'danger']}
           columnAlign={['left', 'right', 'right', 'right', 'right', 'right', 'right']}
@@ -409,23 +410,24 @@ export default function BudgetFinancialPlanning() {
 
       <Divider />
 
-      {/* ── 8. What ₹2.5 Cr gets you ── */}
+      {/* ── 8. What ₹3 Cr gets you ── */}
       <Stack gap={12}>
-        <H2>8. What ₹2.5 Cr Gets You in Bangalore (2025)</H2>
+        <H2>8. What ₹3 Cr Gets You in Bangalore (2026)</H2>
         <Text tone="secondary" size="small">Indicative ranges. Prices vary widely by project, floor, facing, and negotiation.</Text>
 
         <Table
           headers={['Micro-Market', 'Configuration', 'Carpet Area', 'Type', 'Status']}
           rows={[
-            ['Whitefield / ITPL', '2 BHK', '950–1,100 sqft', 'Apartment in society', 'RTM + UC both available'],
-            ['Electronic City Ph1/Ph2', '3 BHK', '1,300–1,600 sqft', 'Apartment with amenities', 'Good value; UC available'],
-            ['Sarjapur Road', '2–3 BHK', '1,100–1,400 sqft', 'Apartment', 'Premium corridor; less for money'],
-            ['Thanisandra / Hennur', '3 BHK', '1,400–1,700 sqft', 'Apartment with amenities', 'Good size; improving infra'],
-            ['Kanakapura Road', '3 BHK', '1,400–1,800 sqft', 'Apartment', 'Best size-for-money; Metro coming'],
-            ['Yelahanka / Devanahalli', '3 BHK', '1,500–1,800 sqft', 'Apartment / Villa plot', 'Airport connectivity; emerging'],
-            ['JP Nagar / Bannerghatta Rd', '2 BHK', '1,000–1,200 sqft', 'Apartment', 'South Bangalore; established'],
-            ['Hebbal / Bellary Rd', '2 BHK', '850–1,050 sqft', 'Apartment', 'Premium location; smaller units'],
+            ['Whitefield / ITPL', '3 BHK', '1,200–1,500 sqft', 'Apartment in society', 'RTM + UC both available'],
+            ['Electronic City Ph1/Ph2', '3 BHK large', '1,600–2,000 sqft', 'Apartment with amenities', 'Good value; UC available'],
+            ['Sarjapur Road', '3 BHK', '1,400–1,700 sqft', 'Apartment', 'Premium corridor; improving infra'],
+            ['Thanisandra / Hennur', '3–4 BHK', '1,700–2,100 sqft', 'Apartment with amenities', 'Sobha City RTM range'],
+            ['Kanakapura Road', '3 BHK large', '1,800–2,200 sqft', 'Apartment', 'Best size-for-money; Metro coming'],
+            ['Yelahanka / Devanahalli', '3 BHK spacious', '1,700–2,100 sqft', 'Apartment — Prestige/Brigade', 'Airport corridor; strong appreciation'],
+            ['JP Nagar / Bannerghatta Rd', '3 BHK', '1,300–1,600 sqft', 'Apartment', 'South Bangalore; established'],
+            ['Hebbal / Bellary Rd', '2–3 BHK', '1,100–1,400 sqft', 'Apartment', 'Premium location; smaller units for money'],
           ]}
+          rowTone={[undefined, undefined, undefined, 'success', undefined, 'success', undefined, 'warning']}
           striped
           columnAlign={['left', 'left', 'right', 'left', 'left']}
         />

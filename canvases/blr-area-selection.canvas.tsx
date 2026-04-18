@@ -45,7 +45,7 @@ const areas: Record<AreaKey, Area> = {
     pros: [
       'Closest to Manyata after Hebbal — 25–35 min peak commute',
       'Metro Phase 2B (Nagavara–Airport corridor) will dramatically boost values',
-      'Large new inventory — many RERA-compliant options at ₹2.5 Cr',
+      'Large new inventory — many RERA-compliant options at ₹3 Cr',
       '3 BHK is achievable; good schools (Orchids, VIBGYOR) and hospitals nearby',
       'Significant price appreciation in last 3 years — still not fully priced in',
     ],
@@ -99,7 +99,7 @@ const areas: Record<AreaKey, Area> = {
     maturity: 'maturing',
     verdict: 'Good value; quieter living; less liquid resale market',
     pros: [
-      'Excellent value — large 3 BHKs well within ₹2.5 Cr',
+      'Excellent value — large 3 BHKs well within ₹3 Cr',
       'Jakkur Lake vicinity — green, pleasant area',
       'Good new-age residential projects with amenities',
       'Less congested than Thanisandra; cleaner air',
@@ -125,7 +125,7 @@ const areas: Record<AreaKey, Area> = {
     appreciationOutlook: 'medium',
     metro: 'Phase 2B Hebbal station confirmed — already partially priced in',
     maturity: 'established',
-    verdict: 'Closest to work but worst value-for-money at ₹2.5 Cr',
+    verdict: 'Closest to work but worst value-for-money at ₹3 Cr',
     pros: [
       'Nearest to Manyata Tech Park — 10–20 min even in peak hours',
       'Premium established area; excellent hospitals (Columbia Asia, Manipal)',
@@ -133,7 +133,7 @@ const areas: Record<AreaKey, Area> = {
       'Strong rental demand from Manyata employees',
     ],
     cons: [
-      '₹2.5 Cr gets only a 2 BHK (900–1,050 sqft) — very cramped for the price',
+      '₹3 Cr gets only a 2–3 BHK (1,080–1,300 sqft) — poor value for money',
       'Extremely poor value per sqft compared to micro-markets 8–10 km away',
       'Heavy traffic congestion; Hebbal flyover bottleneck is notorious',
       'Appreciation potential is already plateauing — premium already baked in',
@@ -157,7 +157,7 @@ const areas: Record<AreaKey, Area> = {
     pros: [
       'Highest appreciation potential in BLR North — 60–70% in 5 yrs historically',
       'Massive upcoming infra: Aerospace SEZ, BIAL expansion, Devanahalli Business Park',
-      'Largest units per rupee — 3 BHK villas easily in ₹2.5 Cr',
+      'Largest units per rupee — spacious 3–4 BHK villas/apartments easily within ₹3 Cr',
       'Flip potential: buy now at ₹5,500/sqft, sell in 7 yrs at ₹9,000+',
     ],
     cons: [
@@ -181,7 +181,7 @@ const areas: Record<AreaKey, Area> = {
     appreciationOutlook: 'medium',
     metro: 'Near Green Line (Nagasandra end); Purple Line extension planned',
     maturity: 'established',
-    verdict: 'Established and convenient; limited new inventory at ₹2.5 Cr',
+    verdict: 'Established and convenient; limited new inventory at ₹3 Cr',
     pros: [
       'Very established area — hospitals, schools, markets all within 2 km',
       'Good connectivity: close to both Hebbal and Mebhal junction',
@@ -189,7 +189,7 @@ const areas: Record<AreaKey, Area> = {
       'BBMP Area — A-Khata, no legal complications',
     ],
     cons: [
-      '₹2.5 Cr buys a 2–3 BHK in older buildings or builder floors',
+      '₹3 Cr buys a 2–3 BHK in older buildings or builder floors',
       'New society inventory with amenities is limited in this range',
       'Lower appreciation upside — already well-developed',
       'Congested; older road network',
@@ -213,7 +213,7 @@ export default function AreaSelection() {
       {/* ── header ── */}
       <Stack gap={4}>
         <H1>Area & Location Selection</H1>
-        <Text tone="secondary">Workplace: Hebbal / Manyata Tech Park · Purpose: Self-use · Budget: ₹2.5 Cr</Text>
+        <Text tone="secondary">Workplace: Hebbal / Manyata Tech Park · Purpose: Self-use · Budget: ₹3 Cr</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
@@ -229,7 +229,7 @@ export default function AreaSelection() {
       <Stack gap={12}>
         <H2>All Micro-Markets at a Glance</H2>
         <Table
-          headers={['Area', 'Distance to Manyata', 'Peak Commute', 'What ₹2.5 Cr Gets', 'Appreciation (5yr)', 'Self-Use Rating']}
+          headers={['Area', 'Distance to Manyata', 'Peak Commute', 'What ₹3 Cr Gets', 'Appreciation (5yr)', 'Self-Use Rating']}
           rows={areaKeys.map(k => [
             areas[k].label.split('/')[0].trim(),
             areas[k].distance,
@@ -320,7 +320,7 @@ export default function AreaSelection() {
                   headers={['Factor', 'Detail']}
                   rows={[
                     ['Price range', a.priceRange],
-                    ['At ₹2.5 Cr you get', a.whatYouGet],
+                    ['At ₹3 Cr you get', a.whatYouGet],
                     ['Off-peak commute', a.offPeakCommute],
                     ['Metro connectivity', a.metro],
                     ['Best suited for', a.bestFor],
@@ -502,11 +502,11 @@ export default function AreaSelection() {
         <Table
           headers={['Priority', 'Area', 'Why', 'Caveat']}
           rows={[
-            ['1st choice', 'Thanisandra / Kogilu / Nagavara', 'Best balance of commute (25–35 min), Metro upside, 3 BHK in ₹2.5 Cr, rising infrastructure', 'Screen carefully for A-Khata; avoid low-lying pockets'],
+            ['1st choice', 'Thanisandra / Kogilu / Nagavara', 'Best balance of commute (25–35 min), Metro upside, spacious 3 BHK in ₹3 Cr, rising infrastructure', 'Screen carefully for A-Khata; avoid low-lying pockets'],
             ['2nd choice', 'Yelahanka New Town / Sahakar Nagar', 'Larger units, excellent livability, established area — best for quality of life', 'Commute 40–55 min; no near-term Metro'],
-            ['3rd choice', 'Kalyan Nagar / HBR Layout', 'Established, close to Manyata, all daily needs met', 'Limited new-build inventory; older buildings at ₹2.5 Cr'],
+            ['3rd choice', 'Kalyan Nagar / HBR Layout', 'Established, close to Manyata, all daily needs met', 'Limited new-build inventory; older buildings at ₹3 Cr'],
             ['Consider if WFH', 'Devanahalli', 'Highest appreciation; largest units; Airport corridor', 'Only if ≤ 2 office days/week'],
-            ['Avoid', 'Hebbal itself', 'Too expensive for size — ₹2.5 Cr = 2 BHK at 900 sqft', 'Poor value vs 8 km further away'],
+            ['Avoid', 'Hebbal itself', 'Too expensive for size — ₹3 Cr = 2–3 BHK at 1,100–1,300 sqft', 'Poor value vs 8 km further away'],
           ]}
           rowTone={['success', 'success', undefined, 'info', 'warning']}
           striped

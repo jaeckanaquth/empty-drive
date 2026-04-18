@@ -30,7 +30,7 @@ interface Area {
   pricePerSqft: string;
   pricePerSqftMid: number; // midpoint for calculations
   whatYouGet: string;
-  sqftAt25Cr: string;
+  sqftAt3Cr: string;
   livability: LiveScore;
   livabilityTotal: number; // out of 100
   valueVerdict: 'overpriced' | 'fair' | 'undervalued';
@@ -49,8 +49,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '35–50 min peak · 20–28 min off-peak',
     pricePerSqft: '₹5,800–8,500',
     pricePerSqftMid: 7000,
-    whatYouGet: '3–3.5 BHK, 1,650–2,100 sqft, large balconies, top societies',
-    sqftAt25Cr: '~1,700–2,100 sqft (3.5 BHK possible)',
+    whatYouGet: '3–4 BHK, 2,050–2,500 sqft, large balconies, top societies',
+    sqftAt3Cr: '~2,050–2,500 sqft (3.5–4 BHK possible)',
     livability: {
       greenery: 9,
       airQuality: 9,
@@ -78,8 +78,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '28–40 min peak · 18–25 min off-peak',
     pricePerSqft: '₹5,500–7,500',
     pricePerSqftMid: 6400,
-    whatYouGet: '3–4 BHK, 1,700–2,200 sqft in newer societies; some lakefront options',
-    sqftAt25Cr: '~1,800–2,200 sqft (3–4 BHK villa/apt)',
+    whatYouGet: '3–4 BHK, 2,150–2,650 sqft in newer societies; some lakefront options',
+    sqftAt3Cr: '~2,150–2,650 sqft (3–4 BHK villa/apt)',
     livability: {
       greenery: 8,
       airQuality: 8,
@@ -107,8 +107,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '20–35 min peak · 12–18 min off-peak',
     pricePerSqft: '₹6,500–9,500',
     pricePerSqftMid: 7800,
-    whatYouGet: '3 BHK, 1,350–1,650 sqft, modern RERA societies',
-    sqftAt25Cr: '~1,400–1,700 sqft (3 BHK)',
+    whatYouGet: '3 BHK, 1,680–2,050 sqft, modern RERA societies',
+    sqftAt3Cr: '~1,700–2,050 sqft (3 BHK)',
     livability: {
       greenery: 6,
       airQuality: 6,
@@ -136,8 +136,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '25–40 min peak · 15–22 min off-peak',
     pricePerSqft: '₹7,500–10,000',
     pricePerSqftMid: 8700,
-    whatYouGet: '2 BHK (1,100–1,300 sqft) in older society OR builder floor',
-    sqftAt25Cr: '~1,100–1,400 sqft (2–3 BHK, older stock)',
+    whatYouGet: '2–3 BHK (1,320–1,650 sqft) in older society OR builder floor',
+    sqftAt3Cr: '~1,320–1,650 sqft (2–3 BHK, older stock)',
     livability: {
       greenery: 5,
       airQuality: 5,
@@ -165,8 +165,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '10–20 min peak · 8–12 min off-peak',
     pricePerSqft: '₹10,000–15,000',
     pricePerSqftMid: 12000,
-    whatYouGet: '2 BHK (900–1,050 sqft) in premium high-rise',
-    sqftAt25Cr: '~900–1,100 sqft (2 BHK only)',
+    whatYouGet: '2–3 BHK (1,080–1,300 sqft) in premium high-rise',
+    sqftAt3Cr: '~1,080–1,300 sqft (2 BHK only)',
     livability: {
       greenery: 5,
       airQuality: 4,
@@ -181,7 +181,7 @@ const areas: Record<AreaKey, Area> = {
     },
     livabilityTotal: 60,
     valueVerdict: 'overpriced',
-    valueSummary: 'Worst value-for-money in this comparison. ₹2.5 Cr buys a 2 BHK under 1,100 sqft. Premium is paid for proximity to Manyata — but you said commute isn\'t the priority. Terrible traffic, poor air quality, high density. Avoid.',
+    valueSummary: 'Worst value-for-money in this comparison. ₹3 Cr buys a 2 BHK under 1,300 sqft. Premium is paid for proximity to Manyata — but you said commute isn\'t the priority. Terrible traffic, poor air quality, high density. Avoid.',
     appreciation5yr: 35,
     metroStatus: 'Phase 2B Hebbal station — premium already baked into price.',
     bestPockets: ['Lakeside apartments (Hebbal Lake facing)', 'Embassy Galaxy / premium gated compounds'],
@@ -194,8 +194,8 @@ const areas: Record<AreaKey, Area> = {
     commuteManyata: '25–40 min peak · 18–25 min off-peak',
     pricePerSqft: '₹5,200–7,000',
     pricePerSqftMid: 6000,
-    whatYouGet: '3–4 BHK, 1,700–2,300 sqft, newer projects with large amenity areas',
-    sqftAt25Cr: '~1,900–2,300 sqft (3.5–4 BHK)',
+    whatYouGet: '3–4 BHK, 2,280–2,760 sqft, newer projects with large amenity areas',
+    sqftAt3Cr: '~2,280–2,760 sqft (3.5–4 BHK)',
     livability: {
       greenery: 7,
       airQuality: 7,
@@ -247,14 +247,14 @@ export default function AreaLivabilityAnalysis() {
       {/* ── header ── */}
       <Stack gap={4}>
         <H1>Livability vs Price — Is the Area Worth What It Costs?</H1>
-        <Text tone="secondary">North Bangalore · ₹2.5 Cr budget · Livability-first, commute secondary (≤30–40 min)</Text>
+        <Text tone="secondary">North Bangalore · ₹3 Cr budget · Livability-first, commute secondary (≤30–40 min)</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
         <Stat value="Yelahanka" label="Best Livability Per Rupee" tone="success" />
         <Stat value="Hebbal" label="Most Overpriced" tone="danger" />
         <Stat value="83/100" label="Top Livability Score" tone="success" />
-        <Stat value="2,100 sqft" label="Max Size @ ₹2.5 Cr" tone="info" />
+        <Stat value="2,500 sqft" label="Max Size @ ₹3 Cr" tone="info" />
       </Grid>
 
       <Divider />
@@ -267,13 +267,13 @@ export default function AreaLivabilityAnalysis() {
         </Text>
 
         <Table
-          headers={['Area', 'Price/sqft', 'Livability Score', 'Value Score', 'Size @ ₹2.5 Cr', 'Verdict']}
+          headers={['Area', 'Price/sqft', 'Livability Score', 'Value Score', 'Size @ ₹3 Cr', 'Verdict']}
           rows={areaKeys.map(k => [
             areas[k].shortLabel,
             areas[k].pricePerSqft,
             `${areas[k].livabilityTotal}/100`,
             valueScore(k),
-            areas[k].sqftAt25Cr.split('(')[0].trim(),
+            areas[k].sqftAt3Cr.split('(')[0].trim(),
             areas[k].valueVerdict === 'undervalued' ? 'Undervalued' :
             areas[k].valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair',
           ])}
@@ -339,7 +339,7 @@ export default function AreaLivabilityAnalysis() {
             label="Value Score"
             tone={parseFloat(valueScore(activeArea)) >= 11 ? 'success' : parseFloat(valueScore(activeArea)) >= 8 ? undefined : 'danger'}
           />
-          <Stat value={a.sqftAt25Cr.split('(')[0].trim()} label="Size at ₹2.5 Cr" />
+          <Stat value={a.sqftAt3Cr.split('(')[0].trim()} label="Size at ₹3 Cr" />
           <Stat
             value={a.valueVerdict === 'undervalued' ? 'Undervalued' : a.valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair Value'}
             label="Price Assessment"
@@ -381,8 +381,8 @@ export default function AreaLivabilityAnalysis() {
                       headers={['Item', 'Detail']}
                       rows={[
                         ['Price per sqft', a.pricePerSqft],
-                        ['What ₹2.5 Cr gets', a.whatYouGet],
-                        ['Size range', a.sqftAt25Cr],
+                        ['What ₹3 Cr gets', a.whatYouGet],
+                        ['Size range', a.sqftAt3Cr],
                         ['Commute to Manyata', a.commuteManyata],
                         ['Metro status', a.metroStatus],
                         ['5yr appreciation', `~${a.appreciation5yr}%`],
@@ -468,7 +468,7 @@ export default function AreaLivabilityAnalysis() {
             </CardHeader>
             <CardBody>
               <Stack gap={6}>
-                <Text size="small">At ₹12,000/sqft, ₹2.5 Cr = <Text weight="semibold" as="span">~960 sqft — a cramped 2 BHK.</Text></Text>
+                <Text size="small">At ₹12,000/sqft, ₹3 Cr = <Text weight="semibold" as="span">~1,150 sqft — a cramped 2 BHK.</Text></Text>
                 <Text size="small">You're paying ₹5,000/sqft extra vs Yelahanka for:</Text>
                 {['10 min shorter commute (you said this doesn\'t matter)', 'Constant traffic / flyover noise', 'Poor air quality from Bellary Road trucks', 'No greenery'].map(r => (
                   <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>−</Text><Text size="small" tone="secondary">{r}</Text></Row>
@@ -484,7 +484,7 @@ export default function AreaLivabilityAnalysis() {
             </CardHeader>
             <CardBody>
               <Stack gap={6}>
-                <Text size="small">At ₹7,800/sqft, ₹2.5 Cr = <Text weight="semibold" as="span">~1,500 sqft — a solid 3 BHK.</Text></Text>
+                <Text size="small">At ₹7,800/sqft, ₹3 Cr = <Text weight="semibold" as="span">~1,800 sqft — a comfortable 3 BHK.</Text></Text>
                 <Text size="small">Price is justified by:</Text>
                 {['Metro Phase 2B upcoming (future price catalyst)', 'Good hospitals and schools nearby', 'Active social scene — restaurants, cafes growing', 'Reasonable commute'].map(r => (
                   <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>+</Text><Text size="small" tone="secondary">{r}</Text></Row>
@@ -500,7 +500,7 @@ export default function AreaLivabilityAnalysis() {
             </CardHeader>
             <CardBody>
               <Stack gap={6}>
-                <Text size="small">At ₹7,000/sqft, ₹2.5 Cr = <Text weight="semibold" as="span">~1,800–2,000 sqft — a spacious 3–3.5 BHK.</Text></Text>
+                <Text size="small">At ₹7,000/sqft, ₹3 Cr = <Text weight="semibold" as="span">~2,150–2,500 sqft — a very spacious 3–4 BHK.</Text></Text>
                 <Text size="small">You get MORE for LESS because:</Text>
                 {['Planned layout = wider roads, less density', 'NH44 keeps it connected but insulated from chaos', 'Top schools (DPS, Orchids) literally walking distance in some pockets', 'Clean air — no industrial belt proximity'].map(r => (
                   <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>+</Text><Text size="small" tone="secondary">{r}</Text></Row>
@@ -537,7 +537,7 @@ export default function AreaLivabilityAnalysis() {
           </CardHeader>
           <CardBody>
             <Stack gap={8}>
-              <Text>Your profile — livability-first, ₹2.5 Cr, self-use, Manyata commute acceptable up to 40 min — points clearly to <Text weight="semibold" as="span">Yelahanka New Town (Sahakar Nagar / New Town phases)</Text> as the primary target.</Text>
+              <Text>Your profile — livability-first, ₹3 Cr, self-use, Manyata commute acceptable up to 40 min — points clearly to <Text weight="semibold" as="span">Yelahanka New Town (Sahakar Nagar / New Town phases)</Text> as the primary target.</Text>
               <Text>At ₹7,000–8,000/sqft, you get a <Text weight="semibold" as="span">1,800–2,000 sqft, 3–3.5 BHK</Text> in a well-planned, green, low-congestion area with excellent schools, and the NH44 corridor gives you easy airport + Manyata access.</Text>
               <Text tone="secondary" size="small">
                 Next step: Decide between <Text weight="semibold" as="span">Under-Construction vs Ready-to-Move</Text>. In Yelahanka, there's a healthy mix of both — ready society resales and 2–3 year UC projects from reputed builders.

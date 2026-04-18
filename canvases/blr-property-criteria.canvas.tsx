@@ -154,14 +154,14 @@ export default function BLRPropertyCriteria() {
     <Stack gap={24} style={{ padding: '24px 28px', maxWidth: 900 }}>
       <Stack gap={4}>
         <H1>Bangalore Property Buying Criteria</H1>
-        <Text tone="secondary">Budget: up to ₹2.5 Crore — structured decision framework</Text>
+        <Text tone="secondary">Budget: up to ₹3 Crore — structured decision framework</Text>
       </Stack>
 
       <Grid columns={4} gap={12}>
         <Stat value={`${categories.length}`} label="Major Categories" />
         <Stat value={`${totalCriteria}`} label="Total Checkpoints" />
         <Stat value={`${critical.length}`} label="Critical Categories" tone="danger" />
-        <Stat value="2.5 Cr" label="Max Budget" tone="warning" />
+        <Stat value="3 Cr" label="Max Budget" tone="warning" />
       </Grid>
 
       <Divider />

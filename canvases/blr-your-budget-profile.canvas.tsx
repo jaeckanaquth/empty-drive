@@ -57,7 +57,7 @@ const COMFORTABLE_PROPERTY = Math.round(COMFORTABLE_LOAN_20YR / 0.80);
 const BANK_MAX_PROPERTY = Math.round(BANK_LOAN_LIBERAL / 0.80);
 
 // Target property
-const TARGET = 2_50_00_000;
+const TARGET = 3_00_00_000;
 const LOAN_FOR_TARGET_80 = TARGET * 0.80;   // ₹2 Cr loan
 const LOAN_FOR_TARGET_60 = TARGET * 0.60;   // ₹1.5 Cr loan
 const EMI_TARGET_80_20YR = calcEMI(LOAN_FOR_TARGET_80, RATE, 20);
@@ -116,7 +116,7 @@ export default function PersonalBudgetProfile() {
   const totalInterest = totalPaid - s.loanAmount;
   const liquidCashNeeded = s.downPayment + s.stampReg + 75_000 + 30_000; // DP + stamp/reg + legal + loan fees
 
-  // ── gap to ₹2.5 Cr ────────────────────────────────────────────────────
+  // ── gap to ₹3 Cr ────────────────────────────────────────────────────
   const gapToTarget = TARGET - s.propertyPrice;
   const extraLoanNeeded = LOAN_FOR_TARGET_80 - s.loanAmount;
   const extraDownNeeded = Math.max(0, TARGET - s.loanAmount) - s.downPayment;
@@ -267,11 +267,11 @@ export default function PersonalBudgetProfile() {
 
       <Divider />
 
-      {/* ── the ₹2.5 Cr gap analysis ── */}
+      {/* ── the ₹3 Cr gap analysis ── */}
       <Stack gap={12}>
-        <H2>The ₹2.5 Cr Gap — Honest Reality Check</H2>
+        <H2>The ₹3 Cr Gap — Honest Reality Check</H2>
         <Text tone="secondary" size="small">
-          What it actually takes to buy a ₹2.5 Cr property on your current salary.
+          What it actually takes to buy a ₹3 Cr property on your current salary.
         </Text>
 
         <Grid columns={2} gap={14}>
@@ -313,8 +313,8 @@ export default function PersonalBudgetProfile() {
           rows={[
             ['Comfortable (solo)', inL(COMFORTABLE_LOAN_20YR), fmtINR(calcEMI(COMFORTABLE_LOAN_20YR, RATE, 20)), `${Math.round(calcEMI(COMFORTABLE_LOAN_20YR, RATE, 20) / MONTHLY_TAKE_HOME * 100)}%`, inL(COMFORTABLE_PROPERTY * 0.265), 'Sustainable'],
             ['Max solo (bank limit)', inL(BANK_LOAN_LIBERAL), fmtINR(calcEMI(BANK_LOAN_LIBERAL, RATE, 20)), `${Math.round(calcEMI(BANK_LOAN_LIBERAL, RATE, 20) / MONTHLY_TAKE_HOME * 100)}%`, inL(BANK_MAX_PROPERTY * 0.265), 'Tight — some risk'],
-            ['2.5 Cr @ 80% loan', '₹2.0 Cr', fmtINR(EMI_TARGET_80_20YR), `${Math.round(EMI_TARGET_80_20YR / MONTHLY_TAKE_HOME * 100)}%`, '~₹66.25L', 'Not advisable solo'],
-            ['2.5 Cr @ 60% loan', '₹1.5 Cr', fmtINR(EMI_TARGET_60_20YR), `${Math.round(EMI_TARGET_60_20YR / MONTHLY_TAKE_HOME * 100)}%`, '~₹1.16 Cr', 'Needs big corpus'],
+            ['3 Cr @ 80% loan', '₹2.4 Cr', fmtINR(EMI_TARGET_80_20YR), `${Math.round(EMI_TARGET_80_20YR / MONTHLY_TAKE_HOME * 100)}%`, '~₹79.5L', 'Not advisable solo'],
+            ['3 Cr @ 60% loan', '₹1.8 Cr', fmtINR(EMI_TARGET_60_20YR), `${Math.round(EMI_TARGET_60_20YR / MONTHLY_TAKE_HOME * 100)}%`, '~₹1.4 Cr', 'Needs large corpus'],
           ]}
           rowTone={['success', 'warning', 'danger', 'warning']}
           columnAlign={['left', 'right', 'right', 'right', 'right', 'left']}
@@ -323,9 +323,9 @@ export default function PersonalBudgetProfile() {
 
       <Divider />
 
-      {/* ── paths to 2.5 Cr ── */}
+      {/* ── paths to 3 Cr ── */}
       <Stack gap={12}>
-        <H2>Paths to ₹2.5 Cr — How to Get There</H2>
+        <H2>Paths to ₹3 Cr — How to Get There</H2>
 
         <Grid columns={2} gap={14}>
           <Card>
@@ -341,7 +341,7 @@ export default function PersonalBudgetProfile() {
                   rows={[
                     ['₹35L + ₹20L = ₹55L', '~₹1.65 Cr', '~₹2.06 Cr'],
                     ['₹35L + ₹25L = ₹60L', '~₹1.8 Cr', '~₹2.25 Cr'],
-                    ['₹35L + ₹30L = ₹65L', '~₹2.0 Cr', '~₹2.5 Cr'],
+                    ['₹35L + ₹30L = ₹65L', '~₹2.0 Cr', '~₹3 Cr'],
                   ]}
                   rowTone={[undefined, undefined, 'success']}
                 />
@@ -366,7 +366,7 @@ export default function PersonalBudgetProfile() {
                   ]}
                   rowTone={['danger', 'danger', 'warning', 'success']}
                 />
-                <Text size="small" tone="secondary">Need ₹1.3 Cr+ in savings to make ₹2.5 Cr comfortable solo.</Text>
+                <Text size="small" tone="secondary">Need ₹2 Cr+ in savings to make ₹3 Cr comfortable. You have ₹2.5 Cr — this is achievable.</Text>
               </Stack>
             </CardBody>
           </Card>
@@ -386,7 +386,7 @@ export default function PersonalBudgetProfile() {
                     ['₹90K', '₹21.6L', '₹32.4L', '₹1.9-2.2 Cr'],
                   ]}
                 />
-                <Text size="small" tone="secondary">At 40L+ salary in 2 years + larger corpus, the ₹2.5 Cr target becomes realistic.</Text>
+                <Text size="small" tone="secondary">At 40L+ salary in 2 years + larger corpus, the ₹3 Cr target becomes more comfortable.</Text>
               </Stack>
             </CardBody>
           </Card>
@@ -425,7 +425,7 @@ export default function PersonalBudgetProfile() {
         <Table
           headers={['Question', 'Your Situation', 'Implication']}
           rows={[
-            ['Do you have a co-applicant?', 'Unknown — key variable', 'If YES with ₹25L+ income → ₹2.5 Cr becomes achievable'],
+            ['Do you have a co-applicant?', 'Unknown — key variable', 'If YES with ₹25L+ income → ₹3 Cr becomes comfortable with a larger loan'],
             ['Liquid savings available?', 'Unknown — key variable', 'If you have ₹60-80L saved → can do ₹1.8-2 Cr property'],
             ['How soon do you need to buy?', 'Unknown', 'Waiting 18-24 months + salary growth changes the math'],
             ['Own-use vs investment?', 'Unknown', 'For investment, rental yield on ₹1.5 Cr is better proportionally'],
@@ -438,9 +438,9 @@ export default function PersonalBudgetProfile() {
           <CardHeader>Bottom Line</CardHeader>
           <CardBody>
             <Stack gap={8}>
-              <Text>On a solo ₹35L CTC, your <Text weight="semibold" as="span">comfortable property range is ₹1.2–1.7 Cr.</Text> The ₹2.5 Cr budget is above your current solo borrowing capacity.</Text>
-              <Text>To make ₹2.5 Cr work, you need <Text weight="semibold" as="span">at least one of: (a) co-applicant with ₹25L+ income, (b) ₹80-100L in existing savings/investments, or (c) willingness to run a very stretched EMI (~62% of take-home).</Text></Text>
-              <Text tone="secondary" size="small">The next step before area selection: answer the co-applicant and savings questions. They determine whether ₹2.5 Cr is the right ceiling or if it needs adjusting.</Text>
+              <Text>On a solo ₹35L CTC, your <Text weight="semibold" as="span">comfortable property range is ₹1.2–1.7 Cr.</Text> The ₹3 Cr budget requires your ₹2.5 Cr savings to bridge the gap between salary-based borrowing and the purchase price.</Text>
+              <Text>To make ₹3 Cr work: take a <Text weight="semibold" as="span">₹1 Cr loan (bank-sanctioned on salary) + deploy ₹2 Cr from savings as down payment</Text>. EMI ~₹88K/mo = 41% of take-home — tight but manageable.</Text>
+              <Text tone="secondary" size="small">With a co-applicant (parent with ₹50K+/mo pension/income), the bank will sanction ₹1.5–1.8 Cr — allowing you to keep more savings invested. See the purchase strategy canvas for full trade-off analysis.</Text>
             </Stack>
           </CardBody>
         </Card>

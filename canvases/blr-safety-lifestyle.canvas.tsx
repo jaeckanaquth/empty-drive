@@ -224,7 +224,7 @@ export default function SafetyLifestyle() {
               ))}
             </Grid>
             <Text size="small" tone="secondary" style={{ marginTop: 10 }}>
-              Koramangala leads on lifestyle/social but is far from Hebbal and well above your ₹2.5 Cr budget. Yelahanka scores best on green space, safety, and solo living ease among affordable North BLR options.
+              Koramangala leads on lifestyle/social but is far from Hebbal and well above your ₹3 Cr budget for a decent 3 BHK. Yelahanka scores best on green space, safety, and solo living ease among affordable North BLR options.
             </Text>
           </CardBody>
         </Card>

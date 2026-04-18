@@ -42,7 +42,7 @@ const builders: Record<BuilderKey, Builder> = {
     listed: true,
     scores: { reraCompliance: 9, deliveryRecord: 9, constructionQuality: 10, financialStability: 9, afterSales: 8, valueForMoney: 6 },
     total: 51,
-    summary: 'Best construction quality in Bangalore — no debate. Backward-integrated (makes their own concrete, steel, interiors). Delivers on time more consistently than peers. Premium pricing means fewer options at ₹2.5 Cr but resale value holds exceptionally well.',
+    summary: 'Best construction quality in Bangalore — no debate. Backward-integrated (makes their own concrete, steel, interiors). Delivers on time more consistently than peers. Premium pricing means fewer options at ₹3 Cr but resale value holds exceptionally well.',
     yelahankaPick: 'Sobha Neopolis (Panathur), Sobha Hartland — check their North BLR launches. Older completed Sobha projects in Yelahanka area for RTM.',
     watchOut: 'Price premium is real. Loading factor tends to be higher (28–32%) in older projects.',
     tone: 'success',
@@ -94,7 +94,7 @@ const builders: Record<BuilderKey, Builder> = {
     listed: false,
     scores: { reraCompliance: 7, deliveryRecord: 7, constructionQuality: 7, financialStability: 7, afterSales: 6, valueForMoney: 9 },
     total: 43,
-    summary: 'Best value-for-money among Tier 2 builders. Targets the ₹50L–1.5 Cr segment primarily. In Yelahanka they\'ve launched projects under ₹2.5 Cr with decent quality. Parent company (Puravankara) backing adds financial credibility.',
+    summary: 'Best value-for-money among Tier 2 builders. Targets the ₹50L–1.5 Cr segment primarily. In Yelahanka they\'ve launched projects under ₹3 Cr with decent quality. Parent company (Puravankara) backing adds financial credibility.',
     yelahankaPick: 'Provident Park Square (Yelahanka), Provident Capella — check for 3 BHK availability in budget.',
     watchOut: 'Amenity quality and finishing sometimes below Prestige/Sobha standard. Check actual unit finishing before committing.',
     tone: 'info',
@@ -161,7 +161,7 @@ export default function BuilderReputation() {
 
       <Stack gap={4}>
         <H1>Builder Reputation</H1>
-        <Text tone="secondary">Yelahanka / North Bangalore · RTM focus · ₹2.5 Cr budget</Text>
+        <Text tone="secondary">Yelahanka / North Bangalore · RTM focus · ₹3 Cr budget</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
@@ -496,11 +496,11 @@ export default function BuilderReputation() {
       <Stack gap={10}>
         <H2>Recommendation for Your Search</H2>
         <Table
-          headers={['Priority', 'Builder', 'Why', 'Price Reality at ₹2.5 Cr']}
+          headers={['Priority', 'Builder', 'Why', 'Price Reality at ₹3 Cr']}
           rows={[
             ['1st', 'Prestige Group (RTM resale)', 'Best brand liquidity in Yelahanka, strong resale, Finsbury Park is well-regarded', '3 BHK RTM resale possible ₹1.8–2.4 Cr'],
             ['1st', 'Brigade Group (RTM resale)', 'Reliable quality, good society management track record, competitive', '3 BHK RTM resale possible ₹1.9–2.4 Cr'],
-            ['2nd', 'Sobha (if available in budget)', 'Best quality — if you find a 3 BHK RTM resale within ₹2.5 Cr, take it', 'Mainly 2 BHK at ₹2.5 Cr; some older 3 BHK'],
+            ['2nd', 'Sobha (if available in budget)', 'Best quality — if you find a 3 BHK RTM resale within ₹3 Cr, take it', 'Spacious 3 BHK options available at ₹3 Cr; some 4 BHK'],
             ['2nd', 'Provident / Puravankara', 'Best new-build value, some UC options if RTM is preferred; 3 BHK achievable', '3 BHK ₹1.5–2.2 Cr range, good carpet area'],
             ['3rd', 'Assetz / Shriram', 'Solid but verify financial health and specific project RERA status first', '3 BHK ₹1.6–2.1 Cr, good layouts'],
             ['Skip', 'Unknown local developers', 'No brand accountability, hard to verify quality, poor resale liquidity', 'Not worth the risk at this budget'],

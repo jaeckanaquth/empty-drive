@@ -108,7 +108,7 @@ export default function LegalDocumentation() {
         <CardBody>
           <Stack gap={6}>
             <Text size="small">Bangalore has one of the most complex property legal landscapes in India — agricultural land conversions, BBMP vs BDA vs panchayat jurisdictions, decades of unregulated construction, and widespread B-Khata properties. A property that <Text weight="semibold" as="span">looks perfect and is priced right can be completely illegal.</Text></Text>
-            <Text size="small" tone="secondary">The High Court of Karnataka has ordered demolitions of buildings in premium areas like Koramangala and Bellandur. This is not rare. A ₹25,000 lawyer fee is the cheapest insurance you will ever buy on a ₹2.5 Cr transaction.</Text>
+            <Text size="small" tone="secondary">The High Court of Karnataka has ordered demolitions of buildings in premium areas like Koramangala and Bellandur. This is not rare. A ₹25,000 lawyer fee is the cheapest insurance you will ever buy on a ₹3 Cr transaction.</Text>
           </Stack>
         </CardBody>
       </Card>
