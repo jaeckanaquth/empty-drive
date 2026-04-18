@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BLR Property Visit</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Visit Guide" />
+  <meta name="theme-color" content="#007AFF" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f2f2f7;
+      --surface: #ffffff;
+      --surface2: #f2f2f7;
+      --border: #e5e5ea;
+      --text: #000000;
+      --text2: #6e6e73;
+      --text3: #aeaeb2;
+      --accent: #007AFF;
+      --green: #34C759;
+      --orange: #FF9500;
+      --red: #FF3B30;
+      --nav-height: 84px;
+      --header-height: 56px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1c1c1e;
+        --surface2: #2c2c2e;
+        --border: #38383a;
+        --text: #ffffff;
+        --text2: #98989d;
+        --text3: #636366;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100dvh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── header ── */
+    .header {
+      height: var(--header-height);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+    }
+    .header h1 { font-size: 17px; font-weight: 600; flex: 1; }
+    .header-sub { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+    /* ── main content area ── */
+    .content {
+      position: fixed;
+      top: var(--header-height);
+      bottom: var(--nav-height);
+      left: 0; right: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── bottom nav ── */
+    .nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      padding-bottom: var(--safe-bottom);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 100;
+    }
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      padding-top: 8px;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.15s;
+    }
+    .nav-btn.active { color: var(--accent); }
+    .nav-btn svg { width: 24px; height: 24px; }
+    .nav-label { font-size: 10px; font-weight: 500; }
+
+    /* ── tab panels ── */
+    .tab { display: none; padding: 12px 0 16px; }
+    .tab.active { display: block; }
+
+    /* ── section label ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px 16px 6px;
+    }
+
+    /* ── cards ── */
+    .card {
+      background: var(--surface);
+      margin: 0 16px 1px;
+      overflow: hidden;
+    }
+    .card:first-of-type, .card-group > .card:first-child { border-radius: 12px 12px 0 0; }
+    .card:last-of-type, .card-group > .card:last-child { border-radius: 0 0 12px 12px; margin-bottom: 16px; }
+    .card-group { margin: 0; }
+    .card-single { border-radius: 12px; margin-bottom: 16px; }
+    .card + .card { border-top: 1px solid var(--border); }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      padding: 13px 16px;
+      gap: 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .card-row:active { background: var(--surface2); }
+    .card-body { padding: 4px 16px 14px; }
+
+    /* ── badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-blue   { background: #e5f0ff; color: #007AFF; }
+    .badge-green  { background: #e5f6eb; color: #1a7a36; }
+    .badge-orange { background: #fff3e5; color: #b36200; }
+    .badge-red    { background: #ffe5e5; color: #cc0000; }
+    .badge-gray   { background: var(--surface2); color: var(--text2); }
+    @media (prefers-color-scheme: dark) {
+      .badge-blue   { background: #00285c; color: #5ac8fa; }
+      .badge-green  { background: #0d3318; color: #34c759; }
+      .badge-orange { background: #3d2200; color: #ff9f0a; }
+      .badge-red    { background: #3d0000; color: #ff6961; }
+    }
+
+    /* ── rank circle ── */
+    .rank {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── property title ── */
+    .card-title { font-size: 15px; font-weight: 600; flex: 1; line-height: 1.3; }
+    .card-subtitle { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+    /* ── chevron ── */
+    .chevron {
+      color: var(--text3);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .chevron.open { transform: rotate(90deg); }
+
+    /* ── detail rows ── */
+    .detail { display: none; }
+    .detail.open { display: block; }
+    .detail-row {
+      display: flex;
+      gap: 10px;
+      padding: 6px 16px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .detail-label {
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 12px;
+      min-width: 90px;
+      padding-top: 1px;
+    }
+    .detail-value { color: var(--text); line-height: 1.5; }
+
+    /* ── filter chips ── */
+    .chips {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.15s;
+    }
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ── question item ── */
+    .q-who { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+    .q-text { font-size: 14px; font-weight: 600; line-height: 1.4; }
+    .q-why  { font-size: 13px; color: var(--text2); margin-top: 4px; line-height: 1.4; }
+    .q-flag {
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #fff3e5;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #7a3800;
+      line-height: 1.4;
+    }
+    @media (prefers-color-scheme: dark) {
+      .q-flag { background: #3d1a00; color: #ffb347; }
+    }
+    .q-flag strong { font-weight: 700; }
+    .q-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 6px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* ── checklist ── */
+    .progress-bar-wrap {
+      background: var(--surface2);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+      margin: 0 16px 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--text2);
+      padding: 0 16px 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .check-item:active { background: var(--surface2); }
+    .check-item + .check-item { border-top: 1px solid var(--border); }
+    .check-circle {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      margin-top: 1px;
+    }
+    .check-circle.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .check-circle.done svg { display: block; }
+    .check-circle svg { display: none; width: 14px; height: 14px; }
+    .check-text {
+      font-size: 14px;
+      line-height: 1.45;
+      flex: 1;
+    }
+    .check-text.done {
+      color: var(--text2);
+      text-decoration: line-through;
+      text-decoration-color: var(--text3);
+    }
+
+    .reset-btn {
+      display: block;
+      margin: 8px 16px 0;
+      padding: 11px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 500;
+      width: calc(100% - 32px);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── section switcher ── */
+    .section-switch {
+      display: flex;
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 2px;
+      margin: 8px 16px 12px;
+    }
+    .section-btn {
+      flex: 1;
+      padding: 7px 4px;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .section-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── score row ── */
+    .score-table { width: 100%; border-collapse: collapse; }
+    .score-table td { padding: 10px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+    .score-table td:first-child { color: var(--text2); font-size: 13px; width: 50%; }
+    .score-dots { display: flex; gap: 4px; }
+    .score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .score-dot.filled { background: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header h1" style="font-size:17px;font-weight:600">BLR Property Visit</div>
+    <div class="header-sub">₹3 Cr · 3 BHK · North Bangalore · Apr 2026</div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── PROPERTIES TAB ── -->
+  <div class="tab active" id="tab-properties">
+    <div class="section-label">Visit Order — Day 1: Yelahanka</div>
+
+    <div id="prop-list"></div>
+
+    <div class="section-label">Day 2: Thanisandra</div>
+    <div id="prop-list-2"></div>
+
+    <div style="padding:0 16px 8px">
+      <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">Post-Visit Score (do within 1 hr)</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5">Rate each property 1–5 on: common areas, natural light, DG backup confirmed, ISP/fiber, resident vibe, RWA quality, water supply, legal docs shown, gut feeling. Any score ≤ 2 on legal docs or DG = do not proceed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUESTIONS TAB ── -->
+  <div class="tab" id="tab-questions">
+    <div class="chips" id="q-chips"></div>
+    <div id="q-list"></div>
+  </div>
+
+  <!-- ── CHECKLIST TAB ── -->
+  <div class="tab" id="tab-checklist">
+    <div class="section-switch" id="section-switch"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progress-label">0 of 0 done</span>
+      <span id="section-total"></span>
+    </div>
+    <div style="background:var(--surface);border-radius:12px;margin:0 16px 12px;overflow:hidden" id="checklist-items"></div>
+    <button class="reset-btn" onclick="resetChecklist()">Reset This Section</button>
+    <div style="height:8px"></div>
+  </div>
+
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="nav">
+  <button class="nav-btn active" id="nav-properties" onclick="switchTab('properties')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/>
+    </svg>
+    <span class="nav-label">Properties</span>
+  </button>
+  <button class="nav-btn" id="nav-questions" onclick="switchTab('questions')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+    </svg>
+    <span class="nav-label">Questions</span>
+  </button>
+  <button class="nav-btn" id="nav-checklist" onclick="switchTab('checklist')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+    </svg>
+    <span class="nav-label">Checklist</span>
+  </button>
+</nav>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+const PROPERTIES = [
+  {
+    rank: 1, day: 1,
+    name: 'Prestige Royale Gardens',
+    builder: 'Prestige Group',
+    grade: 'A', status: 'RTM', priority: 'Must Visit',
+    price: '₹1.5–1.95 Cr', size: '1,705 sqft SBA',
+    launched: 'Oct 2013', possession: 'Dec 2019',
+    area: 'Yelahanka · Doddaballapur Rd',
+    address: 'Doddaballapur Main Road, Yelahanka, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Prestige+Royale+Gardens+Yelahanka+Bangalore',
+    drive: '~10 min from Yelahanka NT',
+    visitTime: 'Weekday 9:00 AM',
+    contact: 'Search "Prestige Royale Gardens Yelahanka resale" on 99acres & Housing.com. Contact 2–3 brokers. Ask for 5th floor+, north/east facing, ≥ 1,700 sqft.',
+    rera: 'Multiple phase RERA — verify per unit',
+    ocStatus: 'Confirmed',
+  },
+  {
+    rank: 2, day: 1,
+    name: 'Godrej Avenues',
+    builder: 'Godrej Properties',
+    grade: 'A', status: 'RTM', priority: 'Must Visit',
+    price: '₹1.4–1.75 Cr', size: '1,420–1,750 sqft SBA',
+    launched: 'Sep 2017', possession: 'Mar 2019',
+    area: 'Yelahanka · Doddaballapur Rd',
+    address: 'Yelahanka – Doddaballapur Main Road, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Godrej+Avenues+Yelahanka+Bangalore',
+    drive: '~10 min from Yelahanka NT',
+    visitTime: 'Weekday 10:30 AM (same day as Prestige)',
+    contact: 'RERA: PRM/KA/RERA/1251/309/PR/170905/000229. Search 99acres. Multiple resale units available. Tell broker: no B-Khata.',
+    rera: 'PRM/KA/RERA/1251/309/PR/170905/000229',
+    ocStatus: 'Confirmed',
+  },
+  {
+    rank: 3, day: 1,
+    name: 'Brigade Northridge',
+    builder: 'Brigade Group',
+    grade: 'A', status: 'RTM', priority: 'Must Visit',
+    price: '₹1.55–2.5 Cr', size: '1,230–1,880 sqft SBA',
+    launched: 'Oct 2014', possession: 'Aug 2018',
+    area: 'Yelahanka · Kogilu Rd',
+    address: 'Kogilu Road, Agrahara Layout, Yelahanka, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Brigade+Northridge+Kogilu+Road+Yelahanka',
+    drive: '~8 min from Yelahanka NT',
+    visitTime: 'Weekday 12:00 PM (Day 1 final stop)',
+    contact: 'Search Housing.com + PropTiger for resale. Ask broker for units ≥ 1,700 sqft. Pre-RERA project — insist on OC copy before going.',
+    rera: 'Pre-2017 — RERA not applicable. Verify OC + CC directly.',
+    ocStatus: 'Verify in person',
+  },
+  {
+    rank: 4, day: 2,
+    name: 'Sobha City (Athena/Serenita)',
+    builder: 'Sobha Limited',
+    grade: 'A', status: 'RTM', priority: 'Should Visit',
+    price: '₹2.2–2.6 Cr', size: '1,682–2,164 sqft SBA',
+    launched: 'Jan 2014', possession: 'Phased 2018–2023',
+    area: 'Thanisandra Main Rd',
+    address: 'Thanisandra Main Road, Bangalore – 560077',
+    mapsUrl: 'https://maps.google.com/?q=Sobha+City+Thanisandra+Bangalore',
+    drive: '~25 min from Yelahanka NT',
+    visitTime: 'Day 2 — 10:00 AM',
+    contact: 'Contact Sobha directly (sobha.com) for RTM resale. Also check 99acres for individual owner listings — can be ₹10–15L cheaper.',
+    rera: 'Multiple phase RERAs — verify per unit',
+    ocStatus: 'Confirmed',
+  },
+  {
+    rank: 5, day: 2,
+    name: 'Sobha Athena (UC)',
+    builder: 'Sobha Limited',
+    grade: 'A', status: 'UC', priority: 'If RTM disappoints',
+    price: '₹2.27 Cr (all-in ~₹2.43 Cr)', size: '1,682–1,692 sqft SBA',
+    launched: 'Mar 2024', possession: 'Jun 2027 (est.)',
+    area: 'Thanisandra Main Rd',
+    address: 'Thanisandra Main Road, Bangalore – 560077',
+    mapsUrl: 'https://maps.google.com/?q=Sobha+Athena+Thanisandra+Bangalore',
+    drive: '~25 min from Yelahanka NT',
+    visitTime: 'Day 2 — 12:00 PM (same road as Sobha City)',
+    contact: 'Visit Sobha sales office at the site. Check RERA portal for % completion. Ask for construction timeline and payment plan.',
+    rera: 'Verify on Karnataka RERA portal',
+    ocStatus: 'N/A — Under Construction',
+  },
+];
+
+const QUESTIONS = [
+  { target: 'seller', q: 'Can you share the original Occupancy Certificate (OC)?', why: 'Without OC the building is technically illegal. Banks won\'t give loans on B-Khata/no-OC properties.', flag: '"CC only, no OC" — or "OC is in process" — or any hesitation to produce the document.' },
+  { target: 'seller', q: 'Is the Khata an A-Khata or B-Khata? Can you show the BBMP Khata certificate?', why: 'B-Khata = legal issues. Can\'t get home loan from most banks. Difficult to resell.', flag: 'B-Khata, or "in conversion process", or they can\'t produce it.' },
+  { target: 'seller', q: 'Can I see the Encumbrance Certificate (EC) for the past 15 years?', why: 'Shows all transactions — mortgages, loans, disputes. Anything outstanding becomes your problem.', flag: 'Any existing mortgage not disclosed, or gaps in EC history.' },
+  { target: 'seller', q: 'Is the property free of any bank loan? If mortgaged — do you have NOC from the bank?', why: 'Many resale properties have existing home loans. You need bank NOC before registration.', flag: 'Existing mortgage without NOC from lender bank.' },
+  { target: 'seller', q: 'What is the carpet area vs the SBA? What is the loading factor exactly?', why: 'Loading factor 20–25% is normal. Above 30% = paying for too much common-area space.', flag: 'Loading factor above 30%, or seller refuses to state carpet area explicitly.' },
+  { target: 'seller', q: 'Why are you selling? How long have you lived here?', why: 'Reason for selling reveals hidden issues — maintenance problems, neighbour disputes, society conflicts.', flag: 'Vague answer, multiple owners in quick succession (check EC), or "maintenance charges too high".' },
+  { target: 'seller', q: 'What is the car parking allotment for this unit? Is it in the sale deed?', why: 'Covered dedicated parking must be in your name in the sale deed. Verbal promises are worthless.', flag: 'Parking is "first come first served", or not in sale deed.' },
+  { target: 'rwa', q: 'What are the current monthly maintenance charges per sqft?', why: 'You\'ll pay this every month forever. Get the number in writing before making an offer.', flag: 'Vague answer, unwilling to disclose, or rate already ≥ ₹8/sqft.' },
+  { target: 'rwa', q: 'What is the current sinking fund balance? Can you share last year\'s audited accounts?', why: 'Depleted sinking fund = surprise special assessment bills after purchase.', flag: 'Refusal to share, or sinking fund below 3 months of total society collections.' },
+  { target: 'rwa', q: 'Have there been any special assessments (one-time collections) in the past 3 years?', why: 'History of special assessments = poorly managed finances. The pattern continues.', flag: 'More than one special assessment in 3 years.' },
+  { target: 'rwa', q: 'Are there any pending legal cases — against the builder or within the society?', why: 'Litigation can cloud the title and freeze RWA operations.', flag: 'Any active case, especially related to OC, land title, or builder disputes.' },
+  { target: 'rwa', q: 'Is DG power backup 100% — all points including AC — or only lights and fans?', why: 'You WFH 3 days/week. A 2-hour outage that kills AC and desktop is unacceptable.', flag: 'Partial backup only, or DG covers just common areas.' },
+  { target: 'rwa', q: 'Which ISPs are currently active in the building? Is fiber ducting pre-installed?', why: 'Getting a new ISP without existing ducting = weeks of delay and drilling.', flag: 'Only one ISP available, no fiber ducting, or builder-bundled ISP only.' },
+  { target: 'rwa', q: 'What is the water source? BWSSB piped, borewell, or tanker?', why: 'Tanker dependency = unreliable and costly. Must be BWSSB or borewell.', flag: 'Primary source is water tankers, or water available only 2 hours per day.' },
+  { target: 'rwa', q: 'What is the visitor / guest parking policy? Can parents stay for 2–3 weeks?', why: 'Your parents will visit. Guest parking must be available. Some societies are strict.', flag: 'No visitor parking, or guest stays require RWA permission beyond 7 days.' },
+  { target: 'resident', q: 'Have you ever had water problems — shortage, tankers, or gaps in supply?', why: 'Residents will tell you the truth the RWA won\'t.', flag: 'Regular shortages in summer, or tankers called in more than once a year.' },
+  { target: 'resident', q: 'How quickly does the RWA respond to maintenance complaints?', why: 'As a solo resident you depend on the RWA for repairs. Slow RWA = daily frustration.', flag: 'Complaints left unresolved for weeks, or no digital tracking system.' },
+  { target: 'resident', q: 'Is the building quiet on weekdays during working hours?', why: 'You WFH 3 days/week. Background noise on calls and concentration matters.', flag: 'Construction nearby for 2+ more years, generator noise, or heavy traffic vibration.' },
+  { target: 'resident', q: 'How do you handle deliveries when you\'re not home? Is there a parcel system?', why: 'You\'ll order frequently as a single WFH adult. Missing deliveries is a constant friction point.', flag: 'No delivery room, guards refuse parcels, no smart lockers.' },
+  { target: 'broker', q: 'What is the exact carpet area vs SBA? Can you share the RERA carpet area on record?', why: 'Brokers have access to project RERA filings with registered carpet areas — the legally binding number.', flag: 'Broker is evasive, carpet area not on RERA, or matches less than 65% of SBA.' },
+];
+
+const CHECKLIST = {
+  'On Arrival': [
+    'Check guard shift — is someone present at all times?',
+    'Test visitor entry process — did they log you in? CCTV at gate?',
+    'Count lifts per tower — how many? What\'s the wait time?',
+    'Walk the ground floor — check for seepage, dampness, drainage issues',
+    'Look at notice board for last AGM date and maintenance notices',
+  ],
+  'Inside the Flat': [
+    'Run every tap — check water pressure and colour (yellow = pipe issues)',
+    'Test every electrical switch and socket — note any that don\'t work',
+    'Check all windows for smooth opening, no cracks in frame or glass',
+    'Walk all walls looking for cracks — especially corners and ceiling joints',
+    'Tap flooring with knuckle — hollow sound = de-bonding tile',
+    'Check kitchen/bathroom walls for white salt deposits (moisture sign)',
+    'Open mains switchboard — identify DG vs EB breakers',
+    'Ask seller to switch to DG power — verify AC and all sockets work on backup',
+    'Test mobile signal in every room (different operators)',
+    'Find fiber/ISP conduit point — is it pre-wired to the flat?',
+    'Check orientation — which direction does the balcony/main window face?',
+    'Stand at WFH room window — is outside view blocked by wall or construction?',
+    'Measure WFH room with tape — min 10×11 ft for comfortable WFH setup',
+  ],
+  'Amenities': [
+    'Visit gym — equipment condition, AC, cleanliness, hours board',
+    'Walk jogging track fully — continuous? Rubberised surface? Well-lit at night?',
+    'Check pool (if any) — clear water? Maintained? What are the hours?',
+    'Inspect common area lights, lobby condition, paint state',
+    'Check DG set room — maintained? Ask last servicing date',
+    'Basement/parking — your spot accessible, well-lit, waterproofed?',
+  ],
+  'Surrounding Area': [
+    'Drive the last 1 km to society — road quality, flooding risk, night lighting',
+    'Locate nearest pharmacy — is it 24 hours?',
+    'Test Zomato/Swiggy at the exact gate address (not just the area)',
+    'Test Ola/Uber availability at the gate — some new zones have patchy coverage',
+  ],
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+
+const STORAGE_KEY = 'blr_visit_checklist';
+let currentSection = Object.keys(CHECKLIST)[0];
+let activeQFilter  = 'all';
+let checked        = {};
+
+function loadState() {
+  try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { checked = {}; }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+}
+
+// ── RENDER PROPERTIES ─────────────────────────────────────────────────────
+
+function renderProperties() {
+  const day1 = PROPERTIES.filter(p => p.day === 1);
+  const day2 = PROPERTIES.filter(p => p.day === 2);
+  document.getElementById('prop-list').innerHTML   = day1.map(propCard).join('');
+  document.getElementById('prop-list-2').innerHTML = day2.map(propCard).join('');
+}
+
+function propCard(p) {
+  const statusCls = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
+  const priorityCls = p.priority === 'Must Visit' ? 'badge-blue' : p.priority === 'Should Visit' ? 'badge-gray' : 'badge-gray';
+  const details = [
+    ['Address',    `<a href="${p.mapsUrl}" target="_blank" style="color:var(--accent)">${p.address}</a>`],
+    ['Drive',      p.drive],
+    ['Visit time', p.visitTime],
+    ['Price',      p.price],
+    ['Size',       p.size],
+    ['Launched',   p.launched],
+    ['Possession', p.possession],
+    ['RERA',       p.rera],
+    ['OC Status',  p.ocStatus],
+    ['How to get access', p.contact],
+  ];
+  return `
+    <div class="card card-single" style="border-radius:12px;margin:0 16px 10px">
+      <div class="card-row" onclick="toggleProp('prop-${p.rank}')">
+        <div class="rank">${p.rank}</div>
+        <div style="flex:1">
+          <div class="card-title">${p.name}</div>
+          <div class="card-subtitle">${p.builder} &middot; ${p.area}</div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:center">
+          <span class="badge ${statusCls}">${p.status}</span>
+          <svg class="chevron" id="chev-prop-${p.rank}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="detail" id="prop-${p.rank}">
+        <div style="padding:4px 16px 8px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge ${priorityCls}">${p.priority}</span>
+        </div>
+        ${details.map(([l, v]) => `
+          <div class="detail-row">
+            <div class="detail-label">${l}</div>
+            <div class="detail-value">${v}</div>
+          </div>
+        `).join('')}
+        <div style="height:8px"></div>
+      </div>
+    </div>`;
+}
+
+function toggleProp(id) {
+  const el   = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  const open = el.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+// ── RENDER QUESTIONS ──────────────────────────────────────────────────────
+
+const Q_LABELS = { all: 'All', seller: 'Seller', rwa: 'RWA', resident: 'Resident', broker: 'Broker' };
+const Q_COLORS = { seller: 'badge-orange', rwa: 'badge-blue', resident: 'badge-green', broker: 'badge-gray' };
+
+function renderQuestionChips() {
+  const chips = document.getElementById('q-chips');
+  chips.innerHTML = Object.entries(Q_LABELS).map(([k, v]) => `
+    <button class="chip ${activeQFilter === k ? 'active' : ''}" onclick="setQFilter('${k}')">${v}</button>
+  `).join('');
+}
+
+function setQFilter(f) {
+  activeQFilter = f;
+  renderQuestionChips();
+  renderQuestions();
+}
+
+function renderQuestions() {
+  const filtered = activeQFilter === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.target === activeQFilter);
+  document.getElementById('q-list').innerHTML = filtered.map((q, i) => {
+    const realIdx = QUESTIONS.indexOf(q);
+    return `
+      <div class="card card-single" style="margin:0 16px 8px;border-radius:12px">
+        <div style="padding:12px 16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span class="badge ${Q_COLORS[q.target]}" style="font-size:11px">${Q_LABELS[q.target]}</span>
+            <span style="font-size:11px;color:var(--text3)">Q${realIdx + 1}</span>
+          </div>
+          <div class="q-text">${q.q}</div>
+          <div class="q-why">${q.why}</div>
+          <div id="flag-${realIdx}" style="display:none">
+            <div class="q-flag"><strong>Red flag:</strong> ${q.flag}</div>
+          </div>
+          <div class="q-toggle" onclick="toggleFlag(${realIdx})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Red flag answer
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleFlag(i) {
+  const el = document.getElementById('flag-' + i);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── RENDER CHECKLIST ──────────────────────────────────────────────────────
+
+function renderSectionSwitch() {
+  const sw = document.getElementById('section-switch');
+  sw.innerHTML = Object.keys(CHECKLIST).map(k => `
+    <button class="section-btn ${currentSection === k ? 'active' : ''}" onclick="setSection('${k}')">${k}</button>
+  `).join('');
+}
+
+function setSection(s) {
+  currentSection = s;
+  renderSectionSwitch();
+  renderChecklistItems();
+}
+
+function renderChecklistItems() {
+  const items  = CHECKLIST[currentSection];
+  const doneN  = items.filter((_, i) => checked[currentSection + '_' + i]).length;
+  const total  = items.length;
+  const pct    = total ? Math.round(doneN / total * 100) : 0;
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${doneN} of ${total} done`;
+  document.getElementById('section-total').textContent = `${pct}%`;
+
+  document.getElementById('checklist-items').innerHTML = items.map((text, i) => {
+    const key  = currentSection + '_' + i;
+    const done = !!checked[key];
+    return `
+      <div class="check-item" onclick="toggleCheck('${key}', this)">
+        <div class="check-circle ${done ? 'done' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="check-text ${done ? 'done' : ''}">${text}</div>
+      </div>`;
+  }).join('');
+}
+
+function toggleCheck(key, row) {
+  checked[key] = !checked[key];
+  saveState();
+  renderChecklistItems();
+}
+
+function resetChecklist() {
+  const items = CHECKLIST[currentSection];
+  items.forEach((_, i) => { delete checked[currentSection + '_' + i]; });
+  saveState();
+  renderChecklistItems();
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+
+loadState();
+renderProperties();
+renderQuestionChips();
+renderQuestions();
+renderSectionSwitch();
+renderChecklistItems();
+</script>
+</body>
+</html>
