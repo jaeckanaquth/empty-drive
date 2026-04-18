@@ -374,6 +374,14 @@
     .score-dots { display: flex; gap: 4px; }
     .score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
     .score-dot.filled { background: var(--accent); }
+
+    /* ── star rating ── */
+    .star-row { display:flex; align-items:center; padding:12px 16px; gap:10px; border-top:1px solid var(--border); }
+    .star-row-label { font-size:13px; color:var(--text2); flex:1; }
+    .star-btn { background:none; border:none; padding:4px; cursor:pointer; font-size:24px; color:var(--border); line-height:1; -webkit-tap-highlight-color:transparent; }
+    .star-btn.lit { color:#f5a623; }
+    .score-badge { font-size:11px; font-weight:700; padding:2px 7px; border-radius:20px; background:var(--surface); border:1px solid var(--border); color:var(--text2); white-space:nowrap; }
+    .score-badge.scored { background:#f5a623; border-color:#f5a623; color:#fff; }
   </style>
 </head>
 <body>
@@ -398,8 +406,8 @@
 
     <div style="padding:0 16px 8px">
       <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
-        <div style="font-size:13px;font-weight:600;margin-bottom:4px">Post-Visit Score (do within 1 hr)</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.5">Rate each property 1–5 on: common areas, natural light, DG backup confirmed, ISP/fiber, resident vibe, RWA quality, water supply, legal docs shown, gut feeling. Any score ≤ 2 on legal docs or DG = do not proceed.</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">Post-Visit Score (tap stars within 1 hr)</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5">Open each property above and tap the stars. Rate on: common areas, natural light, DG backup, ISP/fiber, resident vibe, RWA quality, water supply, legal docs shown, gut feeling. Score ≤ 2 on legal or DG = walk away.</div>
       </div>
     </div>
   </div>
@@ -599,16 +607,24 @@ const CHECKLIST = {
 
 // ── STATE ─────────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'blr_visit_checklist';
+const STORAGE_KEY  = 'blr_visit_checklist';
+const SCORES_KEY   = 'blr_visit_scores';
 let currentSection = Object.keys(CHECKLIST)[0];
 let activeQFilter  = 'all';
 let checked        = {};
+let scores         = {};
 
 function loadState() {
   try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { checked = {}; }
 }
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+}
+function loadScores() {
+  try { scores = JSON.parse(localStorage.getItem(SCORES_KEY) || '{}'); } catch(e) { scores = {}; }
+}
+function saveScores() {
+  localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
 }
 
 // ── RENDER PROPERTIES ─────────────────────────────────────────────────────
@@ -621,8 +637,11 @@ function renderProperties() {
 }
 
 function propCard(p) {
-  const statusCls = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
-  const priorityCls = p.priority === 'Must Visit' ? 'badge-blue' : p.priority === 'Should Visit' ? 'badge-gray' : 'badge-gray';
+  const statusCls  = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
+  const priorityCls = p.priority === 'Must Visit' ? 'badge-blue' : 'badge-gray';
+  const myScore    = scores[p.rank] || 0;
+  const scoreLbl   = myScore ? `${myScore}/5 ★` : 'Rate';
+  const scoreCls   = myScore ? 'scored' : '';
   const details = [
     ['Address',    `<a href="${p.mapsUrl}" target="_blank" style="color:var(--accent)">${p.address}</a>`],
     ['Drive',      p.drive],
@@ -644,6 +663,7 @@ function propCard(p) {
           <div class="card-subtitle">${p.builder} &middot; ${p.area}</div>
         </div>
         <div style="display:flex;gap:5px;align-items:center">
+          <span class="score-badge ${scoreCls}" id="score-badge-${p.rank}">${scoreLbl}</span>
           <span class="badge ${statusCls}">${p.status}</span>
           <svg class="chevron" id="chev-prop-${p.rank}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
@@ -658,7 +678,10 @@ function propCard(p) {
             <div class="detail-value">${v}</div>
           </div>
         `).join('')}
-        <div style="height:8px"></div>
+        <div class="star-row">
+          <span class="star-row-label">My Score</span>
+          ${[1,2,3,4,5].map(n => `<button class="star-btn ${myScore >= n ? 'lit' : ''}" id="star-${p.rank}-${n}" onclick="setScore(${p.rank}, ${n}, event)">★</button>`).join('')}
+        </div>
       </div>
     </div>`;
 }
@@ -668,6 +691,25 @@ function toggleProp(id) {
   const chev = document.getElementById('chev-' + id);
   const open = el.classList.toggle('open');
   chev.classList.toggle('open', open);
+}
+
+function setScore(rank, val, evt) {
+  evt.stopPropagation();
+  // tap same star again → clear score
+  scores[rank] = (scores[rank] === val) ? 0 : val;
+  saveScores();
+  // update stars
+  for (let n = 1; n <= 5; n++) {
+    const s = document.getElementById(`star-${rank}-${n}`);
+    if (s) s.className = 'star-btn' + (scores[rank] >= n ? ' lit' : '');
+  }
+  // update badge on collapsed header
+  const badge = document.getElementById(`score-badge-${rank}`);
+  if (badge) {
+    const v = scores[rank];
+    badge.textContent = v ? `${v}/5 ★` : 'Rate';
+    badge.className   = 'score-badge' + (v ? ' scored' : '');
+  }
 }
 
 // ── RENDER QUESTIONS ──────────────────────────────────────────────────────
@@ -781,6 +823,7 @@ function switchTab(tab) {
 // ── INIT ──────────────────────────────────────────────────────────────────
 
 loadState();
+loadScores();
 renderProperties();
 renderQuestionChips();
 renderQuestions();
