@@ -1,23 +1,40 @@
 ---
-description: Always update Cursor canvas files when index.html property data changes
+description: Always keep every Cursor canvas up to date whenever any source data changes
 alwaysApply: true
 ---
 
-# Keep Canvases in Sync with index.html
+# Canvases are the primary reference — always keep them current
 
-Whenever `index.html` is edited — especially `PROPERTIES`, `FLOOR_PLANS`, or any property/visit data — **always update the corresponding canvas files in the same response** before committing.
+The user navigates to canvases to see all analysis. **Every time any data changes, the relevant canvas(es) must be updated in the same response before committing.** Never leave a canvas showing stale data.
 
-## Canvases that mirror index.html
+## Canvas inventory and what each one covers
 
-| Canvas file | Mirrors |
-|---|---|
-| `blr-property-shortlist.canvas.tsx` | `PROPERTIES` + `FLOOR_PLANS` + guardrail scores |
-| `blr-visit-guide.canvas.tsx` | `visits` array (property list + contact/RERA details) |
-| `blr-builder-reputation.canvas.tsx` | Builders active on the shortlist |
+| Canvas file | What it covers | Update trigger |
+|---|---|---|
+| `blr-property-shortlist.canvas.tsx` | 5-property shortlist, guardrail scores, ranked summary | Any property added/removed, price change, possession date change |
+| `blr-visit-guide.canvas.tsx` | Day-by-day visit itinerary, RERA, contact, drive times | Property list change, RERA update, address/contact change |
+| `blr-builder-reputation.canvas.tsx` | Grade A builder scores, shortlist picks per builder | Builder added/removed, shortlist property changes |
+| `blr-areas.canvas.tsx` | Area deep dive — livability, connectivity, social infra, pockets, water, single-adult & family suitability | Any area or property shortlist change |
+| `blr-investment.canvas.tsx` | Criterion 3 — CAGR, entry PSF, rental yield, catalysts, total return model | Price, possession, area, or market data changes |
+| `blr-deep-eval.canvas.tsx` | 10-point evaluation matrix for all 5 properties | Any property data change, new criterion evaluated |
+| `blr-amenities.canvas.tsx` | Criterion 6 — amenities per property (clubhouse, gym, pool, EV, etc.) | Property specs change |
+| `blr-legal-documentation.canvas.tsx` | Criterion 5 — title, khata, RERA, OC/CC, land conversion | Legal status or RERA update |
+| `blr-safety-lifestyle.canvas.tsx` | Criterion 9 — flooding, nala, HT lines, builder litigation | Risk data or area changes |
+| `blr-property-type-config.canvas.tsx` | Criterion 4 — configurations, carpet area, loading factor, floor/facing | Property specs change |
+| `blr-society-maintenance.canvas.tsx` | Maintenance charges, sinking fund, committee structure | Any maintenance data |
+| `blr-budget-financial-planning.canvas.tsx` | All-in cost, EMI, CLP, opportunity cost model | Price, possession, rate changes |
+| `blr-your-budget-profile.canvas.tsx` | Personal budget inputs, loan eligibility, monthly cashflow | Budget changes |
+| `blr-purchase-strategy.canvas.tsx` | Negotiation levers, timing, booking process, CLP milestones | Strategy or market data changes |
+| `blr-property-criteria.canvas.tsx` | The 10-point evaluation framework reference | Framework changes |
+| `blr-full-evaluation.canvas.tsx` | Full evaluation summary across all criteria | Any criterion evaluation update |
 
 ## Rules
 
-- Any property added/removed from `index.html` → update all three canvases.
-- Any price, possession date, RERA number, or drive time change → update canvas data too.
-- Canvas files live at `C:\Users\jaeck\.cursor\projects\c-Users-jaeck-Github-drive-empty\canvases\`.
-- Commit canvas + index.html together in one git commit.
+1. **Never update `index.html` without also updating the relevant canvases in the same response.**
+2. **Never evaluate a criterion without updating `blr-deep-eval.canvas.tsx` with the findings.**
+3. When a property is added or removed, update: shortlist + visit-guide + builder-reputation + areas + deep-eval + investment.
+4. When a price, possession date, or RERA number changes, update: shortlist + visit-guide + investment + budget-financial-planning.
+5. After any area discussion, refresh `blr-areas.canvas.tsx` with new findings.
+6. Canvas files live at: `c:\Users\jaeck\Github\drive-empty\canvases\`
+7. Always commit canvas files together with the data files that triggered the change.
+8. If uncertain which canvases need updating, err on the side of updating more rather than fewer.
