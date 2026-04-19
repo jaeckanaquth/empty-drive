@@ -53,144 +53,7 @@ function allinCost(priceL: number, isUC: boolean): number {
 }
 
 const properties: Property[] = [
-  // ── Grade A RTM ───────────────────────────────────────────────────────
-  {
-    id: 'sobha-city',
-    name: 'Sobha City (Athena / Serenita)',
-    builder: 'Sobha Limited',
-    builderGrade: 'A',
-    area: 'Thanisandra Main Rd',
-    status: 'RTM',
-    launchDate: 'Jan 2014',
-    possessionDate: 'Phased 2018–2023',
-    possession: 'Ready (multiple phases)',
-    priceMin: 220,
-    priceMax: 260,
-    sbaMin: 1682,
-    sbaMax: 2164,
-    pricePerSqft: 13200,
-    rera: 'Multiple phase RERAs — verify per unit',
-    ocStatus: 'confirmed',
-    societySize: '1,778 units · 12 towers · 36 acres',
-    highlights: [
-      'Sobha Limited — Grade A, best construction quality in India bar none',
-      'Massive 36-acre township — world-class amenities, large open spaces',
-      'Multiple variants: Athena (1,682 sqft), Serenita (1,850 sqft+)',
-      'RTM units available — OC obtained, can be assessed fully before buying',
-      'Thanisandra location = 20–30 min to Hebbal/Manyata, strong social scene',
-      'High rental demand = excellent resale liquidity',
-    ],
-    concerns: [
-      '1,778 units = very large society — feels like a township, not boutique',
-      'Higher maintenance charges due to premium amenities (₹6–8/sqft)',
-      'Price/sqft highest on list — you\'re paying the Sobha brand premium',
-      'Thanisandra traffic heavier than Yelahanka New Town',
-    ],
-    sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/sobha-city/234645/project',
-    scores: { builderRep: 10, legalSafety: 9, valueForMoney: 7, societyQuality: 9, sizeAdequacy: 9, locationFit: 8, wfhReadiness: 9, budgetFit: 8 },
-  },
-  {
-    id: 'prestige-royale',
-    name: 'Prestige Royale Gardens',
-    builder: 'Prestige Group',
-    builderGrade: 'A',
-    area: 'Yelahanka · Doddaballapur Rd',
-    status: 'RTM',
-    launchDate: 'Oct 2013',
-    possessionDate: 'Dec 2019',
-    possession: 'Ready (2019)',
-    priceMin: 150,
-    priceMax: 195,
-    sbaMin: 1705,
-    sbaMax: 1705,
-    pricePerSqft: 10500,
-    rera: 'Multiple phase RERA numbers — verify',
-    ocStatus: 'confirmed',
-    societySize: '1,664 units · 13 towers · 22.5 acres',
-    highlights: [
-      'Prestige Group — Grade A, one of BLR\'s most trusted builders',
-      'Large 22.5-acre community — mature, well-run RWA expected',
-      'Established since 2019 — can fully assess society before buying',
-      '₹10,500/sqft is reasonable for Prestige in Yelahanka',
-      '1,705 sqft is ideal for WFH single adult — 3 rooms, room to breathe',
-      'Doddaballapur Rd access — good NH44 connectivity',
-    ],
-    concerns: [
-      'Society now 6–7 years old — check sinking fund carefully',
-      'Multiple RERA numbers across phases — verify per unit',
-      'Doddaballapur Rd side, not strictly Yelahanka New Town core',
-    ],
-    sourceUrl: 'https://regrob.com/project/prestige-royale-gardens-yelahanka-bangalore/',
-    scores: { builderRep: 9, legalSafety: 8, valueForMoney: 9, societyQuality: 8, sizeAdequacy: 9, locationFit: 8, wfhReadiness: 8, budgetFit: 10 },
-  },
-  {
-    id: 'brigade-northridge',
-    name: 'Brigade Northridge',
-    builder: 'Brigade Group',
-    builderGrade: 'A',
-    area: 'Yelahanka · Kogilu Rd',
-    status: 'RTM',
-    launchDate: 'Oct 2014',
-    possessionDate: 'Aug 2018',
-    possession: 'Ready (2018)',
-    priceMin: 155,
-    priceMax: 250,
-    sbaMin: 1230,
-    sbaMax: 1880,
-    pricePerSqft: 11500,
-    rera: 'Pre-2017 project — RERA not applicable (verify OC/CC)',
-    ocStatus: 'likely',
-    societySize: '503 units · 7 acres',
-    highlights: [
-      'Brigade Group — Grade A, consistently high build quality',
-      'Resale 1,880 sqft units available — best size for WFH',
-      '7-acre society — manageable size, good community feel',
-      'Mature society (2018) — can fully evaluate RWA track record',
-      '4.3/5 rating on Housystan (63 reviews) — genuine positive feedback',
-      'Kogilu Rd micro-location — less congested than main Bellary Rd',
-    ],
-    concerns: [
-      'Pre-RERA project — must verify OC and CC directly (no RERA number to track)',
-      'Society is 7–8 years old — check sinking fund and any pending capital works',
-      'Resale only — need to verify individual unit documents carefully',
-    ],
-    sourceUrl: 'https://housystan.com/bangalore-real-estate/kogilu-road/brigade-northridge/review/brochure/floor-plan/price',
-    scores: { builderRep: 9, legalSafety: 7, valueForMoney: 8, societyQuality: 8, sizeAdequacy: 9, locationFit: 9, wfhReadiness: 8, budgetFit: 9 },
-  },
-  {
-    id: 'godrej-avenues',
-    name: 'Godrej Avenues',
-    builder: 'Godrej Properties',
-    builderGrade: 'A',
-    area: 'Yelahanka · Doddaballapur Rd',
-    status: 'RTM',
-    launchDate: 'Sep 2017',
-    possessionDate: 'Mar 2019',
-    possession: 'Ready (2019)',
-    priceMin: 140,
-    priceMax: 175,
-    sbaMin: 1420,
-    sbaMax: 1750,
-    pricePerSqft: 10250,
-    rera: 'PRM/KA/RERA/1251/309/PR/170905/000229',
-    ocStatus: 'confirmed',
-    societySize: '600 units · 10 towers · 6 acres',
-    highlights: [
-      'Grade A listed company with confirmed RERA and OC',
-      '₹10,250/sqft — best value-per-sqft among Grade A options',
-      'RERA number publicly verifiable on Karnataka portal',
-      'Multiple resale units in market — good selection',
-      'Consistent 4% annual appreciation in price',
-    ],
-    concerns: [
-      'Smaller units (1,420–1,750 sqft) vs other Grade A options',
-      '7-year-old society — sinking fund check essential',
-      'Not Yelahanka New Town core — Doddaballapur Rd side',
-    ],
-    sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/godrej-avenues/8441/project',
-    scores: { builderRep: 9, legalSafety: 9, valueForMoney: 9, societyQuality: 8, sizeAdequacy: 7, locationFit: 8, wfhReadiness: 8, budgetFit: 10 },
-  },
-  // ── Grade A UC (fits ₹3 Cr) ───────────────────────────────────────────
+  // ── Grade A UC — < 2 yr old or new build (all RTM options pre-2024 removed) ──
   {
     id: 'sobha-athena',
     name: 'Sobha Athena (new)',
@@ -259,37 +122,41 @@ const properties: Property[] = [
     sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/brigade-insignia/248548/project',
     scores: { builderRep: 9, legalSafety: 6, valueForMoney: 6, societyQuality: 7, sizeAdequacy: 10, locationFit: 10, wfhReadiness: 8, budgetFit: 5 },
   },
-  // ── Grade B+ RTM ──────────────────────────────────────────────────────
+  // ── Grade A UC ────────────────────────────────────────────────────────
   {
-    id: 'mahaveer-celesse',
-    name: 'Mahaveer Celesse',
-    builder: 'Mahaveer Group',
-    builderGrade: 'B+',
-    area: 'Yelahanka',
-    status: 'RTM',
-    launchDate: 'Oct 2017',
-    possessionDate: 'Mar 2022',
-    possession: 'Ready (Mar 2022)',
-    priceMin: 137,
-    priceMax: 160,
-    sbaMin: 1366,
-    sbaMax: 1592,
-    pricePerSqft: 9500,
-    rera: 'PRM/KA/RERA/1251/309/PR/171026/000415',
-    ocStatus: 'confirmed',
-    societySize: '545 units · 8 towers · 5.19 acres',
+    id: 'prestige-camden',
+    name: 'Prestige Camden Gardens',
+    builder: 'Prestige Group',
+    builderGrade: 'A',
+    area: 'Thanisandra Main Rd',
+    status: 'UC-2027',
+    launchDate: 'Mar 2023',
+    possessionDate: 'Dec 2027 (est.)',
+    possession: 'Dec 2027',
+    priceMin: 189,
+    priceMax: 250,
+    sbaMin: 1550,
+    sbaMax: 1800,
+    pricePerSqft: 12000,
+    rera: 'PR/140524/006872',
+    ocStatus: 'not-applicable',
+    societySize: '120 units · 2 acres · boutique',
     highlights: [
-      'Best price on the list — ₹1.37–1.60 Cr leaves significant budget buffer',
-      'RERA number verified on public portal',
-      'Families in since 2022 — community established and assessable',
-      'Excellent value: ₹81L+ under budget = invest the rest',
+      'Prestige Group — Grade A, among the most trusted builders in Bangalore',
+      'Boutique 120-unit project — quiet, private, no township crowd feel',
+      'RERA registered (verified PR/140524/006872) — fully transparent progress',
+      'Thanisandra Main Rd — 20–25 min to Hebbal, excellent social scene',
+      '₹1.89 Cr+ base price — budget buffer of ₹50L+ even at top end',
+      'New build — you are the first occupant, no wear-and-tear risk',
     ],
     concerns: [
-      'Mahaveer is B+ tier — not Sobha/Prestige/Brigade quality',
-      'Heavy amenity list drives up maintenance charges',
+      'Under construction — GST 5% applicable',
+      'Possession Dec 2027 — ~18 months away',
+      'Only 120 units — verify RERA % completion and payment milestone schedule',
+      '2 acres is compact — amenity space will be limited vs larger projects',
     ],
-    sourceUrl: 'https://proptimes.org/property/mahaveer-celesse/',
-    scores: { builderRep: 7, legalSafety: 8, valueForMoney: 10, societyQuality: 7, sizeAdequacy: 7, locationFit: 8, wfhReadiness: 7, budgetFit: 10 },
+    sourceUrl: 'https://www.prestigesevergreen.info/prestige-group/prestige-best-residential-apartments-for-sale-in-thanisandra-2025.html',
+    scores: { builderRep: 9, legalSafety: 8, valueForMoney: 8, societyQuality: 7, sizeAdequacy: 8, locationFit: 8, wfhReadiness: 8, budgetFit: 9 },
   },
   {
     id: 'arvind-bel-air',
@@ -355,7 +222,7 @@ const sorted = [...properties].sort((a, b) => totalScore(b) - totalScore(a));
 const BUDGET = 300; // ₹L = ₹3 Cr
 
 export default function PropertyShortlist3Cr() {
-  const [selected, setSelected] = useCanvasState<string>('sel3cr', 'prestige-royale');
+  const [selected, setSelected] = useCanvasState<string>('sel3cr', 'sobha-athena');
   const [view, setView] = useCanvasState<'overview' | 'scores' | 'detail'>('view3cr', 'overview');
 
   const prop = properties.find(p => p.id === selected)!;
@@ -369,21 +236,21 @@ export default function PropertyShortlist3Cr() {
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="8" label="Properties Found" tone="info" />
-        <Stat value="6" label="RTM Options" tone="success" />
-        <Stat value="2" label="Near-Term UC" tone="warning" />
-        <Stat value="4 Grade A RTM" label="Premium Options" tone="success" />
+        <Stat value="4" label="Properties Found" tone="info" />
+        <Stat value="0" label="RTM Options" tone="secondary" />
+        <Stat value="4 UC" label="New Build (< 2 yrs)" tone="warning" />
+        <Stat value="3 Grade A" label="Premium Builders" tone="success" />
       </Grid>
 
       <Card>
-        <CardHeader trailing={<Pill label="₹3 Cr unlocks Grade A" tone="success" size="sm" />}>
-          What ₹3 Cr Gets You vs ₹2.5 Cr
+        <CardHeader trailing={<Pill label="All new build" tone="warning" size="sm" />}>
+          Why Only UC? The RTM Reality Check
         </CardHeader>
         <CardBody>
           <Grid columns={2} gap={14}>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">At ₹2.5 Cr (old budget)</Text>
-              {['Grade A RTM options: Godrej only (smaller units)', 'No Prestige, Brigade, Sobha RTM', 'Best size available: ~1,750 sqft', 'Mostly B+ builders for new RTM'].map((item, i) => (
+              <Text size="small" weight="semibold">All RTM options are 2+ years old</Text>
+              {['Sobha City — handed over 2018–2023', 'Prestige Royale Gardens — 2019', 'Brigade Northridge — 2018', 'Godrej Avenues — 2019', 'Mahaveer Celesse — 2022'].map((item, i) => (
                 <Row key={i} gap={6} align="start">
                   <Text size="small" tone="secondary" style={{ minWidth: 12 }}>−</Text>
                   <Text size="small" tone="secondary">{item}</Text>
@@ -391,8 +258,8 @@ export default function PropertyShortlist3Cr() {
               ))}
             </Stack>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">At ₹3 Cr (new budget)</Text>
-              {['Prestige Royale Gardens (1,705 sqft, Grade A)', 'Brigade Northridge (1,880 sqft, Grade A)', 'Sobha City RTM (1,682–2,164 sqft, Grade A)', 'Sobha Athena new UC (1,682 sqft, Grade A)', 'Brigade Insignia on table (3 yrs away)'].map((item, i) => (
+              <Text size="small" weight="semibold">New build: you're the first occupant</Text>
+              {['No accumulated wear, no deferred maintenance', 'Possession 2026–2027 — wait 12–20 months', 'Keep ₹2.5 Cr savings invested in the meantime', 'GST 5% applies — budget ₹10–15L for it', 'All Grade A builders with RERA tracking'].map((item, i) => (
                 <Row key={i} gap={6} align="start">
                   <Text size="small" tone="secondary" style={{ minWidth: 12 }}>+</Text>
                   <Text size="small">{item}</Text>
@@ -657,14 +524,12 @@ export default function PropertyShortlist3Cr() {
         <Table
           headers={['Rank', 'Property', 'Why It Wins', 'Budget Buffer', 'First Action']}
           rows={[
-            ['1', 'Prestige Royale Gardens', 'Grade A RTM + 22 acres + Yelahanka + best overall score', `~₹1–1.5 Cr`, '99acres/Housing.com for resale listings'],
-            ['2', 'Brigade Northridge', 'Grade A RTM + largest units (1,880 sqft) + Kogilu Rd', '₹50L–1.5 Cr', 'Engage broker, verify OC+CC (pre-RERA)'],
-            ['3', 'Godrej Avenues', 'Grade A RTM + confirmed RERA + proven appreciation', '₹1.25–1.6 Cr', 'Easiest to verify — RERA number public'],
-            ['4', 'Sobha City RTM', 'Grade A RTM + Sobha quality + 36-acre township', '₹40–80L', 'Verify unit-wise OC at Thanisandra sub-registrar'],
-            ['5', 'Sobha Athena (UC)', 'Best new build quality, fits budget with buffer', '₹57L', 'Check RERA progress + confirm 2027 timeline'],
-            ['6', 'Mahaveer Celesse', 'Best value if Grade A not critical — ₹1.4–1.6 Cr', '₹1.4–1.6 Cr', 'Good if investing the budget surplus matters to you'],
+            ['1', 'Sobha Athena', 'Best build quality (Sobha) + boutique 72 units + 2027 possession', '~₹57L', 'Check RERA completion % on Karnataka portal'],
+            ['2', 'Prestige Camden Gardens', 'Grade A Prestige + boutique 120 units + RERA confirmed + Dec 2027', '₹50L+', 'Call Prestige sales — confirm 3 BHK floor plans + payment plan'],
+            ['3', 'Arvind Bel Air', 'Earliest possession (Jun 2026) + best budget fit + SEBI-listed builder', '₹1.25–1.8 Cr', 'Verify RERA construction % + confirm Jun 2026 is realistic'],
+            ['4', 'Brigade Insignia', 'Best location/size (2,145 sqft+) but 2029 wait + at budget edge', '0–minimal', 'Only if you want max size and can wait till 2029'],
           ]}
-          rowTone={['success', 'success', 'success', undefined, 'warning', undefined]}
+          rowTone={['success', 'success', 'warning', undefined]}
           striped
         />
       </Stack>
@@ -678,11 +543,11 @@ export default function PropertyShortlist3Cr() {
         <CardBody>
           <Stack gap={5}>
             {[
-              ['Week 1 — Research', 'On 99acres and Housing.com: search "Prestige Royale Gardens Yelahanka resale" and "Brigade Northridge Kogilu Road resale". Filter: 3 BHK, ₹1.5–3 Cr, RTM. Contact 2 listing agents each.'],
-              ['Week 2 — Visit', 'Visit both projects on a weekday morning. Talk to 3 residents each. Bring the legal checklist (blr-legal-documentation canvas). Ask specifically about: sinking fund, water supply, maintenance charges, and OC status.'],
-              ['Week 2 — Sobha check', 'Also visit Sobha City on Thanisandra Main Rd. Ask for RTM units. Compare Sobha construction quality in person vs Brigade/Prestige.'],
-              ['Week 3 — Shortlist 1', 'Pick your preferred unit. Engage a Bangalore property lawyer (₹20–25K) for full title check — EC, A-Khata, OC, parent documents for at least 15 years back.'],
-              ['Parallel — Finance', 'Get a home loan pre-approval letter from SBI/HDFC. Estimated sanction: ~₹1 Cr on your salary. If parent has pension income, apply jointly to get ₹1.3–1.5 Cr.'],
+              ['Week 1 — Research', 'On Karnataka RERA portal (rera.karnataka.gov.in): look up PR/140524/006872 (Prestige Camden) and Sobha Athena RERA number. Check construction % completed. If > 50%, project risk is manageable.'],
+              ['Week 1 — Finance', 'Get a home loan pre-approval for ₹1 Cr from SBI/HDFC. For UC properties with construction-linked payment plan, you draw down in tranches — EMI starts small and grows. With ₹2.5 Cr savings you can pay more upfront to reduce drawn loan.'],
+              ['Week 2 — Site Visit', 'Visit Sobha Athena and Prestige Camden construction sites. Ask: current % completion, any delay vs RERA date, number of bookings sold, maintenance team plan. Talk to other buyers if possible.'],
+              ['Week 2 — Arvind check', 'Visit Arvind Bel Air in Yelahanka — possession Jun 2026. If construction is 90%+ done, this is the fastest path to moving in and has the most budget buffer.'],
+              ['Week 3 — Book', 'Pick your top choice. Pay booking amount (₹2–5L). Engage property lawyer for agreement review before any further payment. Confirm RERA registration number on agreement.'],
             ].map(([week, action]) => (
               <Row key={week} gap={8} align="start">
                 <Pill label={week.split('—')[0].trim()} size="sm" />
