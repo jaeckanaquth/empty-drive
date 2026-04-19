@@ -16,7 +16,9 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 
 **Rule:** If you edit **`index.html`** or **`analysis.html`** for shortlist, price, possession, RERA, commute, areas, or builders — update the canvases in the table below in the **same turn**, then commit **HTML + canvases together**.
 
-**Repo path for canvases:** `canvases/*.canvas.tsx` (under `c:\Users\jaeck\Github\drive-empty\`).
+**Repo path for canvases (commit here):** `canvases/*.canvas.tsx` under the project root (e.g. `c:\Users\jaeck\Github\drive-empty\canvases\`).
+
+**Cursor UI path (picker beside chat):** `%USERPROFILE%\.cursor\projects\<workspace-folder>\canvases\` — e.g. `C:\Users\jaeck\.cursor\projects\c-Users-jaeck-Github-drive-empty\canvases\`. Cursor may show canvases from this folder even if they were removed from git. After deleting or renaming a `.canvas.tsx` in the repo, **delete the same filename there** and **copy** `canvases\*.canvas.tsx` from the repo into that folder so the canvas list matches git.
 
 ---
 
