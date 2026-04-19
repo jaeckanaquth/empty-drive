@@ -72,7 +72,7 @@ export default function BudgetFinancialPlanning() {
       {/* ── header ── */}
       <Stack gap={4}>
         <H1>Budget & Financial Planning</H1>
-        <Text tone="secondary">Buying a property in Bangalore — up to ₹3 Crore</Text>
+        <Text tone="secondary">Buying in Bangalore with a north-corridor preference — up to ₹3 Crore all-in planning</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
@@ -412,22 +412,26 @@ export default function BudgetFinancialPlanning() {
 
       {/* ── 8. What ₹3 Cr gets you ── */}
       <Stack gap={12}>
-        <H2>8. What ₹3 Cr Gets You — North Bangalore First (2026)</H2>
-        <Text tone="secondary" size="small">Indicative ranges; north rows match a north-BLR preference. South/east rows are benchmarks if you widen search. Prices vary by project, floor, facing, and negotiation.</Text>
+        <H2>8. What ₹3 Cr Gets You in Bangalore (2026)</H2>
+        <Text tone="secondary" size="small">
+          Your preference is North Bangalore — rows are ordered north-first, then other corridors as benchmarks. Indicative ranges; prices vary by project, floor, facing, and negotiation.
+        </Text>
 
         <Table
           headers={['Micro-Market', 'Configuration', 'Carpet Area', 'Type', 'Status']}
           rows={[
-            ['Thanisandra / Nagavara / Kogilu', '3–4 BHK', '1,650–2,100 sqft', 'Apartment in society', 'North; Metro Phase 2B corridor; deep inventory'],
-            ['Yelahanka / New Town / Jakkur', '3 BHK spacious', '1,600–2,000 sqft', 'Apartment with amenities', 'North; space + lifestyle; check Manyata commute'],
-            ['Hebbal / Bellary Rd (Manyata belt)', '2–3 BHK', '1,100–1,450 sqft', 'Apartment', 'North; premium per sqft; shortest tech commute'],
-            ['Devanahalli / Budigere Cross', '3 BHK / villa', '1,600–2,200 sqft', 'Apartment or villa', 'North-east; airport/KIAL-driven story'],
-            ['Whitefield / ITPL', '3 BHK', '1,200–1,500 sqft', 'Apartment in society', 'East; RTM + UC — comparison only'],
-            ['Electronic City Ph1/Ph2', '3 BHK large', '1,600–2,000 sqft', 'Apartment with amenities', 'South; value — comparison only'],
-            ['Sarjapur Road', '3 BHK', '1,400–1,700 sqft', 'Apartment', 'South-east; premium — comparison only'],
-            ['Kanakapura / JP Nagar / Bannerghatta', '3 BHK', '1,300–2,000 sqft', 'Apartment', 'South; established — comparison only'],
+            ['Thanisandra / Hennur / Nagavara', '3–4 BHK', '1,700–2,100 sqft', 'Apartment with amenities', 'Large north inventory; Metro/airport narrative'],
+            ['Yelahanka / New Town / Kogilu', '3 BHK spacious', '1,700–2,100 sqft', 'Apartment — Prestige/Brigade', 'Airport corridor; verify monsoon drainage'],
+            ['Hebbal / Bellary Rd (inner north)', '2–3 BHK', '1,100–1,400 sqft', 'Apartment', 'Premium commute hub; smaller carpet for money'],
+            ['Jakkur / Rachenahalli / Bagalur Rd', '3 BHK', '1,500–1,850 sqft', 'Apartment with amenities', 'Value north; check daily social infra distance'],
+            ['Devanahalli / Budigere Cross', '3 BHK', '1,650–2,050 sqft', 'Apartment', 'Longer infra payoff; strict water + title checks'],
+            ['Whitefield / ITPL', '3 BHK', '1,200–1,500 sqft', 'Apartment in society', 'East benchmark if widening beyond north'],
+            ['Electronic City Ph1/Ph2', '3 BHK large', '1,600–2,000 sqft', 'Apartment with amenities', 'South benchmark; good value'],
+            ['Sarjapur Road', '3 BHK', '1,400–1,700 sqft', 'Apartment', 'SE benchmark; premium corridor'],
+            ['Kanakapura Road', '3 BHK large', '1,800–2,200 sqft', 'Apartment', 'Southwest; Metro narrative'],
+            ['JP Nagar / Bannerghatta Rd', '3 BHK', '1,300–1,600 sqft', 'Apartment', 'South; dense established'],
           ]}
-          rowTone={['success', 'success', 'warning', 'success', undefined, undefined, undefined, undefined]}
+          rowTone={['success', 'success', 'warning', 'info', 'warning', undefined, undefined, undefined, undefined, undefined]}
           striped
           columnAlign={['left', 'left', 'right', 'left', 'left']}
         />
