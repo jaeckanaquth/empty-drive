@@ -382,6 +382,28 @@
     .star-btn.lit { color:#f5a623; }
     .score-badge { font-size:11px; font-weight:700; padding:2px 7px; border-radius:20px; background:var(--surface); border:1px solid var(--border); color:var(--text2); white-space:nowrap; }
     .score-badge.scored { background:#f5a623; border-color:#f5a623; color:#fff; }
+
+    /* Buy score verdict pill */
+    .buy-score { display:inline-flex; align-items:center; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
+    .qs-buy    { background:#16a34a20; color:#16a34a; border:1px solid #16a34a40; }
+    .qs-caution{ background:#d9770620; color:#d97706; border:1px solid #d9770640; }
+    .qs-warn   { background:#dc262620; color:#dc2626; border:1px solid #dc262640; }
+    .qs-dnb    { background:#dc2626; color:#fff; border:1px solid #dc2626; }
+    .qs-empty  { background:var(--surface); color:var(--text3); border:1px solid var(--border); }
+    @media (prefers-color-scheme:dark) {
+      .qs-buy    { background:#16a34a30; color:#4ade80; border-color:#16a34a50; }
+      .qs-caution{ background:#d9770630; color:#fbbf24; border-color:#d9770650; }
+      .qs-warn   { background:#dc262630; color:#f87171; border-color:#dc262650; }
+    }
+
+    /* Q&A answer buttons */
+    .qans-btn { display:inline-flex; align-items:center; gap:4px; padding:6px 12px; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); color:var(--text2); font-size:13px; font-weight:600; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .15s,border-color .15s; }
+    .qans-ok.active  { background:#16a34a18; border-color:#16a34a; color:#16a34a; }
+    .qans-flag.active{ background:#dc262618; border-color:#dc2626; color:#dc2626; }
+    @media (prefers-color-scheme:dark) {
+      .qans-ok.active  { background:#16a34a30; color:#4ade80; border-color:#16a34a; }
+      .qans-flag.active{ background:#dc262630; color:#f87171; border-color:#dc2626; }
+    }
   </style>
 </head>
 <body>
@@ -404,16 +426,26 @@
     <div class="section-label">Day 2: Yelahanka</div>
     <div id="prop-list-2"></div>
 
-    <div style="padding:0 16px 8px">
+    <div style="padding:0 16px 16px">
       <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
-        <div style="font-size:13px;font-weight:600;margin-bottom:4px">Post-Visit Score (tap stars within 1 hr)</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.5">All properties are UC — visit the sales office and construction site. Rate on: sales team quality, RERA transparency, construction progress, payment plan flexibility, location feel, gut instinct. Open each property card above and tap the stars.</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">Post-Visit Rating (tap stars in each card)</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5">Rate each property gut feel. Answer the Q&amp;As in the Questions tab → the Buy Score updates automatically here.</div>
       </div>
+    </div>
+
+    <div style="padding:0 16px 24px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Buy Score Summary</div>
+      <div style="background:var(--surface);border-radius:12px;padding:6px 12px" id="buy-score-summary"></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.4">Score from Q&amp;As: 80–100 = Strong Buy · 60–79 = Caution · 40–59 = Reconsider · Any critical flag = Do Not Buy</div>
     </div>
   </div>
 
   <!-- ── QUESTIONS TAB ── -->
   <div class="tab" id="tab-questions">
+    <div style="padding:12px 16px 4px">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500">Scoring for property:</div>
+      <div class="chips" id="q-prop-selector" style="margin:0 0 4px"></div>
+    </div>
     <div class="chips" id="q-chips"></div>
     <div id="q-list"></div>
   </div>
@@ -462,7 +494,7 @@
 
 const PROPERTIES = [
   {
-    rank: 1, day: 1,
+    rank: 1, day: 1, shortName: 'Sobha',
     name: 'Sobha Athena (new)',
     builder: 'Sobha Limited',
     grade: 'A', status: 'UC', priority: 'Must Visit',
@@ -478,7 +510,7 @@ const PROPERTIES = [
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 2, day: 1,
+    rank: 2, day: 1, shortName: 'Prestige',
     name: 'Prestige Camden Gardens',
     builder: 'Prestige Group',
     grade: 'A', status: 'UC', priority: 'Must Visit',
@@ -494,7 +526,7 @@ const PROPERTIES = [
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 3, day: 2,
+    rank: 3, day: 2, shortName: 'Arvind',
     name: 'Arvind Bel Air',
     builder: 'Arvind SmartSpaces',
     grade: 'B+', status: 'UC', priority: 'Must Visit',
@@ -510,7 +542,7 @@ const PROPERTIES = [
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 4, day: 2,
+    rank: 4, day: 2, shortName: 'Brigade',
     name: 'Brigade Insignia',
     builder: 'Brigade Group',
     grade: 'A', status: 'UC', priority: 'Visit if size is priority',
@@ -596,25 +628,87 @@ const CHECKLIST = {
 
 const STORAGE_KEY  = 'blr_visit_checklist';
 const SCORES_KEY   = 'blr_visit_scores';
+const Q_ANS_KEY    = 'blr_q_answers';
+
+// Critical question indices — red flag = Do Not Buy override
+const Q_CRITICAL   = [0, 1, 2, 4, 5]; // RERA portal, complaints, cert, agreement, payment schedule
+
 let currentSection = Object.keys(CHECKLIST)[0];
 let activeQFilter  = 'all';
+let activeQProp    = 1; // which property the questions tab is scoring
 let checked        = {};
 let scores         = {};
+let qAnswers       = {}; // { propRank: { qIdx: 'ok'|'flag' } }
 
-function loadState() {
-  try { checked = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { checked = {}; }
-}
-function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
-}
-function loadScores() {
-  try { scores = JSON.parse(localStorage.getItem(SCORES_KEY) || '{}'); } catch(e) { scores = {}; }
-}
-function saveScores() {
-  localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
+function loadState()    { try { checked  = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { checked = {}; } }
+function saveState()    { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); }
+function loadScores()   { try { scores   = JSON.parse(localStorage.getItem(SCORES_KEY) || '{}'); } catch(e) { scores = {}; } }
+function saveScores()   { localStorage.setItem(SCORES_KEY, JSON.stringify(scores)); }
+function loadQAnswers() { try { qAnswers = JSON.parse(localStorage.getItem(Q_ANS_KEY)  || '{}'); } catch(e) { qAnswers = {}; } }
+function saveQAnswers() { localStorage.setItem(Q_ANS_KEY, JSON.stringify(qAnswers)); }
+
+function calcBuyScore(rank) {
+  const ans = qAnswers[rank] || {};
+  const answered = Object.keys(ans).length;
+  if (answered === 0) return { label: 'Not scored', cls: '', score: null };
+
+  let score = 100;
+  let critical = false;
+  QUESTIONS.forEach((q, i) => {
+    if (ans[i] === 'flag') {
+      if (Q_CRITICAL.includes(i)) { critical = true; score -= 25; }
+      else score -= 10;
+    }
+  });
+  score = Math.max(0, score);
+
+  if (critical || score < 40) return { label: 'Do Not Buy', cls: 'qs-dnb',     score, answered };
+  if (score < 60)              return { label: 'Reconsider', cls: 'qs-warn',    score, answered };
+  if (score < 80)              return { label: 'Caution',    cls: 'qs-caution', score, answered };
+  return { label: `Buy · ${score}`, cls: 'qs-buy', score, answered };
 }
 
-// ── RENDER PROPERTIES ─────────────────────────────────────────────────────
+// ── FLOOR PLANS (per property, real data Apr 2026) ─────────────────────
+const FLOOR_PLANS = {
+  1: { // Sobha Athena
+    variants: [
+      { type: '3 BHK', sba: '1,682 sqft', carpet: '~1,155 sqft', price: '₹2.27 Cr', allin: '₹2.42 Cr' },
+      { type: '3 BHK+', sba: '1,692 sqft', carpet: '~1,162 sqft', price: '₹2.28 Cr', allin: '₹2.43 Cr' },
+    ],
+    rooms: 'Master ~14×12 ft · Bed 2 ~12×10 ft · WFH/Study ~11×10 ft ✓ · Living ~20×12 ft',
+    loading: '~31%',
+    note: 'Greek-inspired G+19 tower, 72 units only. Possession Jul–Dec 2026 per builder website.',
+  },
+  2: { // Prestige Camden Gardens
+    variants: [
+      { type: '3 BHK Smart',   sba: '1,578 sqft', carpet: '~1,105 sqft', price: '₹1.89 Cr', allin: '₹2.02 Cr' },
+      { type: '3 BHK Optima',  sba: '1,851 sqft', carpet: '~1,296 sqft', price: '₹2.22 Cr', allin: '₹2.37 Cr' },
+      { type: '3 BHK Prima',   sba: '2,037 sqft', carpet: '~1,426 sqft', price: '₹2.44 Cr', allin: '₹2.60 Cr' },
+      { type: '3 BHK Supreme', sba: '2,149 sqft', carpet: '~1,504 sqft', price: '₹2.57 Cr', allin: '₹2.74 Cr' },
+    ],
+    rooms: 'Smart: compact 3-bed · Optima: master ~14×12, WFH ~11×10 ✓ · Prima: spacious all rooms',
+    loading: '~30%',
+    note: 'Single G+20 tower, 120 units. Smart fits budget best at ₹2.02 Cr all-in. Possession Dec 2027.',
+  },
+  3: { // Arvind Bel Air
+    variants: [
+      { type: '3 BHK A', sba: '1,524 sqft', carpet: '1,024 sqft', price: '₹1.55 Cr', allin: '₹1.65 Cr' },
+      { type: '3 BHK B', sba: '1,626 sqft', carpet: '1,138 sqft', price: '₹1.57 Cr', allin: '₹1.67 Cr' },
+    ],
+    rooms: 'Master ~13×11 ft · Bed 2 ~11×10 ft · WFH ~10×9 ft (tight, verify in person) · Living ~18×12',
+    loading: '~31%',
+    note: '334 units, Jun 2026 possession — nearest to ready. WFH room is ~90 sqft, measure in person.',
+  },
+  4: { // Brigade Insignia
+    variants: [
+      { type: '3 BHK',      sba: '2,145 sqft', carpet: '~1,500 sqft', price: '₹2.99 Cr', allin: '₹3.18 Cr' },
+      { type: '3 BHK Large', sba: '2,481 sqft', carpet: '~1,735 sqft', price: '₹3.49 Cr', allin: '₹3.72 Cr' },
+    ],
+    rooms: 'All rooms large — master ~16×13, WFH ~13×11 ✓✓ · Living ~24×14 · Best WFH room on list',
+    loading: '~30%',
+    note: '3 BHK at ₹2.99 Cr → all-in ₹3.18 Cr = just over ₹3 Cr budget. Only if size matters most. Possession Jun 2029.',
+  },
+};
 
 function renderProperties() {
   const day1 = PROPERTIES.filter(p => p.day === 1);
@@ -624,23 +718,33 @@ function renderProperties() {
 }
 
 function propCard(p) {
-  const statusCls  = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
+  const statusCls   = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
   const priorityCls = p.priority === 'Must Visit' ? 'badge-blue' : 'badge-gray';
-  const myScore    = scores[p.rank] || 0;
-  const scoreLbl   = myScore ? `${myScore}/5 ★` : 'Rate';
-  const scoreCls   = myScore ? 'scored' : '';
+  const myScore     = scores[p.rank] || 0;
+  const scoreLbl    = myScore ? `${myScore}/5 ★` : 'Rate';
+  const scoreCls    = myScore ? 'scored' : '';
+  const qs          = calcBuyScore(p.rank);
+  const fp          = FLOOR_PLANS[p.rank];
   const details = [
     ['Address',    `<a href="${p.mapsUrl}" target="_blank" style="color:var(--accent)">${p.address}</a>`],
     ['Drive',      p.drive],
     ['Visit time', p.visitTime],
-    ['Price',      p.price],
-    ['Size',       p.size],
     ['Launched',   p.launched],
     ['Possession', p.possession],
     ['RERA',       p.rera],
     ['OC Status',  p.ocStatus],
     ['How to get access', p.contact],
   ];
+  const variantRows = fp.variants.map(v =>
+    `<tr style="border-top:1px solid var(--border)">
+      <td style="padding:6px 6px 6px 0;font-size:12px;color:var(--text2)">${v.type}</td>
+      <td style="padding:6px;font-size:12px;text-align:right">${v.sba}</td>
+      <td style="padding:6px;font-size:12px;text-align:right">${v.carpet}</td>
+      <td style="padding:6px;font-size:12px;text-align:right;font-weight:600">${v.price}</td>
+      <td style="padding:6px 0 6px 6px;font-size:12px;text-align:right;color:var(--text2)">${v.allin}</td>
+    </tr>`
+  ).join('');
+  const bsLabel = qs.cls ? `${qs.label}${qs.answered ? ` (${qs.answered}/20)` : ''}` : 'Score Q&amp;As →';
   return `
     <div class="card card-single" style="border-radius:12px;margin:0 16px 10px">
       <div class="card-row" onclick="toggleProp('prop-${p.rank}')">
@@ -649,7 +753,8 @@ function propCard(p) {
           <div class="card-title">${p.name}</div>
           <div class="card-subtitle">${p.builder} &middot; ${p.area}</div>
         </div>
-        <div style="display:flex;gap:5px;align-items:center">
+        <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:160px">
+          <span class="buy-score ${qs.cls || 'qs-empty'}" id="bscore-${p.rank}">${qs.cls ? qs.label : '?'}</span>
           <span class="score-badge ${scoreCls}" id="score-badge-${p.rank}">${scoreLbl}</span>
           <span class="badge ${statusCls}">${p.status}</span>
           <svg class="chevron" id="chev-prop-${p.rank}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -665,9 +770,30 @@ function propCard(p) {
             <div class="detail-value">${v}</div>
           </div>
         `).join('')}
+
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--border);margin-top:4px">Floor Plans &amp; Prices (Apr 2026)</div>
+        <div style="padding:0 16px 6px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse">
+            <thead><tr>
+              <th style="text-align:left;padding:0 6px 6px 0;font-size:11px;color:var(--text2);font-weight:500">Type</th>
+              <th style="text-align:right;padding:0 6px;font-size:11px;color:var(--text2);font-weight:500">SBA</th>
+              <th style="text-align:right;padding:0 6px;font-size:11px;color:var(--text2);font-weight:500">Carpet</th>
+              <th style="text-align:right;padding:0 6px;font-size:11px;color:var(--text2);font-weight:500">Base</th>
+              <th style="text-align:right;padding:0 0 0 6px;font-size:11px;color:var(--text2);font-weight:500">All-in</th>
+            </tr></thead>
+            <tbody>${variantRows}</tbody>
+          </table>
+        </div>
+        <div style="padding:4px 16px 2px;font-size:12px;color:var(--text2);line-height:1.5">${fp.rooms}</div>
+        <div style="padding:2px 16px 10px;font-size:11px;color:var(--text3)">Loading ${fp.loading} · ${fp.note}</div>
+
         <div class="star-row">
-          <span class="star-row-label">My Score</span>
+          <span class="star-row-label">Visit Rating</span>
           ${[1,2,3,4,5].map(n => `<button class="star-btn ${myScore >= n ? 'lit' : ''}" id="star-${p.rank}-${n}" onclick="setScore(${p.rank}, ${n}, event)">★</button>`).join('')}
+        </div>
+        <div style="padding:10px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border)">
+          <span style="font-size:12px;color:var(--text2)">Q&amp;A Buy Score:</span>
+          <span class="buy-score ${qs.cls || 'qs-empty'}" style="font-size:12px">${bsLabel}</span>
         </div>
       </div>
     </div>`;
@@ -704,6 +830,21 @@ function setScore(rank, val, evt) {
 const Q_LABELS = { all: 'All', sales: 'Ask Sales', rera: 'Check RERA', buyer: 'Ask Buyers', site: 'Check Site' };
 const Q_COLORS = { sales: 'badge-orange', rera: 'badge-red', buyer: 'badge-green', site: 'badge-blue' };
 
+function renderQPropSelector() {
+  const el = document.getElementById('q-prop-selector');
+  if (!el) return;
+  el.innerHTML = PROPERTIES.map(p => `
+    <button class="chip ${activeQProp === p.rank ? 'active' : ''}" onclick="setQProp(${p.rank})" style="font-size:11px">${p.shortName || p.name.split(' ').slice(-1)[0]}</button>
+  `).join('');
+}
+
+function setQProp(rank) {
+  activeQProp = rank;
+  renderQPropSelector();
+  renderQuestions();
+  renderBuyScoreSummary();
+}
+
 function renderQuestionChips() {
   const chips = document.getElementById('q-chips');
   chips.innerHTML = Object.entries(Q_LABELS).map(([k, v]) => `
@@ -717,25 +858,61 @@ function setQFilter(f) {
   renderQuestions();
 }
 
+function setQAnswer(propRank, qIdx, val, evt) {
+  evt.stopPropagation();
+  if (!qAnswers[propRank]) qAnswers[propRank] = {};
+  // tap same answer again = unset
+  qAnswers[propRank][qIdx] = (qAnswers[propRank][qIdx] === val) ? null : val;
+  if (qAnswers[propRank][qIdx] === null) delete qAnswers[propRank][qIdx];
+  saveQAnswers();
+  // update this question's button states
+  const cur = qAnswers[propRank][qIdx];
+  const btnOk   = document.getElementById(`qbtn-ok-${qIdx}`);
+  const btnFlag = document.getElementById(`qbtn-flag-${qIdx}`);
+  if (btnOk)   btnOk.className   = 'qans-btn qans-ok'   + (cur === 'ok'   ? ' active' : '');
+  if (btnFlag) btnFlag.className = 'qans-btn qans-flag' + (cur === 'flag' ? ' active' : '');
+  // show/hide red flag detail
+  const flagEl = document.getElementById('flag-' + qIdx);
+  if (flagEl) flagEl.style.display = (cur === 'flag') ? 'block' : 'none';
+  // update buy score badges
+  const qs = calcBuyScore(propRank);
+  PROPERTIES.forEach(p => {
+    if (p.rank !== propRank) return;
+    const b1 = document.getElementById('bscore-' + propRank);
+    if (b1) { b1.textContent = qs.cls ? qs.label : '?'; b1.className = `buy-score ${qs.cls || 'qs-empty'}`; }
+  });
+  renderBuyScoreSummary();
+}
+
 function renderQuestions() {
   const filtered = activeQFilter === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.target === activeQFilter);
-  document.getElementById('q-list').innerHTML = filtered.map((q, i) => {
+  const ans = qAnswers[activeQProp] || {};
+  document.getElementById('q-list').innerHTML = filtered.map((q) => {
     const realIdx = QUESTIONS.indexOf(q);
+    const cur = ans[realIdx];
+    const isCrit = Q_CRITICAL.includes(realIdx) ? '<span style="color:#ef4444;font-size:10px;font-weight:700;margin-left:4px">CRITICAL</span>' : '';
     return `
       <div class="card card-single" style="margin:0 16px 8px;border-radius:12px">
         <div style="padding:12px 16px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
             <span class="badge ${Q_COLORS[q.target]}" style="font-size:11px">${Q_LABELS[q.target]}</span>
             <span style="font-size:11px;color:var(--text3)">Q${realIdx + 1}</span>
+            ${isCrit}
           </div>
           <div class="q-text">${q.q}</div>
           <div class="q-why">${q.why}</div>
-          <div id="flag-${realIdx}" style="display:none">
+          <div id="flag-${realIdx}" style="display:${cur === 'flag' ? 'block' : 'none'}">
             <div class="q-flag"><strong>Red flag:</strong> ${q.flag}</div>
           </div>
-          <div class="q-toggle" onclick="toggleFlag(${realIdx})">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            Red flag answer
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+            <button id="qbtn-ok-${realIdx}" class="qans-btn qans-ok${cur === 'ok' ? ' active' : ''}"
+              onclick="setQAnswer(${activeQProp}, ${realIdx}, 'ok', event)">✓ OK</button>
+            <button id="qbtn-flag-${realIdx}" class="qans-btn qans-flag${cur === 'flag' ? ' active' : ''}"
+              onclick="setQAnswer(${activeQProp}, ${realIdx}, 'flag', event)">🚩 Red Flag</button>
+            <button class="q-toggle" onclick="toggleFlag(${realIdx})" style="margin-left:auto">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Why it matters
+            </button>
           </div>
         </div>
       </div>`;
@@ -744,7 +921,27 @@ function renderQuestions() {
 
 function toggleFlag(i) {
   const el = document.getElementById('flag-' + i);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function renderBuyScoreSummary() {
+  const el = document.getElementById('buy-score-summary');
+  if (!el) return;
+  el.innerHTML = PROPERTIES.map(p => {
+    const qs = calcBuyScore(p.rank);
+    const stars = scores[p.rank] ? `${scores[p.rank]}/5 ★` : '';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div class="rank" style="width:28px;height:28px;min-width:28px;font-size:14px">${p.rank}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+        <div style="font-size:11px;color:var(--text3)">${qs.answered ? `${qs.answered}/20 questions answered` : 'No answers yet'}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        ${stars ? `<span style="font-size:11px;color:var(--text2)">${stars}</span>` : ''}
+        <span class="buy-score ${qs.cls || 'qs-empty'}">${qs.cls ? qs.label : '—'}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ── RENDER CHECKLIST ──────────────────────────────────────────────────────
@@ -811,9 +1008,12 @@ function switchTab(tab) {
 
 loadState();
 loadScores();
+loadQAnswers();
 renderProperties();
+renderQPropSelector();
 renderQuestionChips();
 renderQuestions();
+renderBuyScoreSummary();
 renderSectionSwitch();
 renderChecklistItems();
 </script>
