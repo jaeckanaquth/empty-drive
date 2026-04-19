@@ -44,6 +44,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 | `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property (no duplicate “expanded area” narrative — that is `blr-areas` only) | **Any** property fact change **or** finishing a criterion write-up |
 | `blr-full-evaluation.canvas.tsx` | Cross-criterion summary | Whenever deep-eval or a criterion canvas materially changes |
 | `blr-property-criteria.canvas.tsx` | Framework definitions | Only if the 10-point framework text changes |
+| `blr-project-selection.canvas.tsx` | Five-filter stack (budget → area → builder → amenities → other) on the **visit shortlist** | Shortlist membership, all-in bands, deep-eval verdicts/scores that change pick order |
 
 ### Criterion deep dives (keep aligned with `blr-deep-eval`)
 
@@ -60,10 +61,10 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 ## Minimal change checklist (copy mentally)
 
 **Property added/removed or renamed**  
-→ shortlist · visit-guide · areas · investment · budget-financial · **builder-reputation** (north row) · **deep-eval** · full-evaluation (if present) · amenities/safety if that property had rows
+→ shortlist · visit-guide · areas · investment · budget-financial · **builder-reputation** (north row) · **deep-eval** · **project-selection** · full-evaluation (if present) · amenities/safety if that property had rows
 
 **Price, all-in, possession, RERA, commute, address**  
-→ shortlist · visit-guide · investment · budget-financial · **deep-eval** (all affected cells) · builder canvas only if narrative mentions that project
+→ shortlist · visit-guide · investment · budget-financial · **deep-eval** (all affected cells) · **project-selection** · builder canvas only if narrative mentions that project
 
 **Area / corridor thesis (e.g. STRR, new micro-market)**  
 → areas · investment · property-type-config (if hold/UDS story) · deep-eval area/connectivity/investment cells

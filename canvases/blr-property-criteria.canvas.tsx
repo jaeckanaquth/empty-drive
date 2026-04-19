@@ -195,6 +195,9 @@ export default function BLRPropertyCriteria() {
         <Text tone="secondary" size="small">
           #6: shortlist matrix + WFH checklist live in <Text weight="semibold" as="span">blr-amenities</Text>; deep-eval amenities row updated. Resume at <Text weight="semibold" as="span">#7 Social infrastructure</Text> (<Text weight="semibold" as="span">blr-areas</Text> social tab + social column in <Text weight="semibold" as="span">blr-deep-eval</Text>).
         </Text>
+        <Text tone="secondary" size="small">
+          To choose among the five visit projects: budget → area → builder → adult amenities → other — <Text weight="semibold" as="span">blr-project-selection.canvas.tsx</Text>.
+        </Text>
       </Stack>
 
       <Divider />
