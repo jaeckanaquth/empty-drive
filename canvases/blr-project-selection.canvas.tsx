@@ -231,7 +231,9 @@ export default function ProjectSelection() {
         <Text tone="secondary">
           This canvas <Text weight="semibold" as="span">does not replace K-RERA or the sales office</Text>. Numbers and dates below were
           <Text weight="semibold" as="span"> reconciled in-repo</Text> to <Text weight="semibold" as="span">index.html</Text>,{' '}
-          <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> (Apr 2026 workspace) — not from a fresh independent price crawl in chat.
+          <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> (Apr 2026 workspace).
+          A separate <Text weight="semibold" as="span">Apr 2026 web search pass</Text> (aggregators + builder affiliates) and portal limits are documented in{' '}
+          <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text> — use that for conflicts (RERA strings, possession noise, Manyata time for Tata).
           Always confirm base, GST, possession, and RERA % on the portal before paying.
         </Text>
       </Stack>
