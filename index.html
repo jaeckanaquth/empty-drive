@@ -419,10 +419,17 @@
 
   <!-- ── PROPERTIES TAB ── -->
   <div class="tab active" id="tab-properties">
-    <div class="section-label">Today — Yelahanka (from Manyata Embassy)</div>
+    <div class="section-label">Visit Day — North Bangalore (from Manyata Embassy)</div>
 
     <div id="prop-list"></div>
     <div id="prop-list-2"></div>
+
+    <div style="margin:0 16px 12px;background:var(--surface);border-radius:12px;padding:14px 16px;border-left:3px solid #7c3aed">
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px">👁 Also Watch — Birla Yelahanka</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">
+        <strong>Birla Estates</strong> (Aditya Birla Group) has a pre-launch project in Yelahanka — 218 homes on 8 acres, RERA: PRM/KA/RERA/1250/304/PR/190724/002725. Pricing not yet disclosed. Register your interest at birlaproject.com — when pricing drops it may sit within ₹3 Cr. Not visitable yet but worth tracking.
+      </div>
+    </div>
 
     <div style="padding:0 16px 16px">
       <div style="background:var(--surface);border-radius:12px;padding:14px 16px">
@@ -492,35 +499,51 @@
 
 const PROPERTIES = [
   {
-    rank: 1, day: 1, shortName: 'Brigade',
-    name: 'Brigade Eternia',
-    builder: 'Brigade Group',
-    grade: 'A', status: 'UC', priority: 'Must Visit',
-    price: '₹2.26 Cr (all-in ~₹2.41 Cr)', size: '1,620–1,700 sqft SBA',
-    launched: 'Mar 2025', possession: 'Nov 2029',
-    area: 'Yelahanka New Town',
-    address: 'Yelahanka New Town, Bangalore – 560064',
-    mapsUrl: 'https://maps.google.com/?q=Brigade+Eternia+Yelahanka+Bangalore',
-    drive: '~15 km / 15–20 min from Manyata Embassy',
+    rank: 1, day: 1, shortName: 'Purva',
+    name: 'Purva Zenium 2',
+    builder: 'Puravankara Limited',
+    grade: 'A', status: 'UC', priority: 'Must Visit — earliest handover',
+    price: '₹1.71–2.38 Cr (all-in ~₹1.82–2.53 Cr)', size: '1,231–1,710 sqft SBA',
+    launched: 'Jul 2022', possession: 'Jun 2027 — earliest Grade A on this list',
+    area: 'Hosahalli · Airport Road belt',
+    address: 'Billamaranahalli Main Road, Hosahalli, North Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Purva+Zenium+2+Hosahalli+Bangalore',
+    drive: '~14 km / 24 min from Manyata Embassy',
     visitTime: '10:00 AM',
-    contact: 'RERA: PRM/KA/RERA/1251/309/PR/070325/007559 — verify on rera.karnataka.gov.in. Visit Brigade sales office. 14 acres, 1,124 units. Ask for exact Nov 2029 RERA possession date, payment schedule, and penalty clause for delays.',
-    rera: 'PRM/KA/RERA/1251/309/PR/070325/007559',
+    contact: 'RERA: PRM/KA/RERA/1251/309/PR/071022/005303. Puravankara listed company (NSE/BSE), 50yr track record. Bookings open. Ask for current unsold 3 BHK inventory, construction % on RERA portal, and payment plan. Possession Jun 2027 is RERA-committed.',
+    rera: 'PRM/KA/RERA/1251/309/PR/071022/005303',
     ocStatus: 'N/A — Under Construction',
   },
   {
     rank: 2, day: 1, shortName: 'Prestige',
     name: 'Prestige Avon',
     builder: 'Prestige Group',
-    grade: 'A', status: 'UC', priority: 'Visit — slightly over budget',
-    price: '₹3.2 Cr base (all-in ~₹3.41 Cr) — 13% over ₹3 Cr', size: '3 BHK on 10 acres',
-    launched: 'Aug 2025', possession: 'Dec 2028 — earliest Grade A handover',
+    grade: 'A', status: 'UC', priority: 'Visit — 13% over budget',
+    price: '₹3.2 Cr base (all-in ~₹3.41 Cr) — ₹41L over ₹3 Cr ceiling', size: 'TBC on visit',
+    launched: 'Aug 2025', possession: 'Dec 2028 — 2nd earliest Grade A',
     area: 'Thanisandra Main Rd',
     address: 'Thanisandra Main Road, North Bangalore – 560077',
     mapsUrl: 'https://maps.google.com/?q=Prestige+Avon+Thanisandra+Bangalore',
     drive: '~10 km / 18–22 min from Manyata Embassy',
-    visitTime: '12:30 PM',
-    contact: 'RERA registered — verify number on rera.karnataka.gov.in. Call Prestige (prestige-group.com). Boutique 230-unit project. Earliest Grade A possession (Dec 2028) on this entire list. Visit to understand if price is negotiable on a ₹3 Cr ceiling.',
-    rera: 'Registered — verify number at sales office',
+    visitTime: '12:00 PM',
+    contact: 'RERA registered — confirm number at sales office. Boutique 230-unit project on 10 acres. Ask directly: is there any pricing flexibility given your ₹3 Cr ceiling? Ask for possession penalty clause and sample agreement.',
+    rera: 'Registered — get number at sales office',
+    ocStatus: 'N/A — Under Construction',
+  },
+  {
+    rank: 3, day: 1, shortName: 'Brigade',
+    name: 'Brigade Eternia',
+    builder: 'Brigade Group',
+    grade: 'A', status: 'UC', priority: 'Must Visit — well within budget',
+    price: '₹2.26 Cr (all-in ~₹2.41 Cr)', size: '1,620–1,820 sqft SBA',
+    launched: 'Mar 2025', possession: 'Mar 2030',
+    area: 'Yelahanka New Town',
+    address: 'Yelahanka New Town, Behind Police Station, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Brigade+Eternia+Yelahanka+Bangalore',
+    drive: '~15 km / 15–20 min from Manyata Embassy',
+    visitTime: '2:30 PM',
+    contact: 'RERA: PRM/KA/RERA/1251/309/PR/070325/007559. Brigade Group (Grade A, NSE listed). 14 acres, 1,124 units. Ask for confirmed Mar 2030 RERA possession date — some sources say Dec 2030, get it in writing. Ask for penalty clause for delay.',
+    rera: 'PRM/KA/RERA/1251/309/PR/070325/007559',
     ocStatus: 'N/A — Under Construction',
   },
 ];
@@ -635,23 +658,33 @@ function calcBuyScore(rank) {
 
 // ── FLOOR PLANS (per property, real data Apr 2026) ─────────────────────
 const FLOOR_PLANS = {
-  1: { // Brigade Eternia
+  1: { // Purva Zenium 2
+    variants: [
+      { type: '3 BHK (compact)', sba: '1,231 sqft', carpet: '~862 sqft',  price: '₹1.71 Cr', allin: '₹1.82 Cr' },
+      { type: '3 BHK (mid)',     sba: '1,469 sqft', carpet: '~1,028 sqft', price: '₹2.00 Cr', allin: '₹2.13 Cr' },
+      { type: '3 BHK (large)',   sba: '1,710 sqft', carpet: '~1,197 sqft', price: '₹2.38 Cr', allin: '₹2.53 Cr' },
+    ],
+    rooms: 'BluNex smart home tech · Master + 2 beds · WFH room varies by variant — ask for mid/large unit floor plan · Living ~18×12',
+    loading: '~30%',
+    note: 'Puravankara NSE-listed, 50yr track record. Jun 2027 = earliest possession of all Grade A options here. Check RERA portal for current construction %. 80% open spaces, 25+ amenities.',
+  },
+  2: { // Prestige Avon
+    variants: [
+      { type: '3 BHK', sba: 'TBC — get at sales office', carpet: 'TBC', price: '₹3.2 Cr', allin: '~₹3.41 Cr' },
+    ],
+    rooms: 'Boutique 230-unit project — ask for full floor plan and room dimensions at sales visit',
+    loading: '~30% est.',
+    note: 'Prestige Grade A, Dec 2028 possession = earliest Grade A after Purva Zenium. ₹3.41 Cr all-in = 13% over budget. Worth visiting to negotiate — small project may have flexibility.',
+  },
+  3: { // Brigade Eternia
     variants: [
       { type: '3 BHK',        sba: '1,620 sqft', carpet: '~1,134 sqft', price: '₹2.26 Cr', allin: '₹2.41 Cr' },
       { type: '3 BHK+',       sba: '1,700 sqft', carpet: '~1,190 sqft', price: '₹2.35 Cr', allin: '₹2.50 Cr' },
       { type: '3 BHK Royale', sba: '1,820 sqft', carpet: '~1,274 sqft', price: '₹2.56 Cr', allin: '₹2.73 Cr' },
     ],
-    rooms: 'Master ~14×12 ft · Bed 2 ~12×11 ft · WFH/Bed 3 ~11×10 ft ✓ · Living ~20×13 ft · Kitchen + utility',
+    rooms: 'Master ~14×12 ft · Bed 2 ~12×11 ft · WFH/Bed 3 ~11×10 ft ✓ · Living ~20×13 ft · 50,000 sqft clubhouse',
     loading: '~30%',
-    note: 'Mar 2025 launch. RERA registered. 14 acres, 1,124 units, 12 towers. Nov 2029 possession — meets pre-H1 2030 target. Grade A Brigade track record.',
-  },
-  2: { // Prestige Avon
-    variants: [
-      { type: '3 BHK', sba: 'TBC on visit', carpet: 'TBC on visit', price: '₹3.2 Cr', allin: '~₹3.41 Cr' },
-    ],
-    rooms: 'Layout TBC on visit — boutique 230-unit project, ask for full floor plan at sales office',
-    loading: '~30% est.',
-    note: 'Aug 2025 launch. RERA registered. Earliest Grade A handover (Dec 2028) in North BLR. All-in ₹3.41 Cr = 13% over ₹3 Cr budget — ask if there is any negotiation room.',
+    note: 'Brigade NSE-listed. Best value of the 3 at ₹2.41 Cr all-in. 1,124 units on 14 acres. Possession Mar 2030 — confirm this vs Dec 2030 discrepancy at the visit.',
   },
 };
 
