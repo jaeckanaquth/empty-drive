@@ -118,6 +118,8 @@ const PROPS: PropData[] = [
           'Hosahalli is in BBMP extended limits — confirm A-Khata (not Gram Panchayat B-Khata)',
           'Request 30-year Encumbrance Certificate (EC) from sales office before signing',
           'RERA construction % must match floor count visible on site — check before any payment',
+          'UC legal: pull 30-yr EC on schedule land + verify BBA carpet/SBA/possession match RERA portal before token; payments ≤10% pre-BBA registration per RERA',
+          'At handover: OC for your tower + sale deed/UDS description + A-Khata path in writing — refuse keys without OC unless lawyer-approved interim',
         ],
       },
       amenities: {
@@ -232,6 +234,8 @@ const PROPS: PropData[] = [
           'Thanisandra area: mix of A-Khata (BBMP) and B-Khata (transitional pockets) — verify before booking',
           'Request original land title document and approved building plan sanction letter',
           'Ask: has betterment charge been paid? Any pending tax dues on this plot?',
+          'UC legal: Aug 2025 launch — land EC + sanction floor count vs marketed towers before any token; BBA must mirror RERA once registration appears',
+          'Bank legal clearance: if a large bank declines this project, treat as signal — do not self-fund over a "no"',
         ],
       },
       amenities: {
@@ -348,6 +352,8 @@ const PROPS: PropData[] = [
           'Rajanukunte: on boundary between BBMP extended area and BDA / Gram Panchayat — verify Khata',
           'Ask: is the plot under BBMP, BDA, or BMRDA jurisdiction? (critical for resale and loan)',
           'DC conversion order and approved plan should be on file; request copies at sales office',
+          'UC legal: get written expected Khata class at OC; jurisdiction letter in BBA; 30-yr EC on land before booking',
+          'Large township: confirm common-area conveyance / association formation timeline — affects future resale friction',
         ],
       },
       amenities: {
@@ -465,6 +471,8 @@ const PROPS: PropData[] = [
           'Brigade Group: NSE-listed, no NCLT proceedings, clean RERA history across portfolio',
           'RERA registered ✓; request construction-linked payment plan before signing',
           'CRITICAL: get possession date in writing — some sources show Mar 2030, others Dec 2030',
+          'UC legal: standard BBMP path — still verify land EC + sanction vs actual towers; BBA penalty clause ≥ RERA minimum',
+          'At OC: confirm OC lists your tower; snag list closure in writing before final tranche to builder',
         ],
       },
       amenities: {
@@ -583,6 +591,8 @@ const PROPS: PropData[] = [
           'Carnatica township: large integrated project gets full BMRDA / Local Planning Authority sanctions',
           'DC conversion, EC, approved plan: Tata delivers complete documentation pack at handover',
           'Watchpoint: Gram Panchayat vs BMRDA jurisdiction — confirm in sale agreement; Tata deals typically BMRDA',
+          'UC legal: mega-township — verify which phase/tower is in current sanction; future phases must not encroach on promised setbacks',
+          'BBA: UDS schedule wording + parking allotment + amenity share — match RERA annexures before registration',
         ],
       },
       amenities: {
