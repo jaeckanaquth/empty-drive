@@ -207,7 +207,7 @@ export default function BLRPropertyCriteria() {
         <Text size="small" tone="secondary">
           The cards below define <Text weight="semibold" as="span">ten category families</Text> (budget, area, investment, connectivity, type/config, legal, builder, amenities, society/maintenance, safety/lifestyle).
           This table maps each family to the <Text weight="semibold" as="span">strongest shortlist option(s)</Text> using <Text weight="semibold" as="span">blr-deep-eval</Text> scores / verdicts and listed builder grade — evidence for ranking, not visit order from <Text weight="semibold" as="span">index.html</Text>.
-          After you run the <Text weight="semibold" as="span">top-10 protocol</Text> below, actual visits follow that ranked set (sync <Text weight="semibold" as="span">blr-property-shortlist</Text> <Text weight="semibold" as="span">C</Text> + <Text weight="semibold" as="span">index.html</Text>).
+          After you run the <Text weight="semibold" as="span">top-10 protocol</Text> below, actual visits follow that ranked set (sync <Text weight="semibold" as="span">blr-property-shortlist</Text> <Text weight="semibold" as="span">C</Text> rows + <Text weight="semibold" as="span">index.html</Text>).
         </Text>
         <Table
           headers={['Category (this canvas)', 'Priority', 'Lead option(s)', 'Why (deep-eval spine)']}
