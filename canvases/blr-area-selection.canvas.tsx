@@ -8,7 +8,7 @@ import {
 
 // ── area data ──────────────────────────────────────────────────────────────
 
-type AreaKey = 'thanisandra' | 'yelahanka' | 'jakkur' | 'hebbal' | 'devanahalli' | 'kalyanNagar';
+type AreaKey = 'thanisandra' | 'yelahanka' | 'jakkur' | 'hebbal' | 'devanahalli' | 'kalyanNagar' | 'ivcRoad' | 'aerospacepark';
 
 interface Area {
   label: string;
@@ -184,7 +184,7 @@ const areas: Record<AreaKey, Area> = {
     verdict: 'Established and convenient; limited new inventory at ₹3 Cr',
     pros: [
       'Very established area — hospitals, schools, markets all within 2 km',
-      'Good connectivity: close to both Hebbal and Mebhal junction',
+      'Good connectivity: close to both Hebbal and Manyata junction',
       'Strong rental demand due to proximity to CBD and Manyata',
       'BBMP Area — A-Khata, no legal complications',
     ],
@@ -198,12 +198,70 @@ const areas: Record<AreaKey, Area> = {
     rating: 3,
     tone: 'info',
   },
+  ivcRoad: {
+    label: 'IVC Road / Jakkur–Yelahanka–Airport corridor',
+    distance: '15–22 km',
+    peakCommute: '35–50 min',
+    offPeakCommute: '22–32 min',
+    priceRange: '₹5,500–9,000/sqft (villas ₹8,000–12,000)',
+    whatYouGet: '3–4 BHK villa or township apartment (1,600–2,200 sqft) near airport belt',
+    appreciation5yr: 50,
+    appreciationOutlook: 'medium-high',
+    metro: 'No near-term Metro; Phase 3 airport line a long-term possibility',
+    maturity: 'maturing',
+    verdict: 'Corridor is growing fast; most Grade A inventory is villas or above ₹3 Cr',
+    pros: [
+      'Fast-growing outer-north corridor — Embassy Springs, Century Ethos, Sobha HRC Pristine anchoring it',
+      'Airport access in 20–25 min; good NH44 connectivity reduces peak-hour variance',
+      'Cleaner air and wider roads vs inner Thanisandra or Nagavara',
+      'Large format plots and villa communities for buyers wanting land ownership',
+    ],
+    cons: [
+      'Grade A apartments in ₹3 Cr budget are rare; most Grade A is villas or larger apartments ₹3.5 Cr+',
+      'Limited BMTC coverage; car-dependent lifestyle mandatory',
+      'Social infrastructure thinner than Yelahanka NT; hospitals and schools require a drive',
+      'Resale liquidity still maturing — slower exit vs Thanisandra or Yelahanka NT',
+    ],
+    bestFor: 'Buyers open to villa/township format or stretching slightly beyond ₹3 Cr',
+    rating: 3,
+    tone: 'info',
+  },
+  aerospacepark: {
+    label: 'KIADB Aerospace Park / Bagalur · NH44 North',
+    distance: '32–42 km',
+    peakCommute: '60–80 min',
+    offPeakCommute: '38–50 min',
+    priceRange: '₹4,500–6,500/sqft',
+    whatYouGet: '3 BHK (1,500–1,800 sqft) in large township at ₹1.8–2.1 Cr — best sqft/₹',
+    appreciation5yr: 65,
+    appreciationOutlook: 'high',
+    metro: 'No Metro near-term; STRR + DMIC industrial activity are the catalysts',
+    maturity: 'emerging',
+    verdict: 'Best long-term appreciation in North BLR; commute makes self-use difficult today',
+    pros: [
+      'KIADB Aerospace SEZ: 700+ acres of industrial/tech investment underway — massive future demand driver',
+      'Purva Northern Lights Ph3 just launched (RERA Mar 2026): 3 BHK ₹1.8–2.1 Cr, Puravankara Grade A',
+      'Provident Ecopolitan on-site: 3 BHK (Puravankara subsidiary) from ₹90L–1.6 Cr, possession Dec 2027–28',
+      'Cheapest per-sqft entry for Grade A quality in North BLR; widest upside if Aerospace SEZ scales',
+      'Airport KIA is 18–20 min — ideal for frequent international flyers',
+    ],
+    cons: [
+      '60–80 min daily commute to Manyata is severe; only viable if WFH 3–4 days/week',
+      'Purva Northern Lights Ph3 possession Dec 2031 — 5.5 yr wait from today',
+      'Very thin social infrastructure: no Grade A hospital or school within 15 min',
+      'Resale liquidity is thin; buyer pool is niche (airport workers, aerospace employees)',
+      'All investment thesis depends on Aerospace SEZ and DMIC timelines materialising',
+    ],
+    bestFor: 'Long-horizon investor (7–10 yr) or WFH-primary professional who flies often',
+    rating: 2,
+    tone: 'warning',
+  },
 };
 
 export default function AreaSelection() {
   const [activeArea, setActiveArea] = useCanvasState<AreaKey>('area', 'thanisandra');
 
-  const a = areas[activeArea];
+  const a = areas[activeArea as AreaKey];
 
   const areaKeys = Object.keys(areas) as AreaKey[];
 
@@ -217,10 +275,10 @@ export default function AreaSelection() {
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="6" label="Micro-Markets Evaluated" />
-        <Stat value="Thanisandra" label="Top Recommendation" tone="success" />
-        <Stat value="7–10 km" label="Sweet Spot Distance" tone="info" />
-        <Stat value="Metro Ph2B" label="Key Catalyst to Track" tone="warning" />
+        <Stat value="8" label="Micro-Markets Evaluated" />
+        <Stat value="Thanisandra" label="Top Pick (self-use)" tone="success" />
+        <Stat value="Aerospace Pk" label="Top Pick (investment)" tone="warning" />
+        <Stat value="Metro Ph2B" label="Key Catalyst to Track" tone="info" />
       </Grid>
 
       <Divider />
@@ -267,14 +325,14 @@ export default function AreaSelection() {
             <H3>Peak Hour Commute (minutes)</H3>
             <BarChart
               categories={areaKeys.map(k => areas[k].label.split('/')[0].trim())}
-              series={[{ name: 'Peak Commute (min)', data: [32, 45, 37, 15, 70, 32] }]}
+              series={[{ name: 'Peak Commute (min)', data: [32, 45, 37, 15, 70, 32, 42, 70] }]}
               valueSuffix=" min"
               height={220}
             />
           </Stack>
         </Grid>
         <Text size="small" tone="secondary">
-          Hebbal has the shortest commute but lowest appreciation upside (already priced in). Devanahalli has the best appreciation but 70+ min commute. Thanisandra hits the sweet spot.
+          Hebbal has the shortest commute but lowest appreciation upside (already priced in). Aerospace Park / Devanahalli have the highest appreciation but 70+ min commute. Thanisandra hits the sweet spot for self-use. IVC Road offers a midpoint for buyers open to villas or slightly above ₹3 Cr.
         </Text>
       </Stack>
 
@@ -340,7 +398,7 @@ export default function AreaSelection() {
               </CardHeader>
               <CardBody>
                 <Stack gap={6}>
-                  {a.pros.map((p, i) => (
+                  {a.pros.map((p: string, i: number) => (
                     <Row key={i} gap={8} align="start">
                       <Text tone="secondary" size="small" style={{ minWidth: 14 }}>+</Text>
                       <Text size="small">{p}</Text>
@@ -356,7 +414,7 @@ export default function AreaSelection() {
               </CardHeader>
               <CardBody>
                 <Stack gap={6}>
-                  {a.cons.map((c, i) => (
+                  {a.cons.map((c: string, i: number) => (
                     <Row key={i} gap={8} align="start">
                       <Text tone="secondary" size="small" style={{ minWidth: 14 }}>−</Text>
                       <Text size="small">{c}</Text>

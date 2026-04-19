@@ -890,6 +890,73 @@ export default function DeepEval() {
         </Stack>
       </Stack>
 
+      <Divider />
+
+      {/* ── Area landscape — new corridors ── */}
+      <Stack gap={10}>
+        <Row gap={8} align="center">
+          <H2>Criterion 1 — Expanded Area Landscape</H2>
+          <Pill tone="info">IVC Road · Aerospace Park</Pill>
+        </Row>
+        <Text size="small" tone="secondary">
+          Two additional North BLR corridors evaluated. Neither enters the current visit shortlist but both are relevant to the full area decision.
+        </Text>
+        <Grid columns={2} gap={14}>
+          <Card>
+            <CardHeader trailing={<Pill tone="warning" size="sm">Watch — villas / over budget</Pill>}>
+              IVC Road · Jakkur–Yelahanka–Airport belt
+            </CardHeader>
+            <CardBody>
+              <Stack gap={6}>
+                <Text size="small">
+                  Corridor from Jakkur / Yelahanka towards Devanahalli and KIA. Fast-growing with Embassy Springs,
+                  Century Ethos, Sobha HRC Pristine anchoring it. 5-yr CAGR ~50%. 35–50 min peak commute to Manyata.
+                </Text>
+                <Text size="small" weight="semibold">Why not on shortlist:</Text>
+                {[
+                  'Grade A inventory within ₹3 Cr budget is rare — most projects are villas (₹3.5 Cr+) or plotted',
+                  'No apartment township in the ₹2–3 Cr band comparable to Sattva / Brigade quality',
+                  'Social infra thinner than Yelahanka NT; resale liquidity still maturing',
+                  'IVC Road is a reference corridor — revisit if budget stretches to ₹3.5 Cr or villa format becomes acceptable',
+                ].map((b, i) => (
+                  <Row key={i} gap={6} style={{ alignItems: 'flex-start' }}>
+                    <Text size="small" tone="secondary" style={{ minWidth: 10 }}>·</Text>
+                    <Text size="small" tone="secondary">{b}</Text>
+                  </Row>
+                ))}
+              </Stack>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardHeader trailing={<Pill tone="success" size="sm">Watch — Purva NL Dec 2031</Pill>}>
+              KIADB Aerospace Park · Bagalur · NH44 North
+            </CardHeader>
+            <CardBody>
+              <Stack gap={6}>
+                <Text size="small">
+                  KIADB Aerospace SEZ + Devanahalli direction. Highest 5-yr CAGR in North BLR (~65%).
+                  Purva Northern Lights Phase 3 just launched (RERA: PRM/KA/RERA/1251/309/PR/120326/008525,
+                  Mar 2026) — 3 BHK 1,500–1,800 sqft at ₹1.8–2.1 Cr by Puravankara (Grade A, same builder as Rank 1).
+                </Text>
+                <Text size="small" weight="semibold">Why on watch list only:</Text>
+                {[
+                  'Dec 2031 possession — 5.5 yr wait; too long vs current shortlist horizon',
+                  '60–80 min peak commute to Manyata; viable only if WFH 3–4 days/week',
+                  'Very thin social infra today; Aerospace SEZ employment thesis is multi-decade',
+                  'Provident Ecopolitan (Puravankara sub-brand) also on-site, Dec 2027–28 possession — worth tracking',
+                  'Revisit if Aerospace SEZ Phase 1 absorption is confirmed in 2026–27',
+                ].map((b, i) => (
+                  <Row key={i} gap={6} style={{ alignItems: 'flex-start' }}>
+                    <Text size="small" tone="secondary" style={{ minWidth: 10 }}>·</Text>
+                    <Text size="small" tone="secondary">{b}</Text>
+                  </Row>
+                ))}
+              </Stack>
+            </CardBody>
+          </Card>
+        </Grid>
+      </Stack>
+
     </Stack>
   );
 }
