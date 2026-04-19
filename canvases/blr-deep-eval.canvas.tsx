@@ -694,6 +694,7 @@ export default function DeepEval() {
         <Text tone="secondary">
           Evaluate each shortlisted property against the full due-diligence framework before site visits.
           Switch between "By criterion" (compare all 5 on one dimension) and "By property" (full card per project).
+          <Text weight="semibold" as="span"> Rank on each card</Text> (Purva = 1) is <Text weight="semibold" as="span">visit / PWA order</Text> — earliest possession first — not the same as the score sum ranking in the strip below, where <Text weight="semibold" as="span">Brigade Eternia</Text> is highest, then Prestige Avon and Sattva Lumina tied, then Purva, then Tata.
         </Text>
       </Stack>
 
