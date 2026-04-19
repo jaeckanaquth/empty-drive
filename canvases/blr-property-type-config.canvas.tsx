@@ -6,522 +6,375 @@ import {
   useCanvasState,
 } from 'cursor/canvas';
 
-// ── Criterion 4 — Property Type & Strategy ────────────────────────────────
-// Strategic question: given North BLR areas + 5-yr hold, what property TYPE
-// and community SCALE gives the best entry + exit outcome?
-// Not selecting exact units yet — this is the typological decision layer.
+// ── Criterion 4 — Property Type & Hold Strategy ───────────────────────────
+// For a ~5-year hold in North BLR, what property CHARACTERISTICS should you
+// optimise for? Not which specific property — what TYPE of property,
+// what community density, what UDS profile, and what structural attributes
+// compound best over a 5-year ownership window.
 
-type Tab = 'type' | 'scale' | 'hold' | 'matrix';
+type Tab = 'type' | 'uds' | 'density' | 'hold';
 
-// ── Property types ──────────────────────────────────────────────────────────
+// ── Property type data ──────────────────────────────────────────────────────
 
 const TYPES = [
   {
     id: 'apt',
-    label: 'Apartment (Grade A gated)',
+    label: 'Apartment — Grade A gated',
     budget: '₹1.2–3 Cr',
-    available: 'High — this is the North BLR primary market',
-    liquidity5yr: 9,
-    appreciation5yr: 8,
-    rentalYield: 7,
-    maintenance: 7,   // higher = easier/lower cost
-    buyerPool: 9,
-    overallScore: 40,
-    tone: 'success' as const,
-    verdict: 'Default choice at ₹3 Cr in North BLR — deepest buyer pool, strongest resale liquidity, most comparable data for pricing at exit.',
-    pros: [
-      'Deepest buyer pool in North BLR — IT professionals, young families, NRIs all target Grade A apartments',
-      'Grade A builder brand commands 5–15% premium at resale vs unknown builder',
-      'Most RERA-compliant product type — loan-friendly, legally cleaner',
-      'Rental demand is immediate post-possession — 2–3% yield on IT corridor',
-      'Price discovery is transparent — hundreds of comparable transactions quarterly',
-      'Maintenance is shared across a large owner base — lower per-unit cost at scale',
-    ],
-    cons: [
-      'Large supply in North BLR means you are competing with many similar units at exit',
-      'Differentiation at resale is limited — floor, facing, and condition become the deciding factors',
-      'Society politics and maintenance quality can erode value if RWA is poorly run',
-    ],
-    northBlrContext: 'All 5 shortlisted properties are Grade A apartments. This is the right type for ₹3 Cr in North BLR — villas and row houses start at ₹4 Cr+ in gated communities here.',
+    udsProfile: 'Depends on density: can range from 300 sqft (dense tower) to 2,000+ sqft (low-density boutique)',
+    landAppreciation: 'You capture land appreciation proportional to UDS',
+    liquidityScore: 9, appreciationScore: 8, rentalScore: 7, maintenanceScore: 7, buyerPoolScore: 9,
+    total: 40, tone: 'success' as const,
+    holdAdvice: 'Best product for ₹3 Cr in North BLR. Prioritise projects with highest UDS per rupee spent. A low-density apartment on a large plot beats a high-density tower on a small one — even at the same price.',
   },
   {
     id: 'villa',
-    label: 'Independent Villa (gated)',
-    budget: '₹4–10 Cr+',
-    available: 'Low at ₹3 Cr — premium starts at ₹4 Cr in North BLR',
-    liquidity5yr: 5,
-    appreciation5yr: 9,
-    rentalYield: 4,
-    maintenance: 3,   // harder/higher cost
-    buyerPool: 4,
-    overallScore: 25,
-    tone: 'warning' as const,
-    verdict: 'Out of budget for North BLR Grade A. Strong long-term appreciation but small buyer pool and high maintenance make 5-year hold exits harder.',
-    pros: [
-      'Higher absolute appreciation in premium locations (IVC Road, Devanahalli SEZ belt)',
-      'Land component appreciates independently — strong 10–15 yr story',
-      'More flexibility for renovation/customisation',
-      'Emotional premium — buyers pay above market for a villa',
-    ],
-    cons: [
-      'Budget mismatch: Grade A North BLR villas start at ₹4–5 Cr (Prestige Golfshire, IVC Road)',
-      'Small buyer pool at exit — far fewer people can afford ₹4–6 Cr vs ₹2–3 Cr apartment',
-      'High maintenance: garden, external facade, gate, security — all borne by owner',
-      'Rental yield is poor (1.5–2%) due to high sticker price vs rent achievable',
-      'Liquidity risk: can sit on market for 6–12 months without the right buyer',
-    ],
-    northBlrContext: 'IVC Road (Embassy Springs, Sobha HRC Pristine) and Devanahalli (Tata Carnatica villas) are on the watch-list. Budget would need to stretch to ₹4–5 Cr for the right gated villa community.',
+    label: 'Villa — gated community',
+    budget: '₹4–10 Cr+ in North BLR',
+    udsProfile: 'Very high UDS — you own the land under your villa, typically 1,200–3,000 sqft',
+    landAppreciation: 'Maximum — most of the asset value is land',
+    liquidityScore: 4, appreciationScore: 10, rentalScore: 4, maintenanceScore: 3, buyerPoolScore: 4,
+    total: 25, tone: 'warning' as const,
+    holdAdvice: 'Exceptional UDS and appreciation but out of ₹3 Cr budget for Grade A North BLR. Small buyer pool means a 5-yr exit can sit on market for 6–12 months.',
   },
   {
     id: 'rowhouse',
     label: 'Row house / Townhouse',
-    budget: '₹2.5–5 Cr',
-    available: 'Low — niche product in North BLR',
-    liquidity5yr: 4,
-    appreciation5yr: 8,
-    rentalYield: 5,
-    maintenance: 4,
-    buyerPool: 3,
-    overallScore: 24,
-    tone: 'warning' as const,
-    verdict: 'Niche product with thin resale market. Good appreciation but small buyer pool makes 5-year exits harder. Lower rental yield than apartments.',
-    pros: [
-      'Private entrance, small garden, feel of a house without full villa cost',
-      'Less supply — scarcity supports appreciation in right localities',
-      'Good fit for families who want space + gated security',
-    ],
-    cons: [
-      'Very few Grade A row house projects in North BLR at ₹3 Cr',
-      'Niche buyer profile = smaller pool; can take 6–18 months to find the right buyer at exit',
-      'Limited floor levels = less view/light advantage',
-      'Maintenance burden higher than apartment flat',
-    ],
-    northBlrContext: 'Total Environment and a few boutique developers do row houses in Yelahanka belt but pricing is ₹3–5 Cr. Not viable within ₹3 Cr for a Grade A gated project.',
+    budget: '₹2.5–5 Cr in North BLR',
+    udsProfile: 'High UDS — typically 600–1,500 sqft land per unit',
+    landAppreciation: 'Strong — good land-to-building ratio',
+    liquidityScore: 4, appreciationScore: 9, rentalScore: 5, maintenanceScore: 4, buyerPoolScore: 3,
+    total: 25, tone: 'warning' as const,
+    holdAdvice: 'Good UDS and appreciation but thin resale market. Very few Grade A row house projects at ₹3 Cr in North BLR. Niche buyer profile slows exit.',
   },
   {
     id: 'plot',
-    label: 'Residential Plot (NA / DC-converted)',
+    label: 'Residential plot (NA/DC)',
     budget: '₹50L–3 Cr',
-    available: 'Available but risky',
-    liquidity5yr: 4,
-    appreciation5yr: 10,
-    rentalYield: 1,
-    maintenance: 9,
-    buyerPool: 5,
-    overallScore: 29,
-    tone: 'danger' as const,
-    verdict: 'Highest long-term appreciation potential but zero rental income, complex legal due diligence, and home loan restrictions. Wrong product for this profile.',
-    pros: [
-      'Highest CAGR in right locations — Airport Road and Devanahalli plots have done 12–18% p.a.',
-      'No maintenance cost; no tenant headaches',
-      'Land is finite — pure land appreciation play',
-    ],
-    cons: [
-      'Zero rental income for entire hold period',
-      'Banks offer only 50–60% LTV on plots vs 80–90% on apartments',
-      'Legal due diligence is complex: NA order, DC conversion, BMRDA/BDA approval, E-Khata essential',
-      'Encroachment risk, boundary disputes, and fraudulent title are real',
-      'Construction required for good resale — adds capital and project management burden',
-      'Wrong profile fit: you are a single WFH professional, not a land investor/developer',
-    ],
-    northBlrContext: 'KIADB, BDA, and BMRDA layouts along Airport Road and Bagalur have had strong appreciation. Not for this search — legal complexity + capital locked without yield is wrong for a first-time buyer.',
+    udsProfile: '100% land ownership — no building depreciation ever',
+    landAppreciation: 'Maximum possible — pure land play',
+    liquidityScore: 4, appreciationScore: 10, rentalScore: 1, maintenanceScore: 10, buyerPoolScore: 5,
+    total: 30, tone: 'danger' as const,
+    holdAdvice: 'Best land appreciation but zero rental income, complex legal diligence, and wrong profile fit for a first-time buyer. Home loan terms are restrictive (50–60% LTV vs 80–90% for apartments).',
   },
 ];
 
-// ── Community scale ──────────────────────────────────────────────────────────
+// ── UDS worked examples ─────────────────────────────────────────────────────
 
-const SCALES = [
+// UDS per flat = (Individual flat carpet area / Total carpet area of all flats) × Total plot area
+// Simplified: UDS ≈ (Plot area sqft / Number of units) × (Your flat carpet / Average flat carpet)
+
+interface UdsExample {
+  label: string;
+  plotAcres: number;
+  units: number;
+  avgCarpetSqft: number;
+  yourCarpetSqft: number;
+  densityType: string;
+  udsSqft: number;   // computed
+  tone: 'success' | 'warning' | 'info';
+}
+
+const UDS_EXAMPLES: UdsExample[] = [
+  { label: 'Boutique — 10 ac, 230 units',        plotAcres: 10, units: 230,  avgCarpetSqft: 1200, yourCarpetSqft: 1200, densityType: 'Low density',    udsSqft: 0, tone: 'success' },
+  { label: 'Mid-size — 6 ac, 500 units',          plotAcres:  6, units: 500,  avgCarpetSqft: 1100, yourCarpetSqft: 1200, densityType: 'Medium density',  udsSqft: 0, tone: 'info'    },
+  { label: 'Large township — 14 ac, 1,100 units', plotAcres: 14, units: 1100, avgCarpetSqft: 1200, yourCarpetSqft: 1250, densityType: 'Medium-high',     udsSqft: 0, tone: 'info'    },
+  { label: 'Dense township — 12 ac, 1,200 units', plotAcres: 12, units: 1200, avgCarpetSqft: 1200, yourCarpetSqft: 1200, densityType: 'High density',    udsSqft: 0, tone: 'warning' },
+  { label: 'Mega campus — 70 ac, 2,500 units',    plotAcres: 70, units: 2500, avgCarpetSqft: 1350, yourCarpetSqft: 1350, densityType: 'Low-med density', udsSqft: 0, tone: 'success' },
+];
+
+UDS_EXAMPLES.forEach(e => {
+  const plotSqft     = e.plotAcres * 43560;
+  const totalCarpet  = e.units * e.avgCarpetSqft;
+  e.udsSqft = Math.round((e.yourCarpetSqft / totalCarpet) * plotSqft);
+});
+
+// ── Hold period characteristics ─────────────────────────────────────────────
+
+const HOLD_CHARS = [
   {
-    id: 'boutique',
-    label: 'Boutique',
-    unitRange: '< 200 units',
-    example: 'Prestige Avon (~230 units)',
-    resaleLiquidity: 5,
-    amenityDepth: 5,
-    communityFeel: 9,
-    maintenanceCost: 6,
-    priceDiscovery: 5,
-    appreciationPremium: 8,
-    totalScore: 38,
+    attribute: 'UDS (land ownership)',
+    for5yr: 'Critical — land appreciates 10–15% p.a. in North BLR; structure depreciates ~2% p.a. Higher UDS = more of your value is in appreciating land.',
+    target: 'Target ≥ 600 sqft UDS for 3 BHK in mid-size project',
+    tone: 'success' as const,
+  },
+  {
+    attribute: 'Plot area per unit (density)',
+    for5yr: 'Lower density = higher UDS per flat = more land per rupee. A 500-unit project on 10 acres gives you ~870 sqft land/unit; a 1,200-unit project on 12 acres gives ~435 sqft/unit.',
+    target: 'Target ≥ 600 sqft plot area per unit at the project level',
+    tone: 'success' as const,
+  },
+  {
+    attribute: 'Building height (G+X)',
+    for5yr: 'Shorter building on same land = fewer units = higher UDS per flat. A G+10 building and a G+29 building on the same plot have very different UDS profiles even if the flat is identical.',
+    target: 'Prefer G+10 to G+20 vs G+29 if choosing between projects on equal land',
     tone: 'info' as const,
-    forInvestment5yr: 'Moderate — lower transaction volume means fewer comparables at exit and longer time to find a buyer. Exclusivity can command premium with the right buyer but limits pool.',
-    forSelfUse: 'Excellent — quiet, smaller community, faster RWA formation, better neighbour rapport.',
   },
   {
-    id: 'mid',
-    label: 'Mid-size',
-    unitRange: '300–700 units',
-    example: 'Purva Zenium 2 (~500 units)',
-    resaleLiquidity: 8,
-    amenityDepth: 8,
-    communityFeel: 7,
-    maintenanceCost: 8,
-    priceDiscovery: 8,
-    appreciationPremium: 7,
-    totalScore: 46,
+    attribute: 'FSI / FAR utilisation',
+    for5yr: 'Projects that use less than maximum FSI have future development optionality — more floor space could be added if BBMP increases FAR. This creates optionality value at resale.',
+    target: 'Ask builder what FSI was utilised vs allowed maximum',
+    tone: 'info' as const,
+  },
+  {
+    attribute: 'Possession timing',
+    for5yr: 'For a 5-yr exit target (~2030), possession by mid-2028 is the latest that gives you meaningful ownership time to generate rent + appreciation before selling.',
+    target: 'Possession ≤ mid-2028 for a 5-yr exit thesis to work',
+    tone: 'warning' as const,
+  },
+  {
+    attribute: 'Builder brand at resale',
+    for5yr: 'Tata, Prestige, Brigade, Puravankara command 8–15% premium over unknown builders in the resale market. The brand is worth real rupees in 2030.',
+    target: 'Grade A NSE-listed or Tata Group only',
     tone: 'success' as const,
-    forInvestment5yr: 'Best for 5-yr hold. Enough transactions for solid price discovery at exit. Amenity base is full (clubhouse, pool, gym). Maintenance is shared across enough owners to stay affordable. Brand premium intact.',
-    forSelfUse: 'Very good — active community without being overwhelming. Known faces + enough new people.',
   },
   {
-    id: 'large',
-    label: 'Large township',
-    unitRange: '800–2,000 units',
-    example: 'Brigade Eternia (~1,124), Sattva Lumina (~1,200+)',
-    resaleLiquidity: 9,
-    amenityDepth: 9,
-    communityFeel: 5,
-    maintenanceCost: 9,
-    priceDiscovery: 9,
-    appreciationPremium: 6,
-    totalScore: 47,
+    attribute: 'Flat size (carpet area)',
+    for5yr: 'Larger flat = higher UDS + higher rent achievable + stronger appeal to the 2030 buyer (WFH is now normalised). 3 BHK with ≥1,050 sqft carpet is the sweet spot.',
+    target: '3 BHK, ≥1,050 sqft carpet, ≤32% loading',
     tone: 'success' as const,
-    forInvestment5yr: 'Excellent for investment. Most transactions, lowest maintenance per unit, strong amenity base holds value. But less "exclusive" — unit looks like hundreds of others on the market at exit. No scarcity premium.',
-    forSelfUse: 'Good — full amenity access. Can feel impersonal. RWA management complexity scales with size.',
   },
   {
-    id: 'mega',
+    attribute: 'Khata & title clarity',
+    for5yr: 'At resale in 2030, A-Khata and clear title are non-negotiable for your buyer to get a loan. B-Khata property will not get standard bank financing. Title defects destroy exit options.',
+    target: 'A-Khata (BBMP) or BDA-approved only',
+    tone: 'warning' as const,
+  },
+];
+
+// ── Density comparison ──────────────────────────────────────────────────────
+
+const DENSITY_TYPES = [
+  {
+    label: 'High density',
+    typical: 'G+25 to G+40 towers, 1,000+ units on ≤ 15 acres',
+    udsPer3bhk: '250–450 sqft',
+    amenities: 'Extensive (large project budget)',
+    resaleLiquidity: 'High (many transactions)',
+    appreciationProfile: 'Structure-heavy — more depreciation risk over time',
+    maintenanceCost: 'Low per flat',
+    forInvestor: 'Good short-term rental yield; weaker long-term land appreciation',
+    tone: 'warning' as const,
+  },
+  {
+    label: 'Medium density',
+    typical: 'G+10 to G+20, 300–700 units on 5–15 acres',
+    udsPer3bhk: '500–900 sqft',
+    amenities: 'Full (clubhouse, pool, gym)',
+    resaleLiquidity: 'Good (regular transactions)',
+    appreciationProfile: 'Balanced — good land + structure mix',
+    maintenanceCost: 'Moderate',
+    forInvestor: 'Best combination for a 5-yr hold — land appreciation + rental yield + exit liquidity',
+    tone: 'success' as const,
+  },
+  {
+    label: 'Low density (boutique)',
+    typical: 'G+5 to G+12, 100–250 units on 5–12 acres',
+    udsPer3bhk: '1,200–3,000 sqft',
+    amenities: 'Good but smaller scale',
+    resaleLiquidity: 'Moderate (fewer transactions)',
+    appreciationProfile: 'Land-heavy — best long-term appreciation per rupee',
+    maintenanceCost: 'Moderate-high per flat (fewer owners to share)',
+    forInvestor: 'Best UDS and long-term land appreciation; slightly harder 5-yr exit due to thin buyer pool',
+    tone: 'info' as const,
+  },
+  {
     label: 'Mega township',
-    unitRange: '3,000+ units / integrated',
-    example: 'Tata Carnatica (~5,000+ units across phases)',
-    resaleLiquidity: 7,
-    amenityDepth: 10,
-    communityFeel: 4,
-    maintenanceCost: 10,
-    priceDiscovery: 8,
-    appreciationPremium: 5,
-    totalScore: 44,
+    typical: '50–150+ acres, 3,000–10,000 units across phases',
+    udsPer3bhk: '700–1,500 sqft (varies by phase)',
+    amenities: 'Resort-grade (school, hospital, retail planned)',
+    resaleLiquidity: 'Moderate-high within township brand',
+    appreciationProfile: 'Land-rich at launch; supply from future phases can cap short-term price',
+    maintenanceCost: 'Lowest per flat (shared across 5,000+ units)',
+    forInvestor: 'Best for 10-yr hold when township amenities fully develop. For 5-yr hold, competing with newer phases at exit is the main risk.',
     tone: 'info' as const,
-    forInvestment5yr: 'Mixed. Amenity depth is best-in-class and maintenance cost per unit is lowest. But the sheer supply of identical units within the township suppresses price differentiation — you are competing with 5,000 sellers at exit.',
-    forSelfUse: 'Depends on personality — resort-like amenities but you can go weeks without meeting your neighbours. Best for families. Less social for a single adult.',
-  },
-];
-
-// ── Hold period analysis ────────────────────────────────────────────────────
-
-const HOLD = [
-  {
-    prop: 'Purva Zenium 2',
-    builder: 'Puravankara',
-    possession: 'Jun 2027',
-    possessionYrs: 2.2,
-    exitWindow: 'Jun 2030 (3 yr hold) or Jun 2032 (5 yr hold)',
-    rentMonths: 14,
-    rentCost: '~₹5.6L',
-    holdVerdict: 'Best for 5-yr strategy — earliest possession means 3 full years of rental income or self-use before a 2030 exit window. STRR and Metro 2B timeline aligns with your exit.',
-    tone: 'success' as const,
-  },
-  {
-    prop: 'Prestige Avon',
-    builder: 'Prestige',
-    possession: 'Dec 2028',
-    possessionYrs: 3.7,
-    exitWindow: 'Dec 2031 (3 yr hold) or Dec 2033 (5 yr hold)',
-    rentMonths: 32,
-    rentCost: '~₹12.8L',
-    holdVerdict: 'Moderate — long pre-possession rent burn. If held to Dec 2033, infra catalysts (STRR, Metro) are confirmed, which helps exit. But the price premium already bakes in some of that.',
-    tone: 'warning' as const,
-  },
-  {
-    prop: 'Sattva Lumina',
-    builder: 'Sattva',
-    possession: 'Nov 2029',
-    possessionYrs: 5.0,
-    exitWindow: 'Nov 2032 (3 yr) or Nov 2034 (5 yr)',
-    rentMonths: 43,
-    rentCost: '~₹17.2L',
-    holdVerdict: 'Weakest for 5-yr hold — possession coincides almost exactly with your 5-yr target, leaving almost no ownership window. Good only if you plan to hold 8–10 years total.',
-    tone: 'warning' as const,
-  },
-  {
-    prop: 'Brigade Eternia',
-    builder: 'Brigade',
-    possession: 'Mar 2030',
-    possessionYrs: 5.2,
-    exitWindow: 'Mar 2033 (3 yr) or Mar 2035 (5 yr)',
-    rentMonths: 47,
-    rentCost: '~₹18.8L',
-    holdVerdict: 'Similar to Sattva — possession lands at or past your 5-yr mark. Strong for long hold (8–10 yr) or self-use. BDA Yelahanka NT address has strong resale ceiling but you need time post-possession.',
-    tone: 'warning' as const,
-  },
-  {
-    prop: 'Tata Varnam',
-    builder: 'Tata Housing',
-    possession: 'Dec 2029',
-    possessionYrs: 4.7,
-    exitWindow: 'Dec 2032 (3 yr) or Dec 2034 (5 yr)',
-    rentMonths: 43,
-    rentCost: '~₹17.2L',
-    holdVerdict: 'Challenging for 5-yr exit. Almost all 5 years consumed in UC phase. Best viewed as a 10-yr hold for the Devanahalli Aerospace SEZ appreciation story. Not the right vehicle if exit in ~5 yr is important.',
-    tone: 'danger' as const,
-  },
-];
-
-// ── Area × type matrix ──────────────────────────────────────────────────────
-
-const MATRIX = [
-  {
-    area: 'Hosahalli · Airport Rd',
-    bestType: 'Mid-rise apartment, mid-size 400–600 units',
-    why: 'Emerging area — scarcity plays are premature. Mid-size township from a Grade A builder gives brand safety + enough transaction history at resale. Boutique risks being hard to price.',
-    exitBuyer: 'IT professional working near Manyata or airport belt; early-stage area buyer seeking entry price',
-    rating: 7,
-    tone: 'info' as const,
-  },
-  {
-    area: 'Thanisandra / Nagavara',
-    bestType: 'Mid-rise apartment, any scale (boutique to large)',
-    why: 'Established micro-market with deep transaction history. Any Grade A apartment type sells. Boutique gets exclusivity premium; large township gets liquidity. Both work.',
-    exitBuyer: 'Manyata/Embassy employee; family upgrading from 2 BHK rental; NRI investor',
-    rating: 9,
-    tone: 'success' as const,
-  },
-  {
-    area: 'Yelahanka / Rajanukunte',
-    bestType: 'Large township apartment (1,000+ units)',
-    why: 'Rajanukunte pocket is still developing socially — township self-sufficiency (3 clubhouses, in-campus retail) matters more here than in an established zone. Scale = lower unit maintenance and amenity depth.',
-    exitBuyer: 'Family with school-going children; WFH-primary professional seeking greenery + space',
-    rating: 7,
-    tone: 'info' as const,
-  },
-  {
-    area: 'Yelahanka NT (BDA)',
-    bestType: 'Mid-to-large apartment in BDA-layout address',
-    why: 'BDA-planned sector with established roads, water, and social infra. Scale adds liquidity. Boutique also works here because the location is established enough that scarcity premium is achievable.',
-    exitBuyer: 'Young family seeking best schools + parks; upgrade buyer from Yelahanka Old Town',
-    rating: 9,
-    tone: 'success' as const,
-  },
-  {
-    area: 'Devanahalli / Shettigere',
-    bestType: 'Integrated mega township ONLY (e.g. Tata Carnatica)',
-    why: 'Area is too emerging and infrastructure-thin for standalone apartments or boutique projects to hold value reliably. Only a mega township with its own water, retail, school, and hospital plan can de-risk the location.',
-    exitBuyer: 'Aerospace SEZ employee (2030+); airport adjacent buyer; long-hold investor',
-    rating: 5,
-    tone: 'warning' as const,
   },
 ];
 
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function PropertyTypeStrategy() {
-  const [tab, setTab] = useCanvasState<Tab>('stratTab', 'type');
+  const [tab, setTab]     = useCanvasState<Tab>('stratTab', 'uds');
   const [typeIdx, setTypeIdx] = useCanvasState<number>('typeIdx', 0);
-  const [scaleIdx, setScaleIdx] = useCanvasState<number>('scaleIdx', 1);
+  const [sba, setSba]     = useCanvasState<number>('udsSba', 1600);
 
-  const activeType  = TYPES[typeIdx as number]  ?? TYPES[0];
-  const activeScale = SCALES[scaleIdx as number] ?? SCALES[1];
+  const activeType = TYPES[typeIdx as number] ?? TYPES[0];
+
+  // Live UDS calc for user's SBA
+  const loadingScenarios = [
+    { label: 'Boutique 10ac/230u', plotAcres: 10, units: 230 },
+    { label: 'Mid-size 6ac/500u',  plotAcres:  6, units: 500 },
+    { label: 'Large 14ac/1100u',   plotAcres: 14, units: 1100 },
+    { label: 'Dense 12ac/1200u',   plotAcres: 12, units: 1200 },
+    { label: 'Mega 70ac/2500u',    plotAcres: 70, units: 2500 },
+  ];
 
   return (
     <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 1020 }}>
 
       {/* ── Header ── */}
       <Stack gap={4}>
-        <H1>Criterion 4 — Property Type & Strategy</H1>
+        <H1>Criterion 4 — Property Type & Hold Strategy</H1>
         <Text tone="secondary">
-          Given North BLR areas + ~5-year hold: what property type, community scale, and possession timeline gives the best entry and exit outcome?
+          For a ~5-year hold in North BLR: what property TYPE, community DENSITY, and UDS profile compound best? This is a characteristics framework — not a specific property selection.
         </Text>
       </Stack>
 
       {/* ── Summary answer ── */}
       <Grid columns={4} gap={14}>
-        <Stat value="Apartment"          label="Right property type"    tone="success" />
-        <Stat value="Mid-size (400–700)" label="Optimal community scale" tone="success" />
-        <Stat value="2027–2028"          label="Target possession"       tone="info" />
-        <Stat value="Purva / Prestige"   label="Best fit for 5-yr hold"  tone="success" />
+        <Stat value="Apartment"         label="Right type at ₹3 Cr"       tone="success" />
+        <Stat value="Medium density"    label="Optimal community density"  tone="success" />
+        <Stat value="≥ 600 sqft"        label="Target UDS per 3 BHK"       tone="info" />
+        <Stat value="≤ mid-2028"        label="Latest possession for 5-yr" tone="warning" />
       </Grid>
 
       <Divider />
 
       {/* ── Tab nav ── */}
       <Row gap={6} wrap>
-        <Pill active={tab === 'type'}   onClick={() => setTab('type')}>Property type</Pill>
-        <Pill active={tab === 'scale'}  onClick={() => setTab('scale')}>Community scale</Pill>
-        <Pill active={tab === 'hold'}   onClick={() => setTab('hold')}>5-year hold analysis</Pill>
-        <Pill active={tab === 'matrix'} onClick={() => setTab('matrix')}>Area × type matrix</Pill>
+        <Pill active={tab === 'uds'}     onClick={() => setTab('uds')}>UDS — land ownership</Pill>
+        <Pill active={tab === 'density'} onClick={() => setTab('density')}>Community density</Pill>
+        <Pill active={tab === 'hold'}    onClick={() => setTab('hold')}>5-yr hold checklist</Pill>
+        <Pill active={tab === 'type'}    onClick={() => setTab('type')}>Property type</Pill>
       </Row>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          TAB 1 — PROPERTY TYPE
+          TAB 1 — UDS
       ══════════════════════════════════════════════════════════════════════ */}
-      {tab === 'type' && (
+      {tab === 'uds' && (
         <Stack gap={20}>
 
-          <Stack gap={10}>
-            <H2>Type comparison at a glance</H2>
-            <Table
-              headers={['Type', 'Budget in North BLR', 'Resale liquidity', 'Appreciation', 'Rental yield', 'Buyer pool', 'Total']}
-              rows={TYPES.map(t => [
-                t.label,
-                t.budget,
-                `${t.liquidity5yr}/10`,
-                `${t.appreciation5yr}/10`,
-                `${t.rentalYield}/10`,
-                `${t.buyerPool}/10`,
-                `${t.overallScore}/50`,
-              ])}
-              rowTone={TYPES.map(t => t.tone)}
-              striped
-            />
-          </Stack>
-
-          <Stack gap={8}>
-            <H3>Score comparison</H3>
-            <BarChart
-              categories={TYPES.map(t => t.label.split('(')[0].trim())}
-              series={[
-                { name: 'Resale liquidity', data: TYPES.map(t => t.liquidity5yr) },
-                { name: 'Appreciation',     data: TYPES.map(t => t.appreciation5yr) },
-                { name: 'Rental yield',     data: TYPES.map(t => t.rentalYield) },
-                { name: 'Buyer pool',       data: TYPES.map(t => t.buyerPool) },
-              ]}
-              stacked={false}
-              height={240}
-            />
-          </Stack>
+          <Card>
+            <CardHeader trailing={<Pill tone="success" size="sm">Most overlooked factor</Pill>}>
+              What is UDS and why does it matter for a 5-year hold?
+            </CardHeader>
+            <CardBody>
+              <Stack gap={10}>
+                <Text size="small">
+                  When you buy an apartment, you own two things: <Text weight="semibold">(1) your flat (the structure)</Text> and <Text weight="semibold">(2) a proportionate share of the land the building stands on</Text>. That land share is your Undivided Share of Land — UDS.
+                </Text>
+                <Table
+                  headers={['What happens over 5 years', 'Impact on your asset']}
+                  rows={[
+                    ['Your flat (structure) depreciates',       '~1–2% per year — materials age, fittings become dated, building ages'],
+                    ['Your UDS (land) appreciates',             '8–15% per year in North BLR — land is finite; city expands toward your area'],
+                    ['Net effect on a high-UDS flat',           'Land appreciation outpaces structural depreciation → real value grows'],
+                    ['Net effect on a low-UDS flat',            'Structural depreciation is less offset by land → value growth is weaker relative to peers'],
+                    ['At resale, buyers value land component',  'Higher UDS = stronger floor price even if you\'re competing with newer inventory'],
+                  ]}
+                  rowTone={['warning', 'success', 'success', 'danger', 'success']}
+                  striped
+                />
+              </Stack>
+            </CardBody>
+          </Card>
 
           <Stack gap={10}>
-            <H2>Deep dive</H2>
-            <Row gap={6} wrap>
-              {TYPES.map((t, i) => (
-                <Pill key={t.id} active={typeIdx === i} onClick={() => setTypeIdx(i)} tone={t.tone}>
-                  {t.label.split('(')[0].trim()}
-                </Pill>
-              ))}
-            </Row>
-
+            <H2>UDS formula</H2>
             <Card>
-              <CardHeader trailing={<Pill tone={activeType.tone} size="sm">{activeType.budget}</Pill>}>
-                {activeType.label}
-              </CardHeader>
               <CardBody>
-                <Stack gap={12}>
-                  <Text size="small" weight="semibold" tone="secondary">{activeType.verdict}</Text>
-                  <Grid columns={2} gap={14}>
-                    <Stack gap={6}>
-                      <Text size="small" weight="semibold">Why it works</Text>
-                      {activeType.pros.map((p: string, i: number) => (
-                        <Row key={i} gap={6} style={{ alignItems: 'flex-start' }}>
-                          <Text size="small" tone="secondary" style={{ minWidth: 12 }}>+</Text>
-                          <Text size="small" tone="secondary">{p}</Text>
-                        </Row>
-                      ))}
-                    </Stack>
-                    <Stack gap={6}>
-                      <Text size="small" weight="semibold">Watch out for</Text>
-                      {activeType.cons.map((c: string, i: number) => (
-                        <Row key={i} gap={6} style={{ alignItems: 'flex-start' }}>
-                          <Text size="small" tone="secondary" style={{ minWidth: 12 }}>−</Text>
-                          <Text size="small" tone="secondary">{c}</Text>
-                        </Row>
-                      ))}
-                    </Stack>
-                  </Grid>
-                  <Card>
-                    <CardHeader trailing={<Pill size="sm">North BLR context</Pill>}>In your search</CardHeader>
-                    <CardBody><Text size="small" tone="secondary">{activeType.northBlrContext}</Text></CardBody>
-                  </Card>
+                <Stack gap={8}>
+                  <Text size="small" weight="semibold">
+                    UDS (sqft) = (Your flat carpet area ÷ Total carpet area of all flats in project) × Total plot area (sqft)
+                  </Text>
+                  <Text size="small" tone="secondary">
+                    Simplified: UDS ≈ Plot area per unit × (Your carpet / Average carpet)
+                  </Text>
+                  <Text size="small" tone="secondary">
+                    The two levers: <Text weight="semibold">more land per unit</Text> (fewer units on same plot) and <Text weight="semibold">larger flat</Text> (your carpet is a bigger share of total). Both increase your UDS.
+                  </Text>
                 </Stack>
               </CardBody>
             </Card>
           </Stack>
 
-        </Stack>
-      )}
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          TAB 2 — COMMUNITY SCALE
-      ══════════════════════════════════════════════════════════════════════ */}
-      {tab === 'scale' && (
-        <Stack gap={20}>
-
           <Stack gap={10}>
-            <H2>Scale comparison</H2>
+            <H2>UDS comparison across project types</H2>
+            <Text size="small" tone="secondary">
+              Same flat, very different land ownership depending on project density. This is what matters for long-term appreciation.
+            </Text>
             <Table
-              headers={['Scale', 'Units', 'Resale liquidity', 'Amenities', 'Community feel', 'Maint. cost', 'Price discovery', 'Total']}
-              rows={SCALES.map(s => [
-                s.label,
-                s.unitRange,
-                `${s.resaleLiquidity}/10`,
-                `${s.amenityDepth}/10`,
-                `${s.communityFeel}/10`,
-                `${s.maintenanceCost}/10`,
-                `${s.priceDiscovery}/10`,
-                `${s.totalScore}/60`,
+              headers={['Project type', 'Density', 'Plot area', 'Units', 'Your UDS (3 BHK ~1,200 sqft carpet)', 'Land value at ₹3,000/sqft UDS']}
+              rows={UDS_EXAMPLES.map(e => [
+                e.label,
+                e.densityType,
+                `${e.plotAcres} acres`,
+                `${e.units}`,
+                `${e.udsSqft.toLocaleString()} sqft`,
+                `₹${(e.udsSqft * 3000 / 100000).toFixed(1)}L`,
               ])}
-              rowTone={SCALES.map(s => s.tone)}
+              rowTone={UDS_EXAMPLES.map(e => e.tone)}
               striped
             />
             <Text size="small" tone="secondary">
-              Maintenance cost score: higher = better (lower per-unit cost). Mid-size and large townships share costs across enough owners to keep per-flat maintenance affordable.
+              Note: UDS land value is a notional figure to illustrate the scale of difference. Actual land value per sqft varies by area. The key takeaway: the boutique project and the mega campus both deliver high UDS — the large dense township on limited land is the weakest.
             </Text>
           </Stack>
 
           <Stack gap={8}>
-            <H3>Scale score breakdown</H3>
+            <H3>UDS comparison — bar chart</H3>
             <BarChart
-              categories={SCALES.map(s => s.label)}
-              series={[
-                { name: 'Resale liquidity',  data: SCALES.map(s => s.resaleLiquidity) },
-                { name: 'Community feel',    data: SCALES.map(s => s.communityFeel) },
-                { name: 'Price discovery',   data: SCALES.map(s => s.priceDiscovery) },
-                { name: 'Appreciation edge', data: SCALES.map(s => s.appreciationPremium) },
-              ]}
-              stacked={false}
-              height={220}
+              categories={UDS_EXAMPLES.map(e => e.label.split('—')[0].trim())}
+              series={[{ name: 'Your UDS (sqft)', data: UDS_EXAMPLES.map(e => e.udsSqft) }]}
+              height={200}
             />
           </Stack>
 
           <Stack gap={10}>
-            <H2>Scale deep dive</H2>
+            <H2>Your UDS calculator — select your SBA</H2>
+            <Text size="small" tone="secondary">
+              Carpet area ≈ SBA × (1 − loading%). Adjust SBA to see how your UDS changes across project densities.
+            </Text>
             <Row gap={6} wrap>
-              {SCALES.map((s, i) => (
-                <Pill key={s.id} active={scaleIdx === i} onClick={() => setScaleIdx(i)} tone={s.tone}>
-                  {s.label}
-                </Pill>
+              {[1400, 1500, 1600, 1700, 1800].map(s => (
+                <Pill key={s} active={sba === s} onClick={() => setSba(s)}>{s} sqft SBA</Pill>
               ))}
             </Row>
-
-            <Grid columns={3} gap={12}>
-              <Stat value={activeScale.unitRange} label="Unit range" />
-              <Stat value={activeScale.example.split('(')[0].trim()} label="Example" />
-              <Stat value={`${activeScale.totalScore}/60`} label="Total score"
-                tone={activeScale.totalScore >= 45 ? 'success' : undefined} />
-            </Grid>
-
-            <Grid columns={2} gap={14}>
-              <Card>
-                <CardHeader trailing={<Pill tone="info" size="sm">Investment</Pill>}>For 5-year hold</CardHeader>
-                <CardBody><Text size="small" tone="secondary">{activeScale.forInvestment5yr}</Text></CardBody>
-              </Card>
-              <Card>
-                <CardHeader trailing={<Pill tone="success" size="sm">Self-use</Pill>}>For daily living</CardHeader>
-                <CardBody><Text size="small" tone="secondary">{activeScale.forSelfUse}</Text></CardBody>
-              </Card>
-            </Grid>
+            <Table
+              headers={['Project type', 'Your carpet (28% loading)', 'UDS in this project', 'Notional land value (@₹3K/sqft)', 'Better than dense township by']}
+              rows={loadingScenarios.map(({ label, plotAcres, units }) => {
+                const carpet   = Math.round(sba * 0.72);
+                const avgCarp  = 1200;
+                const plotSqft = plotAcres * 43560;
+                const totalCarp = units * avgCarp;
+                const uds      = Math.round((carpet / totalCarp) * plotSqft);
+                const denseUds = Math.round((carpet / (1200 * 43560)) * 12 * 43560);   // 12ac/1200u baseline
+                const premium  = Math.round(((uds - denseUds) / denseUds) * 100);
+                return [
+                  label,
+                  `${carpet} sqft`,
+                  `${uds.toLocaleString()} sqft`,
+                  `₹${(uds * 3000 / 100000).toFixed(1)}L`,
+                  premium > 0 ? `+${premium}%` : `${premium}%`,
+                ];
+              })}
+              rowTone={loadingScenarios.map(({ plotAcres, units }) => {
+                const sqftPerUnit = (plotAcres * 43560) / units;
+                return sqftPerUnit >= 700 ? 'success' : sqftPerUnit >= 450 ? 'info' : 'warning';
+              })}
+              striped
+            />
           </Stack>
 
           <Card>
-            <CardHeader trailing={<Pill tone="success" size="sm">Recommendation</Pill>}>
-              The sweet spot for your profile
+            <CardHeader trailing={<Pill tone="info" size="sm">Ask this on every visit</Pill>}>
+              The 3 UDS questions to ask any builder
             </CardHeader>
             <CardBody>
-              <Stack gap={8}>
-                <Text size="small">
-                  For a single WFH adult buying to hold ~5 years: <Text weight="semibold">mid-size (400–700 units)</Text> is the sweet spot.
-                </Text>
-                <Table
-                  headers={['Why mid-size wins', 'Detail']}
-                  rows={[
-                    ['Resale liquidity',    'Enough transactions quarterly for solid price discovery — you won\'t wait 12+ months to find a buyer'],
-                    ['Amenity access',      'Full clubhouse, gym, pool — not boutique-sparse, not mega-impersonal'],
-                    ['Maintenance costs',   'Split across 400+ flats = ₹4,000–8,000/month typically; affordable even if you rent it out'],
-                    ['Community feel',      'You actually recognise your neighbours — matters for a single adult\'s safety and social life'],
-                    ['Market positioning',  'Easier to argue for a premium at exit: "not one of 2,000 identical units but a quality boutique-ish project"'],
-                    ['Builder selection',   'Most Grade A builders (Puravankara Phase 2, Brigade mid-range) hit this scale — not a constraint'],
-                  ]}
-                  striped
-                />
+              <Stack gap={5}>
+                {[
+                  ['What is the total plot area (in acres)?', 'This tells you the land pool being divided'],
+                  ['What is the RERA-registered carpet area for my unit?', 'Your numerator in the UDS formula; use this, not SBA'],
+                  ['What is the total RERA carpet area across all units in the project?', 'This is the denominator; dividing land by this gives UDS per sqft of carpet'],
+                ].map(([q, why]) => (
+                  <Row key={q} gap={8} style={{ alignItems: 'flex-start' }}>
+                    <Text size="small" weight="semibold" style={{ minWidth: 6 }}>Q:</Text>
+                    <Stack gap={2}>
+                      <Text size="small">{q}</Text>
+                      <Text size="small" tone="secondary">{why}</Text>
+                    </Stack>
+                  </Row>
+                ))}
               </Stack>
             </CardBody>
           </Card>
@@ -530,49 +383,49 @@ export default function PropertyTypeStrategy() {
       )}
 
       {/* ══════════════════════════════════════════════════════════════════════
-          TAB 3 — 5-YEAR HOLD ANALYSIS
+          TAB 2 — COMMUNITY DENSITY
       ══════════════════════════════════════════════════════════════════════ */}
-      {tab === 'hold' && (
+      {tab === 'density' && (
         <Stack gap={20}>
 
-          <Stack gap={8}>
-            <H2>The possession timing problem</H2>
-            <Text size="small" tone="secondary">
-              A 5-year hold from today (~Apr 2025) means an exit window around 2030. The key insight: if a property hands over in Nov 2029, you have almost no ownership time before your exit target — you pay rent for 4+ years, then immediately need to sell. That is not a hold — it is a sequence of risks with no upside window.
-            </Text>
+          <Stack gap={10}>
+            <H2>Density types — what they mean for a 5-yr hold</H2>
+            <Table
+              headers={['Density', 'Typical profile', 'UDS per 3 BHK', 'Amenities', '5-yr resale', 'Appreciation']}
+              rows={DENSITY_TYPES.map(d => [
+                d.label,
+                d.typical,
+                d.udsPer3bhk,
+                d.amenities,
+                d.resaleLiquidity,
+                d.appreciationProfile,
+              ])}
+              rowTone={DENSITY_TYPES.map(d => d.tone)}
+              striped
+            />
           </Stack>
 
-          <Table
-            headers={['Property', 'Possession', 'Rent burn period', 'Rent cost (₹40K/mo)', 'Ownership before 2030 exit', 'Hold verdict']}
-            rows={HOLD.map(h => [
-              h.prop,
-              h.possession,
-              `${h.rentMonths} months`,
-              h.rentCost,
-              h.possessionYrs <= 2.5
-                ? `~3 years of ownership`
-                : h.possessionYrs <= 4.0
-                  ? `~1–2 years of ownership`
-                  : `~0–1 year of ownership`,
-              h.possessionYrs <= 2.5 ? 'Best for 5-yr hold' : h.possessionYrs <= 4.0 ? 'Tight' : 'Poor for 5-yr exit',
-            ])}
-            rowTone={HOLD.map(h => h.tone)}
-            striped
-          />
-
-          <Stack gap={10}>
-            {HOLD.map(h => (
-              <Card key={h.prop}>
-                <CardHeader trailing={<Pill tone={h.tone} size="sm">{h.possession}</Pill>}>
-                  {h.prop} — {h.builder}
+          <Stack gap={14}>
+            {DENSITY_TYPES.map(d => (
+              <Card key={d.label}>
+                <CardHeader trailing={<Pill tone={d.tone} size="sm">{d.udsPer3bhk} UDS</Pill>}>
+                  {d.label} — {d.typical}
                 </CardHeader>
                 <CardBody>
                   <Stack gap={6}>
-                    <Text size="small" tone="secondary">{h.holdVerdict}</Text>
-                    <Row gap={8}>
-                      <Text size="small" weight="semibold">Exit window:</Text>
-                      <Text size="small" tone="secondary">{h.exitWindow}</Text>
+                    <Row gap={8} wrap>
+                      <Text size="small" weight="semibold">Amenities:</Text>
+                      <Text size="small" tone="secondary">{d.amenities}</Text>
                     </Row>
+                    <Row gap={8} wrap>
+                      <Text size="small" weight="semibold">Maintenance:</Text>
+                      <Text size="small" tone="secondary">{d.maintenanceCost}</Text>
+                    </Row>
+                    <Row gap={8} wrap>
+                      <Text size="small" weight="semibold">Appreciation:</Text>
+                      <Text size="small" tone="secondary">{d.appreciationProfile}</Text>
+                    </Row>
+                    <Text size="small" tone="secondary" style={{ marginTop: 4 }}>{d.forInvestor}</Text>
                   </Stack>
                 </CardBody>
               </Card>
@@ -580,23 +433,23 @@ export default function PropertyTypeStrategy() {
           </Stack>
 
           <Card>
-            <CardHeader trailing={<Pill tone="info" size="sm">Key insight</Pill>}>
-              Possession date IS part of the investment thesis
+            <CardHeader trailing={<Pill tone="success" size="sm">For your profile</Pill>}>
+              The density trade-off for a single WFH adult, 5-yr hold
             </CardHeader>
             <CardBody>
               <Stack gap={8}>
                 <Text size="small">
-                  For a ~5-year hold, you need possession by <Text weight="semibold">mid-2027 to mid-2028 at the latest</Text> to have a meaningful ownership window before your exit target.
+                  The density decision is actually a trade-off between <Text weight="semibold">UDS / land per rupee</Text> (boutique wins) and <Text weight="semibold">resale liquidity and exit speed</Text> (medium-density wins). For a 5-year hold where you plan to sell, here is the resolution:
                 </Text>
                 <Table
-                  headers={['Scenario', 'Possession', 'Strategy']}
+                  headers={['Scenario', 'Best density choice', 'Why']}
                   rows={[
-                    ['Best case',    'Jun 2027 (Purva)',      'Possess → rent immediately → 3 years rental income → sell into 2030 infrastructure re-rating'],
-                    ['Acceptable',   'Dec 2028 (Prestige)',   'Possess → self-use or rent → 1.5–2 years before 2030 window — short but workable'],
-                    ['Risky',        'Nov–Dec 2029 (Sattva, Tata)', 'Possess → almost no time before 5-yr mark; forces either a quick sale or extending hold to 8+ years'],
-                    ['Problematic',  'Mar 2030 (Brigade)',    'Possession lands on the 5-yr mark — you start ownership just as you planned to exit'],
+                    ['Primary goal is self-use + exit flexibility', 'Medium density (400–700 units)', 'Full amenities for daily life; easy exit when you want to sell'],
+                    ['Primary goal is maximise land appreciation', 'Low density / boutique (150–300 units)', 'Highest UDS; land appreciation dominates; willing to wait a bit longer for the right buyer'],
+                    ['Buying in an emerging area (Hosahalli, Devanahalli)', 'Medium-large or mega township', 'Area is thin — self-sufficiency of township is critical; scale protects value when area social infra is absent'],
+                    ['Buying in established area (Thanisandra, Yelahanka NT)', 'Any density works', 'Area has enough social infra to compensate for low-density amenity gap; boutique premium is achievable'],
                   ]}
-                  rowTone={['success', 'info', 'warning', 'danger']}
+                  rowTone={['success', 'info', 'warning', 'success']}
                   striped
                 />
               </Stack>
@@ -607,50 +460,156 @@ export default function PropertyTypeStrategy() {
       )}
 
       {/* ══════════════════════════════════════════════════════════════════════
-          TAB 4 — AREA × TYPE MATRIX
+          TAB 3 — 5-YR HOLD CHECKLIST
       ══════════════════════════════════════════════════════════════════════ */}
-      {tab === 'matrix' && (
+      {tab === 'hold' && (
         <Stack gap={20}>
 
           <Stack gap={8}>
-            <H2>What type works best, by area</H2>
+            <H2>Characteristics that compound best over 5 years</H2>
             <Text size="small" tone="secondary">
-              The right property type is not the same across all North BLR locations. An emerging area like Devanahalli needs a different product to preserve value vs an established zone like Thanisandra.
+              These are the property-level attributes to check when evaluating ANY project in North BLR — not specific to the current shortlist. Apply this as a filter to every property you consider.
             </Text>
           </Stack>
 
           <Table
-            headers={['Area', 'Best type & scale', 'Why', 'Exit buyer profile', 'Rating']}
-            rows={MATRIX.map(m => [m.area, m.bestType, m.why, m.exitBuyer, `${m.rating}/10`])}
-            rowTone={MATRIX.map(m => m.tone)}
+            headers={['Attribute', 'Why it matters for 5-yr hold', 'Target for your search']}
+            rows={HOLD_CHARS.map(h => [h.attribute, h.for5yr, h.target])}
+            rowTone={HOLD_CHARS.map(h => h.tone)}
             striped
           />
 
           <Divider />
 
           <Stack gap={10}>
-            <H2>Synthesis — optimal combination for ~5-year hold</H2>
+            <H2>The land vs structure split — a 5-year model</H2>
             <Card>
-              <CardHeader trailing={<Pill tone="success" size="sm">Decision</Pill>}>
-                Type + scale + area + possession = the full picture
-              </CardHeader>
               <CardBody>
-                <Table
-                  headers={['Dimension', 'Best choice', 'Reasoning']}
-                  rows={[
-                    ['Property type',    'Apartment in Grade A gated community',          'Only viable type at ₹3 Cr in North BLR; deepest buyer pool at exit; rental income during hold'],
-                    ['Community scale',  'Mid-size 400–700 units (or large 800–1,200)',    'Mid-size balances liquidity, community, and amenity; large township if area is still emerging'],
-                    ['Area priority',    'Thanisandra or Yelahanka NT',                    'Deepest resale markets; established IT demand; 5-yr exit buyers are plentiful'],
-                    ['Area secondary',   'Hosahalli (Purva Zenium 2)',                     'Earliest possession = more ownership time = more practical for 5-yr hold despite thinner resale pool'],
-                    ['Avoid for 5-yr',  'Devanahalli for a 5-yr exit',                    'Possession 2029 + thin social infra + unconfirmed Aerospace SEZ = needs 10-yr hold to play out'],
-                    ['Possession target','Jun 2027 – Dec 2028',                            'Any possession after mid-2029 squeezes your ownership window into near-zero for a 5-yr exit'],
-                    ['Exit buyer',       'IT professional or family in 28–38 age band',    'Most abundant buyer type in North BLR in 2030; size your flat to their needs (3 BHK, WFH room)'],
-                  ]}
-                  rowTone={['success', 'success', 'success', 'info', 'danger', 'success', 'info']}
-                  striped
-                />
+                <Stack gap={10}>
+                  <Text size="small">
+                    When you buy an apartment at ₹2 Cr, roughly <Text weight="semibold">40–55% of the value is land (UDS)</Text> and 45–60% is structure, depending on project density. Over 5 years:
+                  </Text>
+                  <Table
+                    headers={['Component', 'Value at entry', '5-yr change', 'Value at exit (est.)']}
+                    rows={[
+                      ['Land (high UDS: 800 sqft @ ₹2K/sqft)', '₹160L', '+50% (8–10% p.a.)', '₹240L'],
+                      ['Land (low UDS: 300 sqft @ ₹2K/sqft)',  '₹60L',  '+50% (8–10% p.a.)', '₹90L'],
+                      ['Structure (both cases)',                 '₹140L', '−10% (depreciation)', '₹126L'],
+                      ['Total exit — high UDS flat',            '₹300L', '+22%',                '₹366L'],
+                      ['Total exit — low UDS flat',             '₹200L', '+8%',                 '₹216L'],
+                    ]}
+                    rowTone={['success', 'warning', undefined, 'success', 'danger']}
+                    striped
+                  />
+                  <Text size="small" tone="secondary">
+                    Illustrative model assuming same total entry price. The same rupee invested in a high-UDS apartment delivers ~22% total return vs ~8% for a low-UDS apartment in a dense project — purely from the land ownership differential.
+                  </Text>
+                </Stack>
               </CardBody>
             </Card>
+          </Stack>
+
+          <Divider />
+
+          <Stack gap={10}>
+            <H2>Possession timing and the 5-year exit window</H2>
+            <Text size="small" tone="secondary">
+              A 5-year hold from today (~Apr 2025) targets a ~2030 exit. Here is how the UC possession date interacts with that exit thesis — applies to any property you evaluate, not just the current shortlist.
+            </Text>
+            <Table
+              headers={['Possession date', 'Time to exit (2030)', 'Rental income window', 'Recommendation']}
+              rows={[
+                ['2025–2026',   '4–5 years of ownership', '4–5 years (₹30–50K/mo)',    'Ideal — full rental income run; asset value grows from day 1'],
+                ['2027',        '3 years of ownership',   '3 years (₹35–55K/mo)',       'Good — still meaningful rental window; sufficient time for area re-rating'],
+                ['2028',        '2 years of ownership',   '2 years',                    'Acceptable — tight but workable if price is right and area has catalysts'],
+                ['2029',        '~1 year of ownership',   '1 year only',                'Risky — very small ownership window; forces a 2031–32 exit or you sell into a 2029 market'],
+                ['2030+',       'Possession = exit target', 'None before your exit',    'Wrong vehicle for 5-yr exit strategy — possession coincides with target exit'],
+              ]}
+              rowTone={['success', 'success', 'info', 'warning', 'danger']}
+              striped
+            />
+          </Stack>
+
+        </Stack>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          TAB 4 — PROPERTY TYPE
+      ══════════════════════════════════════════════════════════════════════ */}
+      {tab === 'type' && (
+        <Stack gap={20}>
+
+          <Stack gap={10}>
+            <H2>Property type comparison</H2>
+            <Table
+              headers={['Type', 'Budget in North BLR', 'UDS profile', 'Resale /10', 'Appreciation /10', 'Rental /10', 'Buyer pool /10', 'Total /50']}
+              rows={TYPES.map(t => [
+                t.label.split('—')[0].trim(),
+                t.budget,
+                t.udsProfile.length > 60 ? t.udsProfile.slice(0, 57) + '…' : t.udsProfile,
+                `${t.liquidityScore}`,
+                `${t.appreciationScore}`,
+                `${t.rentalScore}`,
+                `${t.buyerPoolScore}`,
+                `${t.total}`,
+              ])}
+              rowTone={TYPES.map(t => t.tone)}
+              striped
+            />
+          </Stack>
+
+          <Stack gap={10}>
+            <H2>Type deep dive</H2>
+            <Row gap={6} wrap>
+              {TYPES.map((t, i) => (
+                <Pill key={t.id} active={typeIdx === i} onClick={() => setTypeIdx(i)} tone={t.tone}>
+                  {t.label.split('—')[0].trim()}
+                </Pill>
+              ))}
+            </Row>
+
+            <Grid columns={2} gap={14}>
+              <Card>
+                <CardHeader trailing={<Pill tone={activeType.tone} size="sm">{activeType.budget}</Pill>}>
+                  {activeType.label}
+                </CardHeader>
+                <CardBody>
+                  <Stack gap={6}>
+                    <Row gap={8} wrap>
+                      <Text size="small" weight="semibold">UDS profile:</Text>
+                      <Text size="small" tone="secondary">{activeType.udsProfile}</Text>
+                    </Row>
+                    <Row gap={8} wrap>
+                      <Text size="small" weight="semibold">Land appreciation:</Text>
+                      <Text size="small" tone="secondary">{activeType.landAppreciation}</Text>
+                    </Row>
+                  </Stack>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader trailing={<Pill tone="info" size="sm">5-yr hold advice</Pill>}>
+                  Hold strategy
+                </CardHeader>
+                <CardBody>
+                  <Text size="small" tone="secondary">{activeType.holdAdvice}</Text>
+                </CardBody>
+              </Card>
+            </Grid>
+          </Stack>
+
+          <Stack gap={8}>
+            <H3>Scores comparison</H3>
+            <BarChart
+              categories={TYPES.map(t => t.label.split('—')[0].trim())}
+              series={[
+                { name: 'Resale liquidity', data: TYPES.map(t => t.liquidityScore) },
+                { name: 'Appreciation',     data: TYPES.map(t => t.appreciationScore) },
+                { name: 'Rental yield',     data: TYPES.map(t => t.rentalScore) },
+                { name: 'Buyer pool',       data: TYPES.map(t => t.buyerPoolScore) },
+              ]}
+              stacked={false}
+              height={220}
+            />
           </Stack>
 
         </Stack>
