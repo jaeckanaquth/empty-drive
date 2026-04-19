@@ -1,40 +1,82 @@
 ---
-description: Always keep every Cursor canvas up to date whenever any source data changes
+description: Keep Cursor canvases and static HTML in sync with property and analysis data
 alwaysApply: true
 ---
 
-# Canvases are the primary reference — always keep them current
+# Canvases are the primary reference
 
-The user navigates to canvases to see all analysis. **Every time any data changes, the relevant canvas(es) must be updated in the same response before committing.** Never leave a canvas showing stale data.
+The user reads **canvases first**. Whenever facts change, update every surface that shows those facts **in the same response**, then **one commit** that includes both data files and canvases.
 
-## Canvas inventory and what each one covers
+## Authoritative inputs (touch these → sync downstream)
 
-| Canvas file | What it covers | Update trigger |
+| Source | Role |
+|---|---|
+| `index.html` | PWA: `PROPERTIES`, visits, watch list, floor plans |
+| `analysis.html` | Static multi-page export of the same narrative (shortlist, areas, builders, legal, etc.) |
+
+**Rule:** If you edit **`index.html`** or **`analysis.html`** for shortlist, price, possession, RERA, commute, areas, or builders — update the canvases in the table below in the **same turn**, then commit **HTML + canvases together**.
+
+**Repo path for canvases:** `canvases/*.canvas.tsx` (under `c:\Users\jaeck\Github\drive-empty\`).
+
+---
+
+## Canvas map (what to update when)
+
+### Mirrors shortlist / visits / areas / money
+
+| File | Covers | When to update |
 |---|---|---|
-| `blr-property-shortlist.canvas.tsx` | 5-property shortlist, guardrail scores, ranked summary | Any property added/removed, price change, possession date change |
-| `blr-visit-guide.canvas.tsx` | Day-by-day visit itinerary, RERA, contact, drive times | Property list change, RERA update, address/contact change |
-| `blr-builder-reputation.canvas.tsx` | Grade A builder scores, shortlist picks per builder | Builder added/removed, shortlist property changes |
-| `blr-areas.canvas.tsx` | Area deep dive — livability, connectivity, social infra, pockets, water, single-adult & family suitability | Any area or property shortlist change |
-| `blr-investment.canvas.tsx` | Criterion 3 — CAGR, entry PSF, rental yield, catalysts, total return model | Price, possession, area, or market data changes |
-| `blr-deep-eval.canvas.tsx` | 10-point evaluation matrix for all 5 properties | Any property data change, new criterion evaluated |
-| `blr-amenities.canvas.tsx` | Criterion 6 — amenities per property (clubhouse, gym, pool, EV, etc.) | Property specs change |
-| `blr-legal-documentation.canvas.tsx` | Criterion 5 — title, khata, RERA, OC/CC, land conversion | Legal status or RERA update |
-| `blr-safety-lifestyle.canvas.tsx` | Criterion 9 — flooding, nala, HT lines, builder litigation | Risk data or area changes |
-| `blr-property-type-config.canvas.tsx` | Criterion 4 — configurations, carpet area, loading factor, floor/facing | Property specs change |
-| `blr-society-maintenance.canvas.tsx` | Maintenance charges, sinking fund, committee structure | Any maintenance data |
-| `blr-budget-financial-planning.canvas.tsx` | All-in cost, EMI, CLP, opportunity cost model | Price, possession, rate changes |
-| `blr-your-budget-profile.canvas.tsx` | Personal budget inputs, loan eligibility, monthly cashflow | Budget changes |
-| `blr-purchase-strategy.canvas.tsx` | Negotiation levers, timing, booking process, CLP milestones | Strategy or market data changes |
-| `blr-property-criteria.canvas.tsx` | The 10-point evaluation framework reference | Framework changes |
-| `blr-full-evaluation.canvas.tsx` | Full evaluation summary across all criteria | Any criterion evaluation update |
+| `blr-property-shortlist.canvas.tsx` | Ranked 5 properties, scores, guardrails | Any add/remove/price/possession/RERA/commute |
+| `blr-visit-guide.canvas.tsx` | Itinerary, contacts, drive times | Same as shortlist + visit logistics |
+| `blr-areas.canvas.tsx` | Livability, connectivity, social infra, pockets, suitability | Area facts, shortlist geography, new corridors |
+| `blr-investment.canvas.tsx` | Criterion 3 — CAGR, PSF, yield, catalysts, return framing | Price, possession, area thesis, infra assumptions |
+| `blr-budget-financial-planning.canvas.tsx` | All-in, EMI, CLP, opportunity cost | Price, rate, timeline, budget ceiling |
+| `blr-your-budget-profile.canvas.tsx` | Personal budget / eligibility | User budget inputs or ceiling policy |
+| `blr-purchase-strategy.canvas.tsx` | Booking, negotiation, CLP | Strategy or shortlist-driven timing |
 
-## Rules
+### Builder + evaluation spine
 
-1. **Never update `index.html` without also updating the relevant canvases in the same response.**
-2. **Never evaluate a criterion without updating `blr-deep-eval.canvas.tsx` with the findings.**
-3. When a property is added or removed, update: shortlist + visit-guide + builder-reputation + areas + deep-eval + investment.
-4. When a price, possession date, or RERA number changes, update: shortlist + visit-guide + investment + budget-financial-planning.
-5. After any area discussion, refresh `blr-areas.canvas.tsx` with new findings.
-6. Canvas files live at: `c:\Users\jaeck\Github\drive-empty\canvases\`
-7. Always commit canvas files together with the data files that triggered the change.
-8. If uncertain which canvases need updating, err on the side of updating more rather than fewer.
+| File | Covers | When to update |
+|---|---|---|
+| `blr-builder-reputation.canvas.tsx` | **Citywide** BLR builders (tier, scores, corridors), North shortlist callouts | New builder on radar, tier/score edits, **any** shortlist builder row change |
+| `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property | **Any** property fact change **or** finishing a criterion write-up |
+| `blr-full-evaluation.canvas.tsx` | Cross-criterion summary | Whenever deep-eval or a criterion canvas materially changes |
+| `blr-property-criteria.canvas.tsx` | Framework definitions | Only if the 10-point framework text changes |
+
+### Criterion deep dives (keep aligned with `blr-deep-eval`)
+
+| File | Criterion | When to update |
+|---|---|---|
+| `blr-property-type-config.canvas.tsx` | **4** — type, density, **UDS**, 5-yr hold strategy (not floor-by-floor picks) | Strategy thesis change; hold/UDS narrative |
+| `blr-legal-documentation.canvas.tsx` | **5** — UC booking vs handover, BBA, KRERA, Khata/OC path | Legal process, RERA, UC vs RTM wording |
+| `blr-amenities.canvas.tsx` | **6** — project amenities | Specs / brochure amenities change |
+| `blr-safety-lifestyle.canvas.tsx` | **9** — risk, environment | Risk or area hazard data |
+| `blr-society-maintenance.canvas.tsx` | Maintenance / sinking fund | Society fee or structure data |
+
+---
+
+## Minimal change checklist (copy mentally)
+
+**Property added/removed or renamed**  
+→ shortlist · visit-guide · areas · investment · budget-financial · **builder-reputation** (north row) · **deep-eval** · full-evaluation (if present) · amenities/safety if that property had rows
+
+**Price, all-in, possession, RERA, commute, address**  
+→ shortlist · visit-guide · investment · budget-financial · **deep-eval** (all affected cells) · builder canvas only if narrative mentions that project
+
+**Area / corridor thesis (e.g. STRR, new micro-market)**  
+→ areas · investment · property-type-config (if hold/UDS story) · deep-eval area/connectivity/investment cells
+
+**Builder landscape (new Tier 1/2, score edits, citywide note)**  
+→ **builder-reputation** only (unless shortlist assigns a new builder — then also shortlist + deep-eval)
+
+**Finishing a criterion write-up**  
+→ the criterion canvas **and** matching cells in **deep-eval** (same response)
+
+---
+
+## Hard rules
+
+1. **Never commit HTML shortlist changes without canvas updates** in the same commit (unless the change is purely CSS/typos with zero factual delta).
+2. **Never** mark a criterion “done” in chat without updating **`blr-deep-eval.canvas.tsx`** for that criterion.
+3. If unsure which canvases apply, **update more** rather than skip — stale canvases waste the user’s time.
+4. **`analysis.html`** and **`index.html`** must not diverge on the same facts; if both exist, patch **both** or explicitly leave one unchanged with a one-line reason in the commit body.
