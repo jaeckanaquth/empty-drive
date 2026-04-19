@@ -77,13 +77,14 @@ const PROPS: PropData[] = [
       },
       connectivity: {
         verdict: 'pass', score: 7,
-        headline: 'Strong road + airport access; Metro benefit is indirect (~4 km to Phase 2B)',
+        headline: 'NH44 elevated + best airport access; no Metro near-term; STRR is the swing factor',
         bullets: [
-          'NH44 / Airport Road elevated corridor: reduces Manyata commute variance vs inner-city routes',
+          'NH44 / Airport Road elevated corridor: signal-free stretch reduces Manyata commute variance',
           'Manyata Tech Park: 14 km / ~24 min off-peak; 30–40 min at morning peak',
-          'Kempegowda Airport (KIA): 20–25 min — best practical airport reach on the list',
-          'Metro Phase 2B: nearest future station ~4 km away; no walkable Metro access near-term',
-          'BMTC: sparse — own vehicle essential; car-dependent lifestyle',
+          'Kempegowda Airport KIA: 20–25 min — second-best airport access on the list',
+          'Metro Phase 2B Airport line: confirmed long-term (2030–32); no walkable Metro near-term',
+          'STRR Phase 1 (~2027): outer orbital alignment passes through Hosahalli belt — swing catalyst',
+          'BMTC: sparse — own vehicle essential; car-dependent daily lifestyle',
         ],
       },
       investment: {
@@ -188,13 +189,14 @@ const PROPS: PropData[] = [
       },
       connectivity: {
         verdict: 'pass', score: 8,
-        headline: 'Best connectivity on list — Metro + ORR + Manyata all converge',
+        headline: 'Best connectivity today — Metro Phase 2B Nagavara + ORR + closest Manyata run',
         bullets: [
-          'Phase 2B Nagavara Metro: nearest near-term catalyst in North BLR; not yet in launch price',
-          'Thanisandra Main Rd → ORR → Hebbal flyover: multiple exit routes reduces peak variance',
-          'Manyata: 10 km; 18–22 min off-peak, 30–45 min peak — best Manyata commute on list',
-          'BMTC coverage: multiple routes via Nagavara–Hebbal — better public transport than suburbs',
-          'Airport: 35–40 min — manageable but furthest from KIA on the list',
+          'Metro Phase 2B Nagavara station (~2–3 km, est. 2026–27): strongest near-term catalyst in North BLR',
+          'Yellow Line (Nagavara → Silk Board): connects Thanisandra directly to south BLR IT parks without CBD',
+          'Thanisandra Main Rd → ORR → Hebbal flyover: multiple alternate exit routes reduce peak variance',
+          'Manyata: 10 km; 18–22 min off-peak, 30–45 min peak — closest Manyata commute on the list',
+          'BMTC: multiple routes via Nagavara–Hebbal; best public transport among all shortlist areas',
+          'Airport: 35–45 min — longest KIA run on the list; inconvenient for weekly flyers',
         ],
       },
       investment: {
@@ -303,13 +305,14 @@ const PROPS: PropData[] = [
       },
       connectivity: {
         verdict: 'pass', score: 7,
-        headline: 'Good SH-9 / NH44 access; Metro is long-term only; car-dependent',
+        headline: 'SH-9 → NH44 access + good airport reach; no Metro; STRR is the big upgrade',
         bullets: [
-          'SH-9 → NH44 / Airport Road: reasonable signal-free access to Manyata corridor',
+          'SH-9 → NH44 / Airport Road: connects to signal-free corridor but SH-9 single-lane sections exist',
           'Manyata Tech Park: ~11 km / 25 min off-peak; 35–45 min at morning peak',
-          'Airport KIA: 20–25 min — good for frequent flyers',
-          'Metro Phase 2B: indirect; nearest future station ~5+ km; no walkable access planned',
-          'BMTC: sparse on SH-9 corridor; own vehicle essential for daily commuting',
+          'Airport KIA: 20–28 min — good for regular flyers (second tier after Yelahanka NT and Hosahalli)',
+          'STRR Phase 1 (~2027): SH-9 / Doddaballapura Road is on STRR alignment — biggest connectivity upgrade',
+          'Metro Phase 2B Airport line (2030–32): Yelahanka corridor in alignment; no near-term walkable station',
+          'BMTC: sparse on SH-9; Yelahanka town (2–3 km away) has better coverage',
         ],
       },
       investment: {
@@ -417,13 +420,14 @@ const PROPS: PropData[] = [
       },
       connectivity: {
         verdict: 'pass', score: 7,
-        headline: 'NH44 direct, good Manyata reach; Metro remains long-term only',
+        headline: 'NH44 + BMTC depot + STRR interchange; best suburban connectivity package',
         bullets: [
-          'NH44 (Airport Road) access directly from Yelahanka NT — reduces peak-hour variance',
-          'Manyata: ~15 km / 18–22 min off-peak; 30–40 min morning peak (NH44 advantage)',
-          'Airport KIA: 20–25 min via Airport Road',
-          'Yelahanka has BMTC depot — better public transport vs most suburban locations on the list',
-          'Metro: Phase 2B long-term; no walkable station within 2 km planned near-term',
+          'NH44 direct from Yelahanka NT: signal-free elevated stretch reduces Manyata peak variance',
+          'Manyata: ~15 km / 18–22 min off-peak; 25–38 min morning peak (NH44 advantage)',
+          'Airport KIA: 20–25 min — tied second-best airport reach on the list',
+          'BMTC depot in Yelahanka: only suburban shortlist location with meaningful public bus coverage',
+          'STRR Phase 1 (~2027): Yelahanka NT becomes STRR interchange suburb — biggest orbital boost',
+          'Metro Phase 2B Airport line (2030–32): NH44 Yelahanka corridor in future alignment zone',
         ],
       },
       investment: {
@@ -531,13 +535,14 @@ const PROPS: PropData[] = [
       },
       connectivity: {
         verdict: 'warn', score: 6,
-        headline: 'Best airport access (10–15 min); longest daily Manyata commute; no Metro',
+        headline: 'Best airport access on list (10–15 min); 60–80 min Manyata commute; STRR is lifeline',
         bullets: [
-          'Airport KIA: 10–15 min via Devanahalli/Airport Expressway — best on list for frequent flyers',
-          'Manyata Tech Park: ~25–35 min depending on traffic; Airport Expressway helps but adds total distance',
-          'No Metro planned near-term; completely car-dependent lifestyle',
-          'BMTC: very limited; own vehicle essential for all daily movement',
-          'STRR (Satellite Town Ring Road): when complete, will dramatically improve Manyata corridor access',
+          'Airport KIA: 10–15 min via Airport Expressway — best on the entire list by a wide margin',
+          'Manyata Tech Park: ~35–48 min off-peak; 60–80 min peak — do this drive on a Tuesday before deciding',
+          'STRR Phase 1 (~2027): biggest single catalyst for Devanahalli connectivity; cuts Manyata run significantly',
+          'No Metro near-term; Airport Metro extension is Phase 3 / 2032+ planning stage only',
+          'BMTC: essentially none; fully car-dependent — second vehicle likely needed for household',
+          'NH44 / Airport Expressway: well-maintained road; KIADB internal roads within zone are good quality',
         ],
       },
       investment: {
