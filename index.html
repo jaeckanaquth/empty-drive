@@ -528,64 +528,67 @@ const PROPERTIES = [
 ];
 
 const QUESTIONS = [
-  { target: 'seller', q: 'Can you share the original Occupancy Certificate (OC)?', why: 'Without OC the building is technically illegal. Banks won\'t give loans on B-Khata/no-OC properties.', flag: '"CC only, no OC" — or "OC is in process" — or any hesitation to produce the document.' },
-  { target: 'seller', q: 'Is the Khata an A-Khata or B-Khata? Can you show the BBMP Khata certificate?', why: 'B-Khata = legal issues. Can\'t get home loan from most banks. Difficult to resell.', flag: 'B-Khata, or "in conversion process", or they can\'t produce it.' },
-  { target: 'seller', q: 'Can I see the Encumbrance Certificate (EC) for the past 15 years?', why: 'Shows all transactions — mortgages, loans, disputes. Anything outstanding becomes your problem.', flag: 'Any existing mortgage not disclosed, or gaps in EC history.' },
-  { target: 'seller', q: 'Is the property free of any bank loan? If mortgaged — do you have NOC from the bank?', why: 'Many resale properties have existing home loans. You need bank NOC before registration.', flag: 'Existing mortgage without NOC from lender bank.' },
-  { target: 'seller', q: 'What is the carpet area vs the SBA? What is the loading factor exactly?', why: 'Loading factor 20–25% is normal. Above 30% = paying for too much common-area space.', flag: 'Loading factor above 30%, or seller refuses to state carpet area explicitly.' },
-  { target: 'seller', q: 'Why are you selling? How long have you lived here?', why: 'Reason for selling reveals hidden issues — maintenance problems, neighbour disputes, society conflicts.', flag: 'Vague answer, multiple owners in quick succession (check EC), or "maintenance charges too high".' },
-  { target: 'seller', q: 'What is the car parking allotment for this unit? Is it in the sale deed?', why: 'Covered dedicated parking must be in your name in the sale deed. Verbal promises are worthless.', flag: 'Parking is "first come first served", or not in sale deed.' },
-  { target: 'rwa', q: 'What are the current monthly maintenance charges per sqft?', why: 'You\'ll pay this every month forever. Get the number in writing before making an offer.', flag: 'Vague answer, unwilling to disclose, or rate already ≥ ₹8/sqft.' },
-  { target: 'rwa', q: 'What is the current sinking fund balance? Can you share last year\'s audited accounts?', why: 'Depleted sinking fund = surprise special assessment bills after purchase.', flag: 'Refusal to share, or sinking fund below 3 months of total society collections.' },
-  { target: 'rwa', q: 'Have there been any special assessments (one-time collections) in the past 3 years?', why: 'History of special assessments = poorly managed finances. The pattern continues.', flag: 'More than one special assessment in 3 years.' },
-  { target: 'rwa', q: 'Are there any pending legal cases — against the builder or within the society?', why: 'Litigation can cloud the title and freeze RWA operations.', flag: 'Any active case, especially related to OC, land title, or builder disputes.' },
-  { target: 'rwa', q: 'Is DG power backup 100% — all points including AC — or only lights and fans?', why: 'You WFH 3 days/week. A 2-hour outage that kills AC and desktop is unacceptable.', flag: 'Partial backup only, or DG covers just common areas.' },
-  { target: 'rwa', q: 'Which ISPs are currently active in the building? Is fiber ducting pre-installed?', why: 'Getting a new ISP without existing ducting = weeks of delay and drilling.', flag: 'Only one ISP available, no fiber ducting, or builder-bundled ISP only.' },
-  { target: 'rwa', q: 'What is the water source? BWSSB piped, borewell, or tanker?', why: 'Tanker dependency = unreliable and costly. Must be BWSSB or borewell.', flag: 'Primary source is water tankers, or water available only 2 hours per day.' },
-  { target: 'rwa', q: 'What is the visitor / guest parking policy? Can parents stay for 2–3 weeks?', why: 'Your parents will visit. Guest parking must be available. Some societies are strict.', flag: 'No visitor parking, or guest stays require RWA permission beyond 7 days.' },
-  { target: 'resident', q: 'Have you ever had water problems — shortage, tankers, or gaps in supply?', why: 'Residents will tell you the truth the RWA won\'t.', flag: 'Regular shortages in summer, or tankers called in more than once a year.' },
-  { target: 'resident', q: 'How quickly does the RWA respond to maintenance complaints?', why: 'As a solo resident you depend on the RWA for repairs. Slow RWA = daily frustration.', flag: 'Complaints left unresolved for weeks, or no digital tracking system.' },
-  { target: 'resident', q: 'Is the building quiet on weekdays during working hours?', why: 'You WFH 3 days/week. Background noise on calls and concentration matters.', flag: 'Construction nearby for 2+ more years, generator noise, or heavy traffic vibration.' },
-  { target: 'resident', q: 'How do you handle deliveries when you\'re not home? Is there a parcel system?', why: 'You\'ll order frequently as a single WFH adult. Missing deliveries is a constant friction point.', flag: 'No delivery room, guards refuse parcels, no smart lockers.' },
-  { target: 'broker', q: 'What is the exact carpet area vs SBA? Can you share the RERA carpet area on record?', why: 'Brokers have access to project RERA filings with registered carpet areas — the legally binding number.', flag: 'Broker is evasive, carpet area not on RERA, or matches less than 65% of SBA.' },
+const QUESTIONS = [
+  { target: 'rera', q: 'Open rera.karnataka.gov.in — search the RERA number. What % completion is certified?', why: 'RERA-certified % is the legally verified progress. Builder claim vs RERA number must match.', flag: 'Large gap between builder claim and RERA %. Any open complaints or penalties visible.' },
+  { target: 'rera', q: 'On the RERA project page — are there any complaints, notices, or penalties filed?', why: 'Any active complaint signals buyer disputes, delays, or legal risk you inherit.', flag: 'Any open complaint or penalty order on the project.' },
+  { target: 'sales', q: 'Show me the physical RERA certificate. RERA number?', why: 'Every UC property must be RERA registered. "RERA pending" = illegal to sell.', flag: '"RERA is in process" or number doesn\'t match Karnataka portal.' },
+  { target: 'sales', q: 'What is the possession penalty clause if delivery is delayed beyond the RERA date?', why: 'RERA mandates compensation for delay. Many agreements bury weak penalty clauses.', flag: 'No penalty clause, or "we have never delayed" without written commitment.' },
+  { target: 'sales', q: 'Can I take a sample builder-buyer agreement today — before paying any booking amount?', why: 'The agreement is the only thing that legally protects you. Never pay without reading it first.', flag: '"We share only after booking." Any builder who says this — walk away.' },
+  { target: 'sales', q: 'Show me the construction-linked payment schedule — which milestone triggers which % payment?', why: 'Construction-linked = pay as floors are built. Time-linked = pay even if construction stalls.', flag: 'Time-linked schedule (by date, not milestone). Or more than 20% due at booking.' },
+  { target: 'sales', q: 'Cancellation and refund policy? How long does a full refund take?', why: 'Under RERA, refund must be within 45 days with interest.', flag: 'Refund > 45 days, forfeiture > 2% of value, or no interest on delayed refund.' },
+  { target: 'sales', q: 'Is car parking included in base price? Will it be in the sale agreement with a specific bay?', why: 'Must be in the agreement. Verbal allotment is worthless.', flag: 'Parking charged separately, first-come basis, or not in agreement.' },
+  { target: 'sales', q: 'Projected maintenance charges per sqft after possession? Who manages society initially?', why: 'Builder-appointed MCs often overcharge for 2–3 years before RWA takes over.', flag: 'Rate not declared, or no RWA handover timeline committed.' },
+  { target: 'site', q: 'Count workers on site right now. Is active construction happening?', why: 'No workers on a weekday morning = cash flow problems or stalled construction.', flag: 'Empty site. Crane idle. No visible pours in recent weeks.' },
+  { target: 'site', q: 'Which floor has construction reached? Does it match the RERA completion % you checked?', why: 'If RERA shows 50% but only 3 of 20 floors are up, something is misreported.', flag: 'Floor count vs RERA % doesn\'t match. Builder unable to explain the gap.' },
+  { target: 'site', q: 'Check exposed concrete columns — any honeycombing (porous/rocky surface)?', why: 'Honeycombing = voids in concrete = structural weakness in load-bearing columns.', flag: 'Visible honeycombing in columns. Water stains on completed ceilings.' },
+  { target: 'sales', q: 'Who are your structural consultants and MEP contractors?', why: 'Grade A projects use named, reputable consultants. Evasiveness = cost-cutting on engineering.', flag: 'Unwilling to name firms. Or "all in-house" with no independent oversight.' },
+  { target: 'site', q: 'If sample flat available: measure WFH room. Minimum 10x11 ft for a usable desk?', why: 'Floor plans in brochures are misleading. Actual rooms are always smaller.', flag: 'WFH room below 100 sqft, or no dedicated third room at all.' },
+  { target: 'site', q: 'Check sample flat doors, windows, tile finish, bathroom. Does quality match the price?', why: 'Sample flats get premium finishes. Actual delivery is typically one grade below.', flag: 'Hollow-core doors, visible grout issues, thin glass panes.' },
+  { target: 'sales', q: 'What is the RERA-registered carpet area? What is the loading factor (SBA vs carpet)?', why: 'Loading above 30% = paying for too much corridor space.', flag: 'Loading factor above 30%, or carpet area not registered on RERA.' },
+  { target: 'sales', q: 'DG backup: 100% all points including AC, or only lights and fans?', why: 'You WFH 3 days/week. Partial DG = desktop and AC cut during power cuts.', flag: 'Partial backup. Or "will decide post-possession".' },
+  { target: 'sales', q: 'Are fiber/ISP conduits being built into the structure? Which ISPs will be allowed?', why: 'Retrofitting ducting after possession = drilling walls and weeks of delay.', flag: 'No pre-ducting. Only one bundled ISP. Or no choice allowed.' },
+  { target: 'sales', q: 'Planned water source — BWSSB piped, borewell, or initially tanker?', why: 'BWSSB connection takes 1–2 years post-OC. Some societies run on tanker water for years.', flag: '"Tanker initially" with no BWSSB plan. Borewell only with no BWSSB application filed.' },
+  { target: 'buyer', q: 'Have you visited this builder\'s completed projects? Does actual quality match the sample flat?', why: 'Best predictor of your delivery is what the builder has already handed over.', flag: 'Major quality gap between sample and actual. Unresolved defect complaints post-possession.' },
 ];
 
 const CHECKLIST = {
-  'On Arrival': [
-    'Check guard shift — is someone present at all times?',
-    'Test visitor entry process — did they log you in? CCTV at gate?',
-    'Count lifts per tower — how many? What\'s the wait time?',
-    'Walk the ground floor — check for seepage, dampness, drainage issues',
-    'Look at notice board for last AGM date and maintenance notices',
+  'At Sales Office': [
+    'Ask for physical RERA certificate — check number matches what you were told',
+    'Open rera.karnataka.gov.in on phone — search the RERA number RIGHT NOW in front of them',
+    'Note RERA completion % on portal — does it match what sales team claimed?',
+    'Scroll RERA project page for complaints, notices, or penalties',
+    'Ask for sample builder-buyer agreement — take it home, do NOT sign today',
+    'Write down possession date + exact penalty clause per month of delay',
+    'Get construction-linked payment milestone schedule in writing',
+    'Confirm parking included in base price and will be in sale agreement',
+    'Ask for RERA-registered carpet area for your unit type — note it down',
+    'Ask for projected maintenance charge per sqft post-possession',
   ],
-  'Inside the Flat': [
-    'Run every tap — check water pressure and colour (yellow = pipe issues)',
-    'Test every electrical switch and socket — note any that don\'t work',
-    'Check all windows for smooth opening, no cracks in frame or glass',
-    'Walk all walls looking for cracks — especially corners and ceiling joints',
-    'Tap flooring with knuckle — hollow sound = de-bonding tile',
-    'Check kitchen/bathroom walls for white salt deposits (moisture sign)',
-    'Open mains switchboard — identify DG vs EB breakers',
-    'Ask seller to switch to DG power — verify AC and all sockets work on backup',
-    'Test mobile signal in every room (different operators)',
-    'Find fiber/ISP conduit point — is it pre-wired to the flat?',
-    'Check orientation — which direction does the balcony/main window face?',
-    'Stand at WFH room window — is outside view blocked by wall or construction?',
-    'Measure WFH room with tape — min 10×11 ft for comfortable WFH setup',
+  'At Construction Site': [
+    'Count workers on site — active construction is good, empty site is a red flag',
+    'Note which floor construction has reached vs RERA % you checked',
+    'Check exposed concrete — any honeycombing (porous/rocky surface = weakness)',
+    'Look for seepage or water stains on any completed floors',
+    'Check block/brick work quality — even rows, proper mortar, no gaps',
+    'Look at waterproofing on completed terrace/roof areas',
+    'Ask to walk any completed floor to see actual room sizes',
+    'Check material quality on site — branded cement bags, good-grade steel',
   ],
-  'Amenities': [
-    'Visit gym — equipment condition, AC, cleanliness, hours board',
-    'Walk jogging track fully — continuous? Rubberised surface? Well-lit at night?',
-    'Check pool (if any) — clear water? Maintained? What are the hours?',
-    'Inspect common area lights, lobby condition, paint state',
-    'Check DG set room — maintained? Ask last servicing date',
-    'Basement/parking — your spot accessible, well-lit, waterproofed?',
+  'Sample Flat Check': [
+    'Measure WFH/study room — minimum 10x11 ft for a usable desk setup',
+    'Check orientation — which direction does the main balcony/living room face?',
+    'Stand at WFH window — natural light? View blocked by another building?',
+    'Open every door — solid core, smooth hinges, no warping',
+    'Check window frames — aluminium thickness, glass (min 5mm)',
+    'Check bathroom tile quality and grout — any lippage or hollow tiles?',
+    'Check kitchen platform finish — granite/quartz or cheap laminate?',
   ],
   'Surrounding Area': [
-    'Drive the last 1 km to society — road quality, flooding risk, night lighting',
-    'Locate nearest pharmacy — is it 24 hours?',
-    'Test Zomato/Swiggy at the exact gate address (not just the area)',
-    'Test Ola/Uber availability at the gate — some new zones have patchy coverage',
+    'Drive last 1 km to site — road condition, flooding risk, night lighting',
+    'Look at adjacent plots — future construction that could block view?',
+    'Test Ola/Uber at the exact site address',
+    'Test Zomato/Swiggy delivery at the exact gate address',
+    'Locate nearest pharmacy — is it 24hr?',
   ],
 };
 
@@ -698,8 +701,8 @@ function setScore(rank, val, evt) {
 
 // ── RENDER QUESTIONS ──────────────────────────────────────────────────────
 
-const Q_LABELS = { all: 'All', seller: 'Seller', rwa: 'RWA', resident: 'Resident', broker: 'Broker' };
-const Q_COLORS = { seller: 'badge-orange', rwa: 'badge-blue', resident: 'badge-green', broker: 'badge-gray' };
+const Q_LABELS = { all: 'All', sales: 'Ask Sales', rera: 'Check RERA', buyer: 'Ask Buyers', site: 'Check Site' };
+const Q_COLORS = { sales: 'badge-orange', rera: 'badge-red', buyer: 'badge-green', site: 'badge-blue' };
 
 function renderQuestionChips() {
   const chips = document.getElementById('q-chips');
