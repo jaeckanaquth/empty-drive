@@ -127,7 +127,7 @@ export default function PurchaseStrategy() {
 
       <Stack gap={4}>
         <H1>Purchase Strategy — ₹3 Cr Property</H1>
-        <Text tone="secondary">Savings ₹2.5 Cr · CTC ₹35L/yr · Target property ₹3 Cr · All-in ~₹3.2 Cr</Text>
+        <Text tone="secondary">Savings ₹2.5 Cr · CTC ₹35L/yr · Target property ₹3 Cr · All-in ~₹3.2 Cr · Geography: north BLR micro-markets (see area-selection canvas)</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>

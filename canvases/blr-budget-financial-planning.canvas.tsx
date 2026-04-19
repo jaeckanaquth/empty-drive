@@ -412,22 +412,22 @@ export default function BudgetFinancialPlanning() {
 
       {/* ── 8. What ₹3 Cr gets you ── */}
       <Stack gap={12}>
-        <H2>8. What ₹3 Cr Gets You in Bangalore (2026)</H2>
-        <Text tone="secondary" size="small">Indicative ranges. Prices vary widely by project, floor, facing, and negotiation.</Text>
+        <H2>8. What ₹3 Cr Gets You — North Bangalore First (2026)</H2>
+        <Text tone="secondary" size="small">Indicative ranges; north rows match a north-BLR preference. South/east rows are benchmarks if you widen search. Prices vary by project, floor, facing, and negotiation.</Text>
 
         <Table
           headers={['Micro-Market', 'Configuration', 'Carpet Area', 'Type', 'Status']}
           rows={[
-            ['Whitefield / ITPL', '3 BHK', '1,200–1,500 sqft', 'Apartment in society', 'RTM + UC both available'],
-            ['Electronic City Ph1/Ph2', '3 BHK large', '1,600–2,000 sqft', 'Apartment with amenities', 'Good value; UC available'],
-            ['Sarjapur Road', '3 BHK', '1,400–1,700 sqft', 'Apartment', 'Premium corridor; improving infra'],
-            ['Thanisandra / Hennur', '3–4 BHK', '1,700–2,100 sqft', 'Apartment with amenities', 'Sobha City RTM range'],
-            ['Kanakapura Road', '3 BHK large', '1,800–2,200 sqft', 'Apartment', 'Best size-for-money; Metro coming'],
-            ['Yelahanka / Devanahalli', '3 BHK spacious', '1,700–2,100 sqft', 'Apartment — Prestige/Brigade', 'Airport corridor; strong appreciation'],
-            ['JP Nagar / Bannerghatta Rd', '3 BHK', '1,300–1,600 sqft', 'Apartment', 'South Bangalore; established'],
-            ['Hebbal / Bellary Rd', '2–3 BHK', '1,100–1,400 sqft', 'Apartment', 'Premium location; smaller units for money'],
+            ['Thanisandra / Nagavara / Kogilu', '3–4 BHK', '1,650–2,100 sqft', 'Apartment in society', 'North; Metro Phase 2B corridor; deep inventory'],
+            ['Yelahanka / New Town / Jakkur', '3 BHK spacious', '1,600–2,000 sqft', 'Apartment with amenities', 'North; space + lifestyle; check Manyata commute'],
+            ['Hebbal / Bellary Rd (Manyata belt)', '2–3 BHK', '1,100–1,450 sqft', 'Apartment', 'North; premium per sqft; shortest tech commute'],
+            ['Devanahalli / Budigere Cross', '3 BHK / villa', '1,600–2,200 sqft', 'Apartment or villa', 'North-east; airport/KIAL-driven story'],
+            ['Whitefield / ITPL', '3 BHK', '1,200–1,500 sqft', 'Apartment in society', 'East; RTM + UC — comparison only'],
+            ['Electronic City Ph1/Ph2', '3 BHK large', '1,600–2,000 sqft', 'Apartment with amenities', 'South; value — comparison only'],
+            ['Sarjapur Road', '3 BHK', '1,400–1,700 sqft', 'Apartment', 'South-east; premium — comparison only'],
+            ['Kanakapura / JP Nagar / Bannerghatta', '3 BHK', '1,300–2,000 sqft', 'Apartment', 'South; established — comparison only'],
           ]}
-          rowTone={[undefined, undefined, undefined, 'success', undefined, 'success', undefined, 'warning']}
+          rowTone={['success', 'success', 'warning', 'success', undefined, undefined, undefined, undefined]}
           striped
           columnAlign={['left', 'left', 'right', 'left', 'left']}
         />

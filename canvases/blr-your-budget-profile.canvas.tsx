@@ -397,7 +397,7 @@ export default function PersonalBudgetProfile() {
             </CardHeader>
             <CardBody>
               <Stack gap={6}>
-                <Text size="small">Your current salary comfortably supports a ₹1.4-1.7 Cr property. You can still get a <Text weight="semibold" as="span">3 BHK in Kanakapura, Electronic City, Thanisandra or Yelahanka</Text> in this range.</Text>
+                <Text size="small">Your current salary comfortably supports a ₹1.4-1.7 Cr property. You can still get a <Text weight="semibold" as="span">3 BHK in north pockets such as Thanisandra, Yelahanka, Jakkur, or outer Hennur</Text> in this range (south/east only if you deprioritize north).</Text>
                 <Table
                   headers={['Property at ₹1.5 Cr', 'Detail']}
                   rows={[

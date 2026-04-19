@@ -11,11 +11,12 @@ const categories = [
     priority: 'Critical',
     tone: 'danger' as const,
     criteria: [
+      'Hard ceiling: negotiate on sticker price so property + stamp/reg/GST/legal stays within your ₹3 Cr plan (all-in often adds ~6–11%)',
       'All-in cost: stamp duty (~5–6%), registration (~1%), GST (5% for under-construction), legal fees',
-      'Home loan eligibility & EMI affordability (keep EMI ≤ 40% of take-home)',
+      'Home loan eligibility & EMI affordability (keep EMI ≤ 40% of take-home unless you have a deliberate buffer)',
       'Down payment readiness (min 10–20% of property value)',
       'Maintenance deposit & advance corpus',
-      'Contingency buffer for repairs / unexpected costs',
+      'Contingency buffer for repairs / interior / unexpected costs',
     ],
   },
   {
@@ -24,12 +25,13 @@ const categories = [
     priority: 'Critical',
     tone: 'danger' as const,
     criteria: [
-      'Proximity to your workplace (commute time, not just distance)',
-      'Established corridors: Whitefield, Electronic City, Hebbal, Sarjapur Road, JP Nagar',
-      'Emerging corridors with upside: Devanahalli, Kanakapura Rd, Thanisandra, Budigere Cross',
-      'BBMP vs BDA vs panchayat jurisdiction — affects services & legal security',
-      'Flood-prone zones, lake proximity, low-lying areas to avoid',
-      'Master Plan 2031 zoning — residential / mixed-use classification',
+      'North-BLR priority: shortlist micro-markets first — Hebbal/Manyata belt, Thanisandra–Nagavara–Kogilu, Yelahanka–New Town, Jakkur, Hennur/HRBR, Devanahalli–Budigere (then widen only if needed)',
+      'Proximity to your workplace (commute time, not just km) — for Manyata/Hebbal/KIAL jobs, inner north vs airport belt is the main trade-off',
+      'Established vs emerging: inner north (Hebbal, Kalyan Nagar) = liquidity + premium; outer north (Thanisandra, Yelahanka, Devanahalli) = space + growth, longer commutes',
+      'If comparing city-wide: east/south corridors (Whitefield, Sarjapur, Electronic City) are useful benchmarks, not the default hunt band',
+      'BBMP vs BDA vs panchayat jurisdiction — affects services, roads, and legal security',
+      'Flood-prone zones, lake proximity, low-lying stretches — validate with monsoon visits, not only maps',
+      'Master Plan 2031 zoning — residential / mixed-use classification and notified road widening',
     ],
   },
   {
@@ -38,12 +40,14 @@ const categories = [
     priority: 'High',
     tone: 'warning' as const,
     criteria: [
-      'Historical price CAGR of the micro-market (last 5–10 years)',
-      'Upcoming infrastructure: Metro Phase 3, Peripheral Ring Road, STRR',
-      'IT/commercial hub growth and absorption rates nearby',
-      'Supply pipeline — too much inventory suppresses appreciation',
-      'Rental yield (Bangalore average 2.5–3.5%; higher in IT corridors)',
-      'Liquidity: ease of resale in that micro-market',
+      'Historical price CAGR of the micro-market (last 5–10 years) — north pockets differ: inner north vs airport belt vs ORR-north junctions',
+      'Incremental appreciation drivers you can underwrite: Metro Phase 2B (Nagavara–airport), STRR/PRR links, office absorption near Manyata/KIAL',
+      'Opportunity cost: larger down payment vs keeping corpus in equity/MFs — model both (see purchase-strategy canvas)',
+      'For under-construction: payment schedule vs rent — pre-EMI/full EMI phase vs staying on rent',
+      'IT/commercial hub growth and absorption rates nearby (Manyata, KIAL-linked services, existing IT catchments)',
+      'Supply pipeline — too much new inventory in one micro-market can cap near-term upside',
+      'Rental yield (city-wide often ~2.5–3.5%; many north tech pockets sit in that band — sanity-check vs EMI)',
+      'Liquidity: ease of resale in that exact micro-market (builder tier, age of project, odd floor plans)',
     ],
   },
   {
@@ -52,12 +56,13 @@ const categories = [
     priority: 'High',
     tone: 'warning' as const,
     criteria: [
-      'Metro access: existing stations vs upcoming (Phase 2/3 completion timeline)',
-      'Road network: ORR, NICE Road, NH access, signal-free corridors',
-      'Airport proximity (relevant if you travel frequently)',
-      'BMTC bus routes and frequency',
-      'Typical peak-hour commute time to your office',
-      'Waterlogging / pothole density on connecting roads',
+      'North-first roads: Bellary Road (NH44), ORR northern arc, Thanisandra Main Rd, Hennur/Outer Ring junctions — daily choke points matter more than map distance',
+      'Metro: Phase 2B Nagavara–airport line vs your shortlisted tower (walk/transit time, not only “metro city”)',
+      'Airport / KIAL access if you fly often — Devanahalli belt vs inner north is a lifestyle + commute trade-off',
+      'ORR, STRR, and major link roads you will actually use — reduces cross-city pain if work moves later',
+      'BMTC / airport Vayu Vajra and last-mile (auto, cab availability) if you will not always drive',
+      'Typical peak-hour commute time to your actual office, not Sunday map time',
+      'Waterlogging / pothole density on your exact approach roads — north has known monsoon pockets; verify',
     ],
   },
   {
@@ -108,11 +113,12 @@ const categories = [
     priority: 'Medium',
     tone: 'success' as const,
     criteria: [
-      'Internal: clubhouse, gym, pool, jogging track, EV charging, power backup, STP',
+      'Water security: Cauvery connection stage, borewell dependency, tanker history — non-negotiable in BLR',
+      'Internal: clubhouse, gym, pool, jogging track, EV charging, power backup (KVA/coverage), STP quality',
       'Children\'s play area, senior citizen zone, co-working space',
       'External (within 2 km): schools, hospitals, supermarkets, banks/ATMs',
-      'Parks, metro station, restaurant/café options',
-      'Be cautious: over-amenitized projects have higher maintenance charges',
+      'Parks, future metro walk, everyday dining — what you will actually use vs brochure checklist',
+      'Be cautious: over-amenitized projects have higher maintenance charges and lower utilisation',
     ],
   },
   {
@@ -154,7 +160,7 @@ export default function BLRPropertyCriteria() {
     <Stack gap={24} style={{ padding: '24px 28px', maxWidth: 900 }}>
       <Stack gap={4}>
         <H1>Bangalore Property Buying Criteria</H1>
-        <Text tone="secondary">Budget: up to ₹3 Crore — structured decision framework</Text>
+        <Text tone="secondary">Goal: buy in Bengaluru with a north-BLR preference, under ₹3 Cr all-in — structured decision framework</Text>
       </Stack>
 
       <Grid columns={4} gap={12}>
@@ -281,7 +287,7 @@ export default function BLRPropertyCriteria() {
           headers={['Step', 'Action', 'Why First']}
           rows={[
             ['1', 'Fix budget ceiling & loan eligibility', 'Everything else depends on what you can actually afford'],
-            ['2', 'Shortlist 2–3 micro-markets based on commute + growth', 'Locks down the geography before wasting time on listings'],
+            ['2', 'Shortlist 2–3 north micro-markets (then widen only if needed) using commute + growth', 'Locks geography before wasting time on listings'],
             ['3', 'Decide: under-construction vs ready-to-move', 'Determines legal risk appetite and possession timeline'],
             ['4', 'Screen listings against legal / RERA compliance', 'Eliminates risky properties early'],
             ['5', 'Evaluate connectivity, amenities, configuration', 'Shortlist 3–5 properties for site visits'],
@@ -292,7 +298,7 @@ export default function BLRPropertyCriteria() {
       </Stack>
 
       <Text tone="secondary" size="small">
-        Bangalore-specific notes: Always verify A-Khata status, RERA registration on krera.karnataka.gov.in, and Metro Phase 2/3 timelines before committing to emerging corridors.
+        Bangalore-specific notes: Verify A-Khata, RERA on krera.karnataka.gov.in, and Metro Phase 2B (Nagavara–airport) timelines before paying heavy premiums on “upcoming” connectivity. For north BLR, combine map research with peak-hour drives during monsoon.
       </Text>
     </Stack>
   );
