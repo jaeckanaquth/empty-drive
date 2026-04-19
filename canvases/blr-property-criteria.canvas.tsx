@@ -196,7 +196,7 @@ export default function BLRPropertyCriteria() {
           #6: shortlist matrix + WFH checklist live in <Text weight="semibold" as="span">blr-amenities</Text>; deep-eval amenities row updated. Resume at <Text weight="semibold" as="span">#7 Social infrastructure</Text> (<Text weight="semibold" as="span">blr-areas</Text> social tab + social column in <Text weight="semibold" as="span">blr-deep-eval</Text>).
         </Text>
         <Text tone="secondary" size="small">
-          Shortlist hub (20 pool, five-filter + research links, scores): <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text> — replaces former project-selection / research-snapshot / shortlist-ten canvases.
+          Shortlist hub (20 pool → ranked top 10 → site-visit all finalists; five-filter + research links, scores): <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text> — replaces former project-selection / research-snapshot / shortlist-ten canvases.
         </Text>
       </Stack>
 

@@ -28,7 +28,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 
 | File | Covers | When to update |
 |---|---|---|
-| `blr-property-shortlist.canvas.tsx` | **Unified hub:** 20-project pool (core + expand + watch + RTM refs), five-filter stack, Reddit URLs, compressed criteria verdict; whittle → visits | Any shortlist membership, price, possession, RERA, commute, research pass, or criteria-summary change |
+| `blr-property-shortlist.canvas.tsx` | **Unified hub:** 20-project pool (C/E/W/R eval tiers + watch + RTM refs), five-filter stack, Reddit URLs, compressed criteria verdict; **visit rule = site-visit every finalist in the frozen top 10**, then mirror that set in `index.html` `PROPERTIES` | Any shortlist membership, **top-10 freeze**, price, possession, RERA, commute, research pass, or criteria-summary change |
 | `blr-visit-guide.canvas.tsx` | Itinerary, contacts, drive times | Same as shortlist + visit logistics |
 | `blr-areas.canvas.tsx` | 5 core areas + watch-list pins (Manyata, Birla Yelahanka, Navaratna Agrahara, Aerospace Bagalur, IVC); livability, connectivity, social, suitability | Area facts, watch-list text, shortlist geography |
 | `blr-investment.canvas.tsx` | Criterion 3 — CAGR, PSF, yield, catalysts, return framing | Price, possession, area thesis, infra assumptions |

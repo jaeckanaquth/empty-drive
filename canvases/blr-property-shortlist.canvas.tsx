@@ -7,8 +7,8 @@ import {
 /**
  * Unified North-BLR property hub (Apr 2026).
  * Replaces former canvases: blr-project-selection, blr-research-snapshot, blr-shortlist-ten, and the old bar-chart shortlist.
- * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (core 5 scores), index/analysis facts.
- * Whittle 20 → visits: set `track` here (C = you lock a visit); then sync index.html / deep-eval — never infer C from those files alone.
+ * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (full matrices where written), index/analysis facts.
+ * Whittle 20 → top 10 → visits: freeze your ranked top 10, then site-visit every finalist; sync index.html PROPERTIES / analysis / deep-eval in that order. Trk = eval tier while ranking, not “C-only visits.”
  */
 
 type Track = 'C' | 'E' | 'W' | 'R';
@@ -22,7 +22,7 @@ interface HubRow {
   area: string;
   allIn: string;
   oc: string;
-  /** Core 5 = sum of ten blr-deep-eval scores /100. Others = legacy 8-dimension score /80 scaled to ~100, or bench estimate. */
+  /** Σ /100 = sum of ten blr-deep-eval scores where that canvas has a full write-up. ·ext / ·est / ·ref / ·bench = scaled or bench estimates. */
   score: string;
   lead: string;
   research: string;
@@ -52,7 +52,7 @@ const HUB: HubRow[] = [
 ];
 
 const TRACK_LEGEND =
-  'C = committed in-person visit this round (your choice in this table; mirror slots in index.html PROPERTIES) · E = expand / backup UC same thesis · W = watch / pre-RERA · R = RTM reference only. Full blr-deep-eval write-ups are analytical — they do not assign C.';
+  'C = primary eval band (full blr-deep-eval Σ/100 where written) · E = expand contender (same thesis; can still reach top 10) · W = watch / pre-RERA · R = RTM reference only. Trk is depth / sourcing while you rank — not who is excluded from visits. After you freeze top 10: site-visit every name in that list; mirror that exact set into index.html PROPERTIES.';
 
 const REDDIT: { t: string; u: string }[] = [
   { t: 'GST UC + Prestige Bangalore', u: 'https://www.reddit.com/r/indianrealestate/comments/1rc7n9g/gst_on_under_construction_property/' },
@@ -65,7 +65,7 @@ const REDDIT: { t: string; u: string }[] = [
 ];
 
 export default function NorthBLRPropertyHub() {
-  const core = HUB.filter(r => r.track === 'C').length;
+  const ceBand = HUB.filter(r => r.track === 'C' || r.track === 'E').length;
   return (
     <Stack gap={20} style={{ padding: '24px 28px', maxWidth: 1240 }}>
 
@@ -73,18 +73,22 @@ export default function NorthBLRPropertyHub() {
         <Row gap={10} align="center" wrap>
           <H1>North BLR property hub</H1>
           <Pill tone="info">20 → whittle</Pill>
+          <Pill tone="success">Top 10 → visit all</Pill>
         </Row>
+        <Text size="small">
+          <Text weight="semibold" as="span">Visit commitment:</Text> you will take an in-person site visit for <Text weight="semibold" as="span">every</Text> project that survives in your <Text weight="semibold" as="span">final ranked top 10</Text> (≤10 UC trips in one ranking pass; use <Text weight="semibold" as="span">R</Text> rows as comps, not necessarily a tenth “visit” unless you promote one). <Text weight="semibold" as="span">Trk</Text> below is evaluation depth / pool role <Text weight="semibold" as="span">while</Text> you cut 20 → 10 — not a promise that <Text weight="semibold" as="span">E</Text> names never get visited if they climb into the top 10.
+        </Text>
         <Text tone="secondary">
           Single surface for <Text weight="semibold" as="span">blr-property-criteria</Text> (10 category families + TEN_POINT),{' '}
-          <Text weight="semibold" as="span">blr-deep-eval</Text> (where you maintain full matrices), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.
-          <Text weight="semibold" as="span"> Trk</Text> is visit intent you set in <Text weight="semibold" as="span">HUB</Text> — not “because it is listed in the PWA or deep-eval.”{' '}
-          <Text weight="semibold" as="span">Score</Text> column: Σ /100 where blr-deep-eval has a full write-up (today that happens to match the five <Text weight="semibold" as="span">C</Text> rows — coincidence, not a rule); ·ext / ·est / ·ref / ·bench = scaled or qualitative pool entries.
+          <Text weight="semibold" as="span">blr-deep-eval</Text> (where you maintain full matrices), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.{' '}
+          <Text weight="semibold" as="span">Score</Text> column: Σ /100 where blr-deep-eval has a full write-up (today that matches the five <Text weight="semibold" as="span">C</Text> rows); ·ext / ·est / ·ref / ·bench = scaled or qualitative pool entries.
         </Text>
       </Stack>
 
-      <Grid columns={5} gap={12}>
+      <Grid columns={6} gap={12}>
         <Stat value="20" label="Pool" tone="success" />
-        <Stat value={`${core}`} label="Core visits" tone="success" />
+        <Stat value="10" label="Top-10 visit cap" tone="success" />
+        <Stat value={`${ceBand}`} label="UC band (C+E)" tone="info" />
         <Stat value="≤₹3 Cr" label="Policy (most UC)" tone="warning" />
         <Stat value="403" label="K-RERA auto-fetch" tone="danger" />
         <Stat value="79" label="Top Σ (Brigade)" tone="success" />
@@ -136,7 +140,7 @@ export default function NorthBLRPropertyHub() {
           <Card>
             <CardHeader trailing={<Pill tone="warning" size="sm">2026–30 OC</Pill>}>Possession band</CardHeader>
             <CardBody>
-              <Text size="small">No core UC before Jun 2027 (Purva). If you need <Text weight="semibold" as="span">2026</Text> keys, favour row 9 (Arvind) or <Text weight="semibold" as="span">R</Text> RTM refs — not rows 1–5.</Text>
+              <Text size="small">No full-eval UC before Jun 2027 (Purva in the current <Text weight="semibold" as="span">C</Text> band). If you need <Text weight="semibold" as="span">2026</Text> keys, favour row 9 (Arvind) or <Text weight="semibold" as="span">R</Text> RTM refs — not that early-OC cluster.</Text>
             </CardBody>
           </Card>
         </Stack>
@@ -148,14 +152,14 @@ export default function NorthBLRPropertyHub() {
             rows={REDDIT.map(x => [x.t, x.u])}
             striped
           />
-          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the five C-track (visit-locked) towers — absence ≠ clean; re-search per row when whittling.</Text>
+          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the five projects with full Σ/100 deep-eval rows — absence ≠ clean; re-search per row when whittling.</Text>
         </Stack>
       </Grid>
 
       <Divider />
 
       <Text tone="secondary" size="small">
-        When you cut the pool: edit <Text weight="semibold" as="span">HUB</Text> (including <Text weight="semibold" as="span">track</Text>) as the source of truth for visits, then sync <Text weight="semibold" as="span">index.html</Text>, <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit — not the reverse. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
+        When rankings move: edit <Text weight="semibold" as="span">HUB</Text> (including <Text weight="semibold" as="span">track</Text>). When the <Text weight="semibold" as="span">top 10</Text> is frozen, set <Text weight="semibold" as="span">index.html</Text> <Text weight="semibold" as="span">PROPERTIES</Text> to that full finalist set (one itinerary slot each — your “visit all top 10” promise), then sync <Text weight="semibold" as="span">analysis.html</Text> and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
       </Text>
     </Stack>
   );
