@@ -174,7 +174,7 @@ export default function BLRPropertyCriteria() {
   const totalCriteria = categories.reduce((acc, c) => acc + c.criteria.length, 0);
 
   return (
-    <Stack gap={24} style={{ padding: '24px 28px', maxWidth: 900 }}>
+    <Stack gap={24} style={{ padding: '24px 28px', maxWidth: 960 }}>
       <Stack gap={4}>
         <H1>Bangalore Property Buying Criteria</H1>
         <Text tone="secondary">
@@ -199,6 +199,49 @@ export default function BLRPropertyCriteria() {
           To choose among the five visit projects: budget → area → builder → adult amenities → other — <Text weight="semibold" as="span">blr-project-selection.canvas.tsx</Text>.
           Web vs K-RERA conflict log (Apr 2026 pass): <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text>. Ten-project research scope: <Text weight="semibold" as="span">blr-shortlist-ten.canvas.tsx</Text>.
         </Text>
+      </Stack>
+
+      <Divider />
+
+      <Stack gap={12}>
+        <H2>Who is “best” on this page’s categories?</H2>
+        <Text size="small" tone="secondary">
+          The cards below define <Text weight="semibold" as="span">ten category families</Text> (budget, area, investment, connectivity, type/config, legal, builder, amenities, society/maintenance, safety/lifestyle).
+          This table maps each family to the <Text weight="semibold" as="span">strongest visit shortlist option(s)</Text> using <Text weight="semibold" as="span">blr-deep-eval</Text> scores / verdicts and listed builder grade — not visit order from <Text weight="semibold" as="span">index.html</Text>.
+        </Text>
+        <Table
+          headers={['Category (this canvas)', 'Priority', 'Lead option(s)', 'Why (deep-eval spine)']}
+          rows={[
+            ['Budget & Financial Planning', 'Critical', 'Purva Zenium 2 · Sattva Lumina', 'Financial column 9/10 both; most ₹3 Cr headroom. Prestige Avon fails ceiling at list all-in (4).'],
+            ['Area & Location Selection', 'Critical', 'Brigade Eternia · Prestige Avon', 'Area scores 8 vs Hosahalli/Devanahalli 6 — Yelahanka NT + Thanisandra maturity vs airport/satellite trade-offs.'],
+            ['Investment & Appreciation', 'High', 'Prestige Avon', 'Investment 9/10 — Metro + Manyata rental demand; budget is the constraint, not thesis.'],
+            ['Connectivity & Infrastructure', 'High', 'Prestige Avon', 'Connectivity 8/10 — closest Manyata + Phase 2B Nagavara story; Tata weakest for Manyata peak.'],
+            ['Property Type & Configuration', 'High', 'Brigade Eternia · Tata Varnam', 'Specs 9/10 both — largest carpet/rupee and loading discipline; pick unit/tower carefully.'],
+            ['Legal & Documentation', 'Critical', 'Brigade Eternia · Purva Zenium 2 · Tata Varnam', 'Legal 8/10 cluster; Prestige (B-Khata belt) & Sattva (jurisdiction) carry extra verify steps at 7.'],
+            ['Builder / Developer Reputation', 'High', 'Tata Varnam', 'Grade A+ and lowest builder-risk narrative; all five are credible Grade A/A+ for UC.'],
+            ['Amenities', 'Medium', 'Sattva Lumina · Tata Varnam', 'Amenities 9/10 — township mass; trade off vs maintenance load (see blr-amenities matrix).'],
+            ['Society & Maintenance', 'Medium', 'Prestige Avon · Purva Zenium 2', 'Boutique / lower headcount vs 1,553-u township — typically gentler OPEX curve if you do not need every trophy amenity.'],
+            ['Safety, Lifestyle & Environment', 'Medium', 'Prestige Avon · Brigade Eternia', 'Social infra 9 / 8; Tata social 4 for Manyata-centric daily life despite strong builder risk score.'],
+          ]}
+          striped
+        />
+        <Card>
+          <CardHeader trailing={<Pill tone="success" size="sm">Overall</Pill>}>
+            Verdict if every category matters roughly equally
+          </CardHeader>
+          <CardBody>
+            <Stack gap={8}>
+              <Text size="small">
+                <Text weight="semibold" as="span">Brigade Eternia</Text> is the closest to an “all-rounder” on this canvas: it leads the{' '}
+                <Text weight="semibold" as="span">sum of the ten deep-eval scores</Text>, wins or co-leads the <Text weight="semibold" as="span">Critical</Text> buckets for <Text weight="semibold" as="span">area</Text> and <Text weight="semibold" as="span">legal</Text> clarity (Yelahanka NT), and stays strong on type, connectivity, and lifestyle — with the main drag being <Text weight="semibold" as="span">later possession</Text> (Mar 2030, confirm vs Dec 2030 on K-RERA).
+              </Text>
+              <Text size="small" tone="secondary">
+                If you <Text weight="semibold" as="span">strictly prioritise budget + earliest keys</Text> within the same framework, <Text weight="semibold" as="span">Purva</Text> or <Text weight="semibold" as="span">Sattva</Text> is the better fit than Brigade despite lower area score.
+                If you <Text weight="semibold" as="span">strictly prioritise Manyata + social + liquidity</Text> and can fix price, <Text weight="semibold" as="span">Prestige Avon</Text> wins several High-priority rows but must clear the <Text weight="semibold" as="span">Budget</Text> critical gate first.
+              </Text>
+            </Stack>
+          </CardBody>
+        </Card>
       </Stack>
 
       <Divider />
