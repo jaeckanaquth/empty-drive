@@ -419,11 +419,9 @@
 
   <!-- ── PROPERTIES TAB ── -->
   <div class="tab active" id="tab-properties">
-    <div class="section-label">Visit Order — Day 1: Thanisandra</div>
+    <div class="section-label">Today — Yelahanka (from Manyata Embassy)</div>
 
     <div id="prop-list"></div>
-
-    <div class="section-label">Day 2: Yelahanka</div>
     <div id="prop-list-2"></div>
 
     <div style="padding:0 16px 16px">
@@ -494,65 +492,33 @@
 
 const PROPERTIES = [
   {
-    rank: 1, day: 1, shortName: 'Sobha',
-    name: 'Sobha Athena (new)',
-    builder: 'Sobha Limited',
-    grade: 'A', status: 'UC', priority: 'Must Visit',
-    price: '₹2.27 Cr (all-in ~₹2.43 Cr)', size: '1,682–1,692 sqft SBA',
-    launched: 'Mar 2024', possession: 'Jun 2027 (est.)',
-    area: 'Thanisandra Main Rd',
-    address: 'Thanisandra Main Road, Bangalore – 560077',
-    mapsUrl: 'https://maps.google.com/?q=Sobha+Athena+Thanisandra+Bangalore',
-    drive: '~25 min from Yelahanka NT',
-    visitTime: 'Weekday 10:00 AM',
-    contact: 'Visit Sobha sales office at the site (sobha.com). Verify RERA on Karnataka portal. Check construction % completion. Ask for payment milestone schedule. Possession est. Jun 2027.',
-    rera: 'Verify on Karnataka RERA portal',
-    ocStatus: 'N/A — Under Construction',
-  },
-  {
-    rank: 2, day: 1, shortName: 'Prestige',
-    name: 'Prestige Camden Gardens',
-    builder: 'Prestige Group',
-    grade: 'A', status: 'UC', priority: 'Must Visit',
-    price: '₹1.89–2.5 Cr', size: '1,550–1,800 sqft SBA',
-    launched: 'Mar 2023', possession: 'Dec 2027 (est.)',
-    area: 'Thanisandra Main Rd',
-    address: 'Thanisandra Main Road, Bangalore – 560077',
-    mapsUrl: 'https://maps.google.com/?q=Prestige+Camden+Gardens+Thanisandra+Bangalore',
-    drive: '~25 min from Yelahanka NT',
-    visitTime: 'Weekday 12:00 PM (same road as Sobha Athena)',
-    contact: 'RERA: PR/140524/006872 — verify on rera.karnataka.gov.in. Call Prestige (prestige-group.com) for 3 BHK floor plans and payment schedule. Boutique 120-unit project.',
-    rera: 'PR/140524/006872',
-    ocStatus: 'N/A — Under Construction',
-  },
-  {
-    rank: 3, day: 2, shortName: 'Arvind',
+    rank: 1, day: 1, shortName: 'Arvind',
     name: 'Arvind Bel Air',
     builder: 'Arvind SmartSpaces',
     grade: 'B+', status: 'UC', priority: 'Must Visit',
-    price: '₹1.16–1.75 Cr', size: '1,469–1,626 sqft SBA',
+    price: '₹1.55–1.57 Cr (all-in ~₹1.65 Cr)', size: '1,524–1,626 sqft SBA',
     launched: 'May 2020', possession: 'Jun 2026 (est.)',
     area: 'Yelahanka New Town Rd',
     address: 'Yelahanka New Town Road, Bangalore – 560064',
     mapsUrl: 'https://maps.google.com/?q=Arvind+Bel+Air+Yelahanka+Bangalore',
-    drive: '~5 min from Yelahanka NT',
-    visitTime: 'Day 2 — 10:00 AM',
+    drive: '~15 km / 25–30 min from Manyata Embassy',
+    visitTime: '10:00 AM',
     contact: 'RERA: PRM/KA/RERA/1251/472/PR/200515/003406. Call Arvind SmartSpaces sales. Earliest possession (Jun 2026) — ask for current construction % and confirm flat condition.',
     rera: 'PRM/KA/RERA/1251/472/PR/200515/003406',
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 4, day: 2, shortName: 'Brigade',
+    rank: 2, day: 1, shortName: 'Brigade',
     name: 'Brigade Insignia',
     builder: 'Brigade Group',
     grade: 'A', status: 'UC', priority: 'Visit if size is priority',
-    price: '₹2.99–3.69 Cr', size: '2,145–2,481 sqft SBA',
+    price: '₹2.99–3.49 Cr (all-in ~₹3.18 Cr)', size: '2,145–2,481 sqft SBA',
     launched: 'May 2024', possession: 'Jun 2029',
     area: 'Yelahanka · Kogilu Cross',
     address: 'Kogilu Cross, NH44, Yelahanka, Bangalore – 560064',
     mapsUrl: 'https://maps.google.com/?q=Brigade+Insignia+Kogilu+Cross+Yelahanka+Bangalore',
-    drive: '~8 min from Yelahanka NT',
-    visitTime: 'Day 2 — 12:00 PM',
+    drive: '~9.5 km / 20–25 min from Manyata Embassy',
+    visitTime: '12:30 PM (same Yelahanka trip)',
     contact: 'RERA: PR/180524/006894. Visit Brigade sales office. Budget is tight — only the base 3 BHK at ₹2.99 Cr is within ₹3 Cr. Ask specifically about payment plan and what % is paid upfront.',
     rera: 'PR/180524/006894',
     ocStatus: 'N/A — Under Construction',
@@ -669,43 +635,23 @@ function calcBuyScore(rank) {
 
 // ── FLOOR PLANS (per property, real data Apr 2026) ─────────────────────
 const FLOOR_PLANS = {
-  1: { // Sobha Athena
-    variants: [
-      { type: '3 BHK', sba: '1,682 sqft', carpet: '~1,155 sqft', price: '₹2.27 Cr', allin: '₹2.42 Cr' },
-      { type: '3 BHK+', sba: '1,692 sqft', carpet: '~1,162 sqft', price: '₹2.28 Cr', allin: '₹2.43 Cr' },
-    ],
-    rooms: 'Master ~14×12 ft · Bed 2 ~12×10 ft · WFH/Study ~11×10 ft ✓ · Living ~20×12 ft',
-    loading: '~31%',
-    note: 'Greek-inspired G+19 tower, 72 units only. Possession Jul–Dec 2026 per builder website.',
-  },
-  2: { // Prestige Camden Gardens
-    variants: [
-      { type: '3 BHK Smart',   sba: '1,578 sqft', carpet: '~1,105 sqft', price: '₹1.89 Cr', allin: '₹2.02 Cr' },
-      { type: '3 BHK Optima',  sba: '1,851 sqft', carpet: '~1,296 sqft', price: '₹2.22 Cr', allin: '₹2.37 Cr' },
-      { type: '3 BHK Prima',   sba: '2,037 sqft', carpet: '~1,426 sqft', price: '₹2.44 Cr', allin: '₹2.60 Cr' },
-      { type: '3 BHK Supreme', sba: '2,149 sqft', carpet: '~1,504 sqft', price: '₹2.57 Cr', allin: '₹2.74 Cr' },
-    ],
-    rooms: 'Smart: compact 3-bed · Optima: master ~14×12, WFH ~11×10 ✓ · Prima: spacious all rooms',
-    loading: '~30%',
-    note: 'Single G+20 tower, 120 units. Smart fits budget best at ₹2.02 Cr all-in. Possession Dec 2027.',
-  },
-  3: { // Arvind Bel Air
+  1: { // Arvind Bel Air
     variants: [
       { type: '3 BHK A', sba: '1,524 sqft', carpet: '1,024 sqft', price: '₹1.55 Cr', allin: '₹1.65 Cr' },
       { type: '3 BHK B', sba: '1,626 sqft', carpet: '1,138 sqft', price: '₹1.57 Cr', allin: '₹1.67 Cr' },
     ],
-    rooms: 'Master ~13×11 ft · Bed 2 ~11×10 ft · WFH ~10×9 ft (tight, verify in person) · Living ~18×12',
+    rooms: 'Master ~13×11 ft · Bed 2 ~11×10 ft · WFH ~10×9 ft (tight ~90 sqft — measure in person) · Living ~18×12',
     loading: '~31%',
-    note: '334 units, Jun 2026 possession — nearest to ready. WFH room is ~90 sqft, measure in person.',
+    note: '334 units, Jun 2026 possession — nearest to ready. WFH room is smallest on list, verify size in person.',
   },
-  4: { // Brigade Insignia
+  2: { // Brigade Insignia
     variants: [
-      { type: '3 BHK',      sba: '2,145 sqft', carpet: '~1,500 sqft', price: '₹2.99 Cr', allin: '₹3.18 Cr' },
+      { type: '3 BHK',       sba: '2,145 sqft', carpet: '~1,500 sqft', price: '₹2.99 Cr', allin: '₹3.18 Cr' },
       { type: '3 BHK Large', sba: '2,481 sqft', carpet: '~1,735 sqft', price: '₹3.49 Cr', allin: '₹3.72 Cr' },
     ],
-    rooms: 'All rooms large — master ~16×13, WFH ~13×11 ✓✓ · Living ~24×14 · Best WFH room on list',
+    rooms: 'All rooms large — master ~16×13, WFH ~13×11 ✓✓ · Living ~24×14 · Best WFH room of both options',
     loading: '~30%',
-    note: '3 BHK at ₹2.99 Cr → all-in ₹3.18 Cr = just over ₹3 Cr budget. Only if size matters most. Possession Jun 2029.',
+    note: '3 BHK at ₹2.99 Cr → all-in ₹3.18 Cr = slightly over ₹3 Cr budget. Only if space matters most. Possession Jun 2029.',
   },
 };
 
