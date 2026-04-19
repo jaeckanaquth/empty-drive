@@ -43,8 +43,8 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 | `blr-builder-reputation.canvas.tsx` | **Citywide** BLR builders (tier, scores, corridors), North shortlist callouts | New builder on radar, tier/score edits, **any** shortlist builder row change |
 | `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property (no duplicate “expanded area” narrative — that is `blr-areas` only) | **Any** property fact change **or** finishing a criterion write-up |
 | `blr-full-evaluation.canvas.tsx` | Cross-criterion summary | Whenever deep-eval or a criterion canvas materially changes |
-| `blr-property-criteria.canvas.tsx` | Framework definitions | Only if the 10-point framework text changes |
-| `blr-project-selection.canvas.tsx` | Five-filter stack (budget → area → builder → amenities → other) on the **visit shortlist** | Shortlist membership, all-in bands, deep-eval verdicts/scores that change pick order |
+| `blr-property-criteria.canvas.tsx` | Framework definitions + **ten category families** “who leads” visit matrix | Any change to category-family verdicts / lead projects — sync **project-selection**, **research-snapshot** criteria section, **property-shortlist** cross-walk text |
+| `blr-project-selection.canvas.tsx` | Five-filter stack + alignment notes to **blr-property-criteria** ten families on the **visit shortlist** | Shortlist membership, all-in bands, deep-eval verdicts/scores, or **criteria “who leads” table** edits |
 | `blr-research-snapshot.canvas.tsx` | Web vs repo log; Reddit diligence threads (North BLR / UC / builder practices) + shortlist + peers/watch | After **external research** (portals, Reddit, etc.) or major portal vs repo conflicts |
 | `blr-shortlist-ten.canvas.tsx` | **Fixed list of 10** projects (5 core visits + 5 expand) for research passes | Any change to which ten are in-scope; then refresh research-snapshot pass #2 notes and, if visits expand, index + deep-eval |
 

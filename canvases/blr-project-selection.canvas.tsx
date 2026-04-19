@@ -6,6 +6,7 @@ import {
 
 /**
  * Visit shortlist (5) — numbers reconciled to index.html + analysis.html + blr-deep-eval.
+ * Category-family “who leads” matrix: blr-property-criteria.canvas.tsx (same commit family when edits).
  * On price/RERA/possession change: patch index + analysis + deep-eval in same commit, then this file.
  */
 
@@ -234,16 +235,38 @@ export default function ProjectSelection() {
           <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> (Apr 2026 workspace).
           A separate <Text weight="semibold" as="span">Apr 2026 web search pass</Text> (aggregators + builder affiliates) and portal limits are documented in{' '}
           <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text> — use that for conflicts (RERA strings, possession noise, Manyata time for Tata).
+          The <Text weight="semibold" as="span">ten buying-category families</Text> (budget, area, investment, …) and which visit option leads each are in{' '}
+          <Text weight="semibold" as="span">blr-property-criteria.canvas.tsx</Text> — use that before treating this five-filter stack as the whole framework.
           Always confirm base, GST, possession, and RERA % on the portal before paying.
         </Text>
       </Stack>
 
-      <Grid columns={4} gap={12}>
+      <Grid columns={5} gap={12}>
         <Stat value="Jun 2027" label="Earliest OC (Purva)" tone="success" />
-        <Stat value="Mar 2030" label="Latest OC (Brigade, if RERA Mar)" tone="warning" />
-        <Stat value="4 / 5" label="Within ₹3 Cr @ list all-in" tone="success" />
-        <Stat value="2027–30" label="All in 2026–30 band" tone="neutral" />
+        <Stat value="Mar 2030" label="Latest OC (Brigade)" tone="warning" />
+        <Stat value="4 / 5" label="Within ₹3 Cr @ list" tone="success" />
+        <Stat value="79/100" label="Top deep-eval sum" tone="success" />
+        <Stat value="2027–30" label="OC band" tone="neutral" />
       </Grid>
+
+      <Card>
+        <CardHeader trailing={<Pill tone="info" size="sm">blr-property-criteria</Pill>}>
+          Same decision, two lenses
+        </CardHeader>
+        <CardBody>
+          <Stack gap={6}>
+            <Text size="small">
+              <Text weight="semibold" as="span">Criteria canvas</Text> uses <Text weight="semibold" as="span">ten category families</Text> (Critical: budget, area, legal; High: investment, connectivity, type, builder; Medium: amenities, society/maintenance, safety-lifestyle).
+              <Text weight="semibold" as="span"> All-rounder there:</Text> Brigade Eternia (highest deep-eval total; strong area + legal).
+              <Text weight="semibold" as="span"> Budget + earliest keys:</Text> Purva or Sattva.
+              <Text weight="semibold" as="span"> Manyata + social + liquidity</Text> (if price fixed): Prestige Avon.
+            </Text>
+            <Text size="small" tone="secondary">
+              This page’s <Text weight="semibold" as="span">five filters</Text> are a compressed stack after facts + issues: (1) budget, (2) area, (3) builder, (4) adult amenities, (5) residual — map filter (1) to criteria <Text weight="semibold" as="span">Budget</Text>; (2) to <Text weight="semibold" as="span">Area + Connectivity + Safety/lifestyle</Text> overlap; (4) to criteria <Text weight="semibold" as="span">Amenities</Text> + half of <Text weight="semibold" as="span">Society/maintenance</Text>; (5) to possession, RERA, end-use, and risk not already captured.
+            </Text>
+          </Stack>
+        </CardBody>
+      </Card>
 
       <Card>
         <CardHeader trailing={<Pill tone="warning" size="sm">2026–2030</Pill>}>
@@ -312,6 +335,7 @@ export default function ProjectSelection() {
         <H2>Five-filter stack (after facts + issues)</H2>
         <Text size="small" tone="secondary">
           Order: (1) budget gate using facts table, (2) area, (3) builder, (4) adult amenities, (5) residual — aligned with <Text weight="semibold" as="span">blr-amenities</Text>, <Text weight="semibold" as="span">blr-areas</Text>, <Text weight="semibold" as="span">blr-builder-reputation</Text>.
+          Full ten-family mapping to visit winners is maintained in <Text weight="semibold" as="span">blr-property-criteria</Text> (table + verdict card).
         </Text>
         <Grid columns={5} gap={12}>
           <Stat value="1" label="Budget" tone="danger" />
@@ -350,11 +374,11 @@ export default function ProjectSelection() {
             r.areaTier === 'strong' ? 'Strong' : r.areaTier === 'ok' ? 'OK' : 'Weak',
             r.builderTier === 'strong' ? 'Strong' : 'OK',
             r.amenityTier === 'strong' ? 'Strong' : 'OK',
-            r.id === 'prestige' ? 'Best exit story if price fixed' :
-              r.id === 'purva' ? 'Earliest OC; thinner area fabric' :
-              r.id === 'sattva' ? 'Value + amenities; long wait + scale' :
-              r.id === 'brigade' ? 'Balanced; lock OC month' :
-              'Builder + campus; commute + social',
+            r.id === 'prestige' ? 'Criteria: leads investment/connectivity/safety; budget Critical fail until price fix' :
+              r.id === 'purva' ? 'Criteria: co-leads budget + society/maint; area thinner vs Brigade/Prestige' :
+              r.id === 'sattva' ? 'Criteria: co-leads budget + amenities; jurisdiction watch vs legal family' :
+              r.id === 'brigade' ? 'Criteria: all-rounder + top deep-eval sum; lock OC month (legal family)' :
+              'Criteria: co-leads type + builder grade; social family weak for Manyata daily',
           ])}
           rowTone={ROWS.map(r => {
             if (r.budgetTier === 'weak') return 'danger';
