@@ -39,7 +39,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 | File | Covers | When to update |
 |---|---|---|
 | `blr-builder-reputation.canvas.tsx` | **Citywide** BLR builders (tier, scores, corridors), North shortlist callouts | New builder on radar, tier/score edits, **any** shortlist builder row change |
-| `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property | **Any** property fact change **or** finishing a criterion write-up |
+| `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property (no duplicate “expanded area” narrative — that is `blr-areas` only) | **Any** property fact change **or** finishing a criterion write-up |
 | `blr-full-evaluation.canvas.tsx` | Cross-criterion summary | Whenever deep-eval or a criterion canvas materially changes |
 | `blr-property-criteria.canvas.tsx` | Framework definitions | Only if the 10-point framework text changes |
 
@@ -75,6 +75,8 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 ---
 
 ## Hard rules
+
+0. **One area canvas only:** `blr-areas.canvas.tsx` is the single source for area selection, livability, connectivity, watch pins, and suitability. Do **not** recreate `blr-area-livability`, `blr-area-selection`, `blr-connectivity`, or `blr-area-single-adult` as separate files.
 
 1. **Never commit HTML shortlist changes without canvas updates** in the same commit (unless the change is purely CSS/typos with zero factual delta).
 2. **Never** mark a criterion “done” in chat without updating **`blr-deep-eval.canvas.tsx`** for that criterion.

@@ -7,7 +7,8 @@ import {
 } from 'cursor/canvas';
 
 // ── North BLR area guide: 5 core micro-markets + 5 watch-list pins ────────
-// Replaces: blr-area-selection · blr-area-livability · blr-connectivity
+// Single area canvas. Replaced and removed: blr-area-selection, blr-area-livability,
+// blr-connectivity, blr-area-single-adult (do not recreate separate area canvases).
 
 type AreaKey = 'hosahalli' | 'thanisandra' | 'yelahanka' | 'yelahankaNT' | 'devanahalli';
 
