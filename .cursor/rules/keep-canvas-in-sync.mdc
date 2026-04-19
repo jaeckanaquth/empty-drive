@@ -28,7 +28,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 
 | File | Covers | When to update |
 |---|---|---|
-| `blr-property-shortlist.canvas.tsx` | Ranked 5 properties, scores, guardrails | Any add/remove/price/possession/RERA/commute |
+| `blr-property-shortlist.canvas.tsx` | **Unified hub:** 20-project pool (core + expand + watch + RTM refs), five-filter stack, Reddit URLs, compressed criteria verdict; whittle → visits | Any shortlist membership, price, possession, RERA, commute, research pass, or criteria-summary change |
 | `blr-visit-guide.canvas.tsx` | Itinerary, contacts, drive times | Same as shortlist + visit logistics |
 | `blr-areas.canvas.tsx` | 5 core areas + watch-list pins (Manyata, Birla Yelahanka, Navaratna Agrahara, Aerospace Bagalur, IVC); livability, connectivity, social, suitability | Area facts, watch-list text, shortlist geography |
 | `blr-investment.canvas.tsx` | Criterion 3 — CAGR, PSF, yield, catalysts, return framing | Price, possession, area thesis, infra assumptions |
@@ -43,10 +43,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 | `blr-builder-reputation.canvas.tsx` | **Citywide** BLR builders (tier, scores, corridors), North shortlist callouts | New builder on radar, tier/score edits, **any** shortlist builder row change |
 | `blr-deep-eval.canvas.tsx` | 10-criterion matrix per property (no duplicate “expanded area” narrative — that is `blr-areas` only) | **Any** property fact change **or** finishing a criterion write-up |
 | `blr-full-evaluation.canvas.tsx` | Cross-criterion summary | Whenever deep-eval or a criterion canvas materially changes |
-| `blr-property-criteria.canvas.tsx` | Framework definitions + **ten category families** “who leads” visit matrix | Any change to category-family verdicts / lead projects — sync **project-selection**, **research-snapshot** criteria section, **property-shortlist** cross-walk text |
-| `blr-project-selection.canvas.tsx` | Five-filter stack + alignment notes to **blr-property-criteria** ten families on the **visit shortlist** | Shortlist membership, all-in bands, deep-eval verdicts/scores, or **criteria “who leads” table** edits |
-| `blr-research-snapshot.canvas.tsx` | Web vs repo log; Reddit diligence threads (North BLR / UC / builder practices) + shortlist + peers/watch | After **external research** (portals, Reddit, etc.) or major portal vs repo conflicts |
-| `blr-shortlist-ten.canvas.tsx` | **Fixed list of 10** projects (5 core visits + 5 expand) for research passes | Any change to which ten are in-scope; then refresh research-snapshot pass #2 notes and, if visits expand, index + deep-eval |
+| `blr-property-criteria.canvas.tsx` | Framework definitions + “best on categories” table | 10-point framework text changes **or** hub-driven criteria summary edits |
 
 ### Criterion deep dives (keep aligned with `blr-deep-eval`)
 
@@ -63,10 +60,13 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 ## Minimal change checklist (copy mentally)
 
 **Property added/removed or renamed**  
-→ shortlist · visit-guide · areas · investment · budget-financial · **builder-reputation** (north row) · **deep-eval** · **project-selection** · full-evaluation (if present) · amenities/safety if that property had rows
+→ **property-shortlist hub** · visit-guide · areas · investment · budget-financial · **builder-reputation** (north row) · **deep-eval** · full-evaluation (if present) · amenities/safety if that property had rows
 
 **Price, all-in, possession, RERA, commute, address**  
-→ shortlist · visit-guide · investment · budget-financial · **deep-eval** (all affected cells) · **project-selection** · **research-snapshot** (if present — update “web vs repo” rows) · builder canvas only if narrative mentions that project
+→ **property-shortlist hub** · visit-guide · investment · budget-financial · **deep-eval** (all affected cells) · builder canvas only if narrative mentions that project
+
+**External research pass (Reddit, portals, K-RERA notes)**  
+→ **property-shortlist hub** (research column + Reddit table) · optional criteria canvas cross-link if methodology changes
 
 **Area / corridor thesis (e.g. STRR, new micro-market)**  
 → areas · investment · property-type-config (if hold/UDS story) · deep-eval area/connectivity/investment cells

@@ -196,8 +196,7 @@ export default function BLRPropertyCriteria() {
           #6: shortlist matrix + WFH checklist live in <Text weight="semibold" as="span">blr-amenities</Text>; deep-eval amenities row updated. Resume at <Text weight="semibold" as="span">#7 Social infrastructure</Text> (<Text weight="semibold" as="span">blr-areas</Text> social tab + social column in <Text weight="semibold" as="span">blr-deep-eval</Text>).
         </Text>
         <Text tone="secondary" size="small">
-          To choose among the five visit projects: budget → area → builder → adult amenities → other — <Text weight="semibold" as="span">blr-project-selection.canvas.tsx</Text>.
-          Web vs K-RERA conflict log (Apr 2026 pass): <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text>. Ten-project research scope: <Text weight="semibold" as="span">blr-shortlist-ten.canvas.tsx</Text>.
+          Shortlist hub (20 pool, five-filter + research links, scores): <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text> — replaces former project-selection / research-snapshot / shortlist-ten canvases.
         </Text>
       </Stack>
 
