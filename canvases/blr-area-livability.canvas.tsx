@@ -3,17 +3,41 @@ import {
   Card, CardBody, CardHeader,
   Divider, Grid, H1, H2, H3,
   Pill, Row, Stack, Stat, Table, Text,
-  useCanvasState,
+  useCanvasState
 } from 'cursor/canvas';
 
-// ── data ───────────────────────────────────────────────────────────────────
+// ── Bengaluru-wide livability snapshot (Apr 2026) ─────────────────────────
+// Scores are directional guides for trade-offs, not appraisals. No network.
 
-type AreaKey = 'yelahanka' | 'jakkur' | 'thanisandra' | 'hbr' | 'hebbal' | 'kothanur';
+type ZoneKey =
+  | 'north'
+  | 'east'
+  | 'southeast'
+  | 'south_central'
+  | 'south'
+  | 'east_central'
+  | 'west';
+
+type AreaKey =
+  | 'hosahalli'
+  | 'thanisandra'
+  | 'yelahanka'
+  | 'devanahalli'
+  | 'hebbal'
+  | 'whitefield'
+  | 'marathahalli'
+  | 'sarjapur_orr'
+  | 'indiranagar'
+  | 'koramangala'
+  | 'hsr'
+  | 'jp_nagar'
+  | 'electronic_city'
+  | 'malleshwaram';
 
 interface LiveScore {
   greenery: number;
   airQuality: number;
-  trafficCongestion: number; // higher = less congested = better
+  trafficCongestion: number;
   schools: number;
   hospitals: number;
   shoppingDining: number;
@@ -24,149 +48,172 @@ interface LiveScore {
 }
 
 interface Area {
+  zone: ZoneKey;
+  zoneLabel: string;
   label: string;
   shortLabel: string;
-  commuteManyata: string;
+  commuteRef: string;
   pricePerSqft: string;
-  pricePerSqftMid: number; // midpoint for calculations
+  pricePerSqftMid: number;
   whatYouGet: string;
   sqftAt3Cr: string;
   livability: LiveScore;
-  livabilityTotal: number; // out of 100
+  livabilityTotal: number;
   valueVerdict: 'overpriced' | 'fair' | 'undervalued';
   valueSummary: string;
-  appreciation5yr: number;
   metroStatus: string;
+  bestFor: string;
   bestPockets: string[];
   avoidPockets: string[];
   tone: 'success' | 'warning' | 'info';
+  shortlistProp?: string;   // which shortlisted property is here
 }
 
+function totalLivability(l: LiveScore): number {
+  return (
+    l.greenery +
+    l.airQuality +
+    l.trafficCongestion +
+    l.schools +
+    l.hospitals +
+    l.shoppingDining +
+    l.walkability +
+    l.safety +
+    l.roadQuality +
+    l.communityFeel
+  );
+}
+
+const ZONE_ORDER: ZoneKey[] = [
+  'north',
+  'east',
+  'southeast',
+  'east_central',
+  'south_central',
+  'south',
+  'west',
+];
+
+const ZONE_LABEL: Record<ZoneKey, string> = {
+  north: 'North · airport / Manyata belt',
+  east: 'East · Whitefield / ITPL corridor',
+  southeast: 'Southeast · ORR / Sarjapur jobs belt',
+  east_central: 'East-central · Indiranagar axis',
+  south_central: 'South-central · Koramangala village',
+  south: 'South · HSR / JP / EC',
+  west: 'West · Old Bangalore core',
+};
+
 const areas: Record<AreaKey, Area> = {
-  yelahanka: {
-    label: 'Yelahanka New Town / Sahakar Nagar',
-    shortLabel: 'Yelahanka',
-    commuteManyata: '35–50 min peak · 20–28 min off-peak',
-    pricePerSqft: '₹5,800–8,500',
-    pricePerSqftMid: 7000,
-    whatYouGet: '3–4 BHK, 2,050–2,500 sqft, large balconies, top societies',
-    sqftAt3Cr: '~2,050–2,500 sqft (3.5–4 BHK possible)',
-    livability: {
-      greenery: 9,
-      airQuality: 9,
-      trafficCongestion: 8,
-      schools: 9,
-      hospitals: 7,
-      shoppingDining: 8,
-      walkability: 7,
-      safety: 9,
-      roadQuality: 9,
-      communityFeel: 8,
-    },
-    livabilityTotal: 83,
-    valueVerdict: 'undervalued',
-    valueSummary: 'Exceptional livability for the price. Planned sector with wide roads, top schools, lower density. The best value-for-quality deal in North BLR right now.',
-    appreciation5yr: 48,
-    metroStatus: 'Phase 3 planned (long-term). NH44 airport road is the real asset.',
-    bestPockets: ['Yelahanka New Town 1st–4th Phase', 'Sahakar Nagar', 'Kattigenahalli (near airport road)', 'Dollar Layout, Amruth Nagar'],
-    avoidPockets: ['Old Yelahanka Town (cramped, older)', 'Attur Layout (flooding risk)'],
-    tone: 'success',
-  },
-  jakkur: {
-    label: 'Jakkur / Rachenahalli / Kodigehalli',
-    shortLabel: 'Jakkur',
-    commuteManyata: '28–40 min peak · 18–25 min off-peak',
-    pricePerSqft: '₹5,500–7,500',
-    pricePerSqftMid: 6400,
-    whatYouGet: '3–4 BHK, 2,150–2,650 sqft in newer societies; some lakefront options',
-    sqftAt3Cr: '~2,150–2,650 sqft (3–4 BHK villa/apt)',
+  hosahalli: {
+    zone: 'north',
+    zoneLabel: ZONE_LABEL.north,
+    label: 'Hosahalli / Billamaranahalli · Airport Road belt',
+    shortLabel: 'Hosahalli',
+    commuteRef: 'Manyata 24 min (14 km) · Airport 20–25 min',
+    pricePerSqft: '₹7,000–9,500',
+    pricePerSqftMid: 8200,
+    whatYouGet: 'Mid-large 3 BHK in new-launch projects; semi-suburban belt off NH44',
+    sqftAt3Cr: '~1,750–2,100 sqft',
     livability: {
       greenery: 8,
       airQuality: 8,
-      trafficCongestion: 8,
-      schools: 6,
+      trafficCongestion: 7,
+      schools: 7,
       hospitals: 6,
       shoppingDining: 6,
       walkability: 5,
       safety: 8,
-      roadQuality: 6,
+      roadQuality: 7,
       communityFeel: 7,
     },
-    livabilityTotal: 68,
-    valueVerdict: 'fair',
-    valueSummary: 'Great natural environment and large units at good price. However social infrastructure (schools, hospitals, dining) is still maturing. Pricing is fair — not cheap, not expensive.',
-    appreciation5yr: 42,
-    metroStatus: 'No near-term Metro. Road improvement projects ongoing.',
-    bestPockets: ['Jakkur Layout (lakeside)', 'Rachenahalli Main', 'Kodigehalli Gate area'],
-    avoidPockets: ['Bagalur Road (too far out)', 'Low-lying areas near lake during monsoon'],
+    livabilityTotal: 0,
+    valueVerdict: 'undervalued',
+    valueSummary:
+      'Clean, semi-suburban belt along the Airport Road corridor. Lower density than Thanisandra means better air and fewer signals. Social infrastructure is thinner — plan a car-dependent lifestyle. Purva Zenium 2 is the anchor project here.',
+    metroStatus: 'Phase 2B long-term benefit; nearest station ~4 km (Kempapura direction). Airport in 20–25 min.',
+    bestFor: 'Airport commuters and buyers wanting Grade A quality at lower psf than Thanisandra',
+    bestPockets: ['Billamaranahalli inner lanes', 'Projects set back from Airport Road noise corridor'],
+    avoidPockets: ['Airport Road main-road frontage (noise + dust)', 'Low-lying pockets near seasonal nalas'],
     tone: 'success',
+    shortlistProp: '★ Purva Zenium 2 (Rank 1 — Jun 2027)',
   },
   thanisandra: {
+    zone: 'north',
+    zoneLabel: ZONE_LABEL.north,
     label: 'Thanisandra / Nagavara / Kogilu',
     shortLabel: 'Thanisandra',
-    commuteManyata: '20–35 min peak · 12–18 min off-peak',
+    commuteRef: 'Manyata 18–22 min (10 km) · CBD 45–70 min',
     pricePerSqft: '₹6,500–9,500',
     pricePerSqftMid: 7800,
-    whatYouGet: '3 BHK, 1,680–2,050 sqft, modern RERA societies',
-    sqftAt3Cr: '~1,700–2,050 sqft (3 BHK)',
+    whatYouGet: 'Compact 3 BHK in dense new societies; strong hospital access',
+    sqftAt3Cr: '~1,650–2,050 sqft',
     livability: {
       greenery: 6,
       airQuality: 6,
       trafficCongestion: 5,
       schools: 8,
       hospitals: 9,
-      shoppingDining: 7,
+      shoppingDining: 8,
       walkability: 7,
       safety: 7,
       roadQuality: 6,
       communityFeel: 7,
     },
-    livabilityTotal: 68,
+    livabilityTotal: 0,
     valueVerdict: 'fair',
-    valueSummary: 'Close to work, good schools and hospitals nearby. But high density, traffic congestion on the main road, and air quality suffers. Priced fairly given Metro catalyst — but livability-per-rupee is lower than Yelahanka.',
-    appreciation5yr: 55,
-    metroStatus: 'Phase 2B Nagavara station — major price catalyst in 2–3 years.',
-    bestPockets: ['Nagavara (near lake)', 'Kogilu Cross', 'Thanisandra 2nd Stage', 'Amruth Nagar adjacent'],
-    avoidPockets: ['Thanisandra Main Road itself (noise, congestion)', 'B-Khata micro-pockets'],
+    valueSummary:
+      'Best North-side mix of Metro upside, hospitals, and schools. Main-road facing units pay a noise and dust tax. Prestige Avon is the Grade A anchor here.',
+    metroStatus: 'Phase 2B Nagavara station — strongest near-term catalyst in North BLR.',
+    bestFor: 'Metro-led buyers who still want Manyata reach',
+    bestPockets: ['Inner Nagavara wards', 'Kogilu cross inner blocks', 'Thanisandra 2nd stage lanes'],
+    avoidPockets: ['Thanisandra main road frontage', 'Choked service roads at peak'],
     tone: 'info',
+    shortlistProp: '★ Prestige Avon (Rank 2 — Dec 2028)',
   },
-  hbr: {
-    label: 'HBR Layout / Kalyan Nagar / RT Nagar',
-    shortLabel: 'HBR Layout',
-    commuteManyata: '25–40 min peak · 15–22 min off-peak',
-    pricePerSqft: '₹7,500–10,000',
-    pricePerSqftMid: 8700,
-    whatYouGet: '2–3 BHK (1,320–1,650 sqft) in older society OR builder floor',
-    sqftAt3Cr: '~1,320–1,650 sqft (2–3 BHK, older stock)',
+  yelahanka: {
+    zone: 'north',
+    zoneLabel: ZONE_LABEL.north,
+    label: 'Yelahanka New Town / Rajanukunte / Sahakar Nagar',
+    shortLabel: 'Yelahanka',
+    commuteRef: 'Manyata 25–40 min (11–15 km) · CBD 55–80 min',
+    pricePerSqft: '₹5,800–8,500',
+    pricePerSqftMid: 7000,
+    whatYouGet: 'Spacious 3–4 BHK in planned sectors; NH44 access and greenest roads in North BLR',
+    sqftAt3Cr: '~2,050–2,500 sqft',
     livability: {
-      greenery: 5,
-      airQuality: 5,
-      trafficCongestion: 4,
-      schools: 8,
-      hospitals: 8,
-      shoppingDining: 8,
-      walkability: 8,
-      safety: 7,
-      roadQuality: 6,
-      communityFeel: 7,
+      greenery: 9,
+      airQuality: 9,
+      trafficCongestion: 8,
+      schools: 9,
+      hospitals: 7,
+      shoppingDining: 7,
+      walkability: 6,
+      safety: 9,
+      roadQuality: 9,
+      communityFeel: 8,
     },
-    livabilityTotal: 66,
-    valueVerdict: 'overpriced',
-    valueSummary: 'You pay Thanisandra-level prices but get significantly smaller units in older stock. The area is established but congested, and greenery/air quality scores poorly. Not worth the premium vs Yelahanka.',
-    appreciation5yr: 32,
-    metroStatus: 'Near Purple Line extension planning. Existing BMTC good.',
-    bestPockets: ['5th Block HBR (quieter lanes)', 'RT Nagar BBMP residential zones'],
-    avoidPockets: ['Main road-facing units (noise)', 'Cramped inner lanes with poor parking'],
-    tone: 'warning',
+    livabilityTotal: 0,
+    valueVerdict: 'undervalued',
+    valueSummary:
+      'Widest roads and cleanest air among all major job-adjacent belts in North BLR. You trade central-city vibrancy for space and calm. Sattva Lumina (Rajanukunte) and Brigade Eternia (Yelahanka New Town) are both here.',
+    metroStatus: 'Phase 2B Nagavara–airport alignment in progress; long-term Phase 3 northward.',
+    bestFor: 'Families prioritising air, schools, and apartment size',
+    bestPockets: ['Yelahanka New Town early phases', 'Rajanukunte off SH-9 (less congested)', 'Sahakar Nagar', 'Kattigenahalli off NH44'],
+    avoidPockets: ['Low pockets near rajakaluves', 'Old town lanes if you need wide internal roads'],
+    tone: 'success',
+    shortlistProp: '★ Sattva Lumina (Rank 3 — Nov 2029) · Brigade Eternia (Rank 4 — Mar 2030)',
   },
   hebbal: {
-    label: 'Hebbal / Outer Ring Road (Near Manyata)',
+    zone: 'north',
+    zoneLabel: ZONE_LABEL.north,
+    label: 'Hebbal / Bellary Road stack',
     shortLabel: 'Hebbal',
-    commuteManyata: '10–20 min peak · 8–12 min off-peak',
+    commuteRef: 'Manyata 10–20 min · CBD 35–55 min',
     pricePerSqft: '₹10,000–15,000',
     pricePerSqftMid: 12000,
-    whatYouGet: '2–3 BHK (1,080–1,300 sqft) in premium high-rise',
-    sqftAt3Cr: '~1,080–1,300 sqft (2 BHK only)',
+    whatYouGet: 'Premium high-rises; smaller plates vs suburbs',
+    sqftAt3Cr: '~1,080–1,320 sqft (2 BHK typical)',
     livability: {
       greenery: 5,
       airQuality: 4,
@@ -179,108 +226,517 @@ const areas: Record<AreaKey, Area> = {
       roadQuality: 7,
       communityFeel: 5,
     },
-    livabilityTotal: 60,
+    livabilityTotal: 0,
     valueVerdict: 'overpriced',
-    valueSummary: 'Worst value-for-money in this comparison. ₹3 Cr buys a 2 BHK under 1,300 sqft. Premium is paid for proximity to Manyata — but you said commute isn\'t the priority. Terrible traffic, poor air quality, high density. Avoid.',
-    appreciation5yr: 35,
-    metroStatus: 'Phase 2B Hebbal station — premium already baked into price.',
-    bestPockets: ['Lakeside apartments (Hebbal Lake facing)', 'Embassy Galaxy / premium gated compounds'],
-    avoidPockets: ['Main Bellary Road facing — extreme noise', 'Hebbal flyover vicinity'],
+    valueSummary:
+      'You pay heavily for flyover adjacency and hospital density. Livability per rupee lags greener suburbs unless commute minutes are non-negotiable.',
+    metroStatus: 'Hebbal interchange on Phase 2B — much of the upside already in launch pricing.',
+    bestFor: 'Ultra-short Manyata commutes and hospital-heavy households',
+    bestPockets: ['Lake-facing premium towers', 'Gated compounds set back from Bellary Road'],
+    avoidPockets: ['Bellary Road noise corridors', 'Tight approach roads around flyover cloverleafs'],
     tone: 'warning',
   },
-  kothanur: {
-    label: 'Kothanur / Hennur / Bagalur Cross',
-    shortLabel: 'Kothanur',
-    commuteManyata: '25–40 min peak · 18–25 min off-peak',
-    pricePerSqft: '₹5,200–7,000',
-    pricePerSqftMid: 6000,
-    whatYouGet: '3–4 BHK, 2,280–2,760 sqft, newer projects with large amenity areas',
-    sqftAt3Cr: '~2,280–2,760 sqft (3.5–4 BHK)',
+  devanahalli: {
+    zone: 'north',
+    zoneLabel: ZONE_LABEL.north,
+    label: 'Devanahalli / Shettigere · Airport corridor',
+    shortLabel: 'Devanahalli',
+    commuteRef: 'Manyata 25–35 min · Airport 10–15 min · CBD 65–90 min',
+    pricePerSqft: '₹5,500–7,500',
+    pricePerSqftMid: 6400,
+    whatYouGet: 'Large-format 3–4 BHK in township projects; cleanest air in the region',
+    sqftAt3Cr: '~2,300–2,700 sqft',
     livability: {
-      greenery: 7,
-      airQuality: 7,
-      trafficCongestion: 7,
+      greenery: 9,
+      airQuality: 10,
+      trafficCongestion: 9,
       schools: 6,
-      hospitals: 6,
+      hospitals: 5,
       shoppingDining: 5,
-      walkability: 5,
+      walkability: 3,
+      safety: 8,
+      roadQuality: 8,
+      communityFeel: 6,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'undervalued',
+    valueSummary:
+      'Purest air and least traffic in any area on this list — a genuine lifestyle upgrade for air quality and space. Trade-off: thin social infrastructure (hospitals, retail) and daily commute to Manyata adds ~10 min vs Yelahanka. Tata Varnam sits inside a 135-acre self-contained township, which partially compensates.',
+    metroStatus: 'No near-term Metro. KIADB Aerospace park and upcoming STRR (Satellite Town Ring Road) are the long-term catalysts.',
+    bestFor: 'Airport-frequent flyers, buyers who want max size and cleanest environment',
+    bestPockets: ['Inside large townships (Carnatica / Tata Varnam)', 'SH-9 inner lanes with KIADB commercial proximity'],
+    avoidPockets: ['Isolated smaller societies without their own water & power backup', 'Panchayat layouts without OC clarity'],
+    tone: 'success',
+    shortlistProp: '★ Tata Varnam (Rank 5 — Dec 2029)',
+  },
+  whitefield: {
+    zone: 'east',
+    zoneLabel: ZONE_LABEL.east,
+    label: 'Whitefield / Kadugodi / ITPL ring',
+    shortLabel: 'Whitefield',
+    commuteRef: 'ITPL 10–25 min · CBD 50–75 min',
+    pricePerSqft: '₹9,500–13,500',
+    pricePerSqftMid: 11500,
+    whatYouGet: 'Mid-premium 2–3 BHK; Purple Line reshaped the commute story',
+    sqftAt3Cr: '~1,150–1,450 sqft',
+    livability: {
+      greenery: 6,
+      airQuality: 6,
+      trafficCongestion: 5,
+      schools: 8,
+      hospitals: 8,
+      shoppingDining: 8,
+      walkability: 6,
       safety: 7,
       roadQuality: 6,
       communityFeel: 7,
     },
-    livabilityTotal: 63,
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'East BLR default for IT campuses. Metro cut airport and CBD reach dramatically; inner Whitefield still congested at peak.',
+    metroStatus: 'Purple Line operational Whitefield–Challaghatta; focus on last-mile from station.',
+    bestFor: 'ITPL / Graphisoft / Brookefield job anchors',
+    bestPockets: ['Kadugodi metro walk', 'Inner Varthur road pockets', 'Nallurahalli low-rise lanes'],
+    avoidPockets: ['Chronic water-stress pockets', 'ORR slip roads at evening peak'],
+    tone: 'info',
+  },
+  marathahalli: {
+    zone: 'east',
+    zoneLabel: ZONE_LABEL.east,
+    label: 'Marathahalli / Kundalahalli gate',
+    shortLabel: 'Marathahalli',
+    commuteRef: 'ORR spine · CBD 40–65 min',
+    pricePerSqft: '₹8,000–11,500',
+    pricePerSqftMid: 9500,
+    whatYouGet: 'High-rise stock; location rent for ORR midpoint',
+    sqftAt3Cr: '~1,350–1,700 sqft',
+    livability: {
+      greenery: 4,
+      airQuality: 4,
+      trafficCongestion: 3,
+      schools: 7,
+      hospitals: 8,
+      shoppingDining: 8,
+      walkability: 6,
+      safety: 6,
+      roadQuality: 5,
+      communityFeel: 6,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'Maximum connectivity chaos for minimum green buffer. Livability rises sharply if you pick society depth over main-road frontage.',
+    metroStatus: 'ORR metro lines under rollout — watch station distance, not brochure maps.',
+    bestFor: 'ORR-centric jobs with tolerance for peak-hour friction',
+    bestPockets: ['Societies set back from ORR', 'Kundalahalli lake-side pockets'],
+    avoidPockets: ['Direct ORR-facing towers', 'Choked service lanes without alternate exits'],
+    tone: 'warning',
+  },
+  sarjapur_orr: {
+    zone: 'southeast',
+    zoneLabel: ZONE_LABEL.southeast,
+    label: 'Bellandur–Sarjapur ORR jobs belt',
+    shortLabel: 'Sarjapur ORR',
+    commuteRef: 'Embassy / RMZ ~15–35 min · CBD 45–70 min',
+    pricePerSqft: '₹8,000–12,500',
+    pricePerSqftMid: 10200,
+    whatYouGet: 'Mid-luxury 3 BHK; job stack is the main amenity',
+    sqftAt3Cr: '~1,450–1,850 sqft',
+    livability: {
+      greenery: 5,
+      airQuality: 4,
+      trafficCongestion: 3,
+      schools: 7,
+      hospitals: 7,
+      shoppingDining: 8,
+      walkability: 5,
+      safety: 6,
+      roadQuality: 5,
+      communityFeel: 6,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'Walk-to-work for large tech parks. You accept lake-belt infrastructure stress and peak ORR merges unless you live inside a large gated master plan.',
+    metroStatus: 'Blue / Pink ORR alignment still maturing — verify walking distance to future stations.',
+    bestFor: 'Couples optimising on commute to Bellandur–Sarjapur office clusters',
+    bestPockets: ['Inner Sarjapur village lanes', 'Kaikondrahalli quieter wards'],
+    avoidPockets: ['Low-lying storm-water pockets', 'Single-entry large layouts'],
+    tone: 'info',
+  },
+  indiranagar: {
+    zone: 'east_central',
+    zoneLabel: ZONE_LABEL.east_central,
+    label: 'Indiranagar / Domlur edge',
+    shortLabel: 'Indiranagar',
+    commuteRef: 'CBD 15–30 min · ORR 20–40 min',
+    pricePerSqft: '₹14,000–22,000',
+    pricePerSqftMid: 17500,
+    whatYouGet: 'Vertical 2–3 BHK; location premium for dining and Metro',
+    sqftAt3Cr: '~850–1,100 sqft',
+    livability: {
+      greenery: 4,
+      airQuality: 5,
+      trafficCongestion: 3,
+      schools: 7,
+      hospitals: 8,
+      shoppingDining: 10,
+      walkability: 9,
+      safety: 7,
+      roadQuality: 5,
+      communityFeel: 8,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'overpriced',
+    valueSummary:
+      'Unbeatable walkable dining and Metro mesh. You pay a steep premium per sqft; apartment size is the compromise.',
+    metroStatus: 'Purple Line and swap corridors — Indiranagar is already a rail hub.',
+    bestFor: 'Urbanists who want foot-access nightlife and Metro',
+    bestPockets: ['100 Feet intermediate cross streets', 'Domlur quieter inner blocks'],
+    avoidPockets: ['100 Feet road-facing low floors', 'Parking-starved older independents'],
+    tone: 'warning',
+  },
+  koramangala: {
+    zone: 'south_central',
+    zoneLabel: ZONE_LABEL.south_central,
+    label: 'Koramangala (inner blocks)',
+    shortLabel: 'Koramangala',
+    commuteRef: 'CBD 20–40 min · EC 45–70 min',
+    pricePerSqft: '₹13,000–20,000',
+    pricePerSqftMid: 16000,
+    whatYouGet: 'Low-rise charm or premium towers; parking is the hidden tax',
+    sqftAt3Cr: '~950–1,250 sqft',
+    livability: {
+      greenery: 5,
+      airQuality: 5,
+      trafficCongestion: 4,
+      schools: 7,
+      hospitals: 8,
+      shoppingDining: 10,
+      walkability: 9,
+      safety: 7,
+      roadQuality: 5,
+      communityFeel: 9,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'overpriced',
+    valueSummary:
+      'South BLR social capital is concentrated here. Livability is about lane choice: inner 5th–8th blocks vs ring-road exposure.',
+    metroStatus: 'Metro access via neighbouring stations; last-mile auto remains reality.',
+    bestFor: 'Founders, creatives, and anyone optimising for serendipity',
+    bestPockets: ['5th–8th Block interiors', 'ADB avenue pockets'],
+    avoidPockets: ['80 Feet choke fronts', 'Houses without dedicated parking'],
+    tone: 'info',
+  },
+  hsr: {
+    zone: 'south',
+    zoneLabel: ZONE_LABEL.south,
+    label: 'HSR Layout sectors',
+    shortLabel: 'HSR',
+    commuteRef: 'ORR 15–35 min · EC 35–55 min',
+    pricePerSqft: '₹11,000–17,000',
+    pricePerSqftMid: 13500,
+    whatYouGet: 'Compact premium 2–3 BHK; startup ecosystem at doorstep',
+    sqftAt3Cr: '~1,100–1,400 sqft',
+    livability: {
+      greenery: 5,
+      airQuality: 5,
+      trafficCongestion: 4,
+      schools: 7,
+      hospitals: 8,
+      shoppingDining: 9,
+      walkability: 7,
+      safety: 7,
+      roadQuality: 5,
+      communityFeel: 8,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'Balanced South-side option between Koramangala chaos and outer sprawl. Sector depth matters for storm-water risk.',
+    metroStatus: 'Future ORR metro interchange nearby — check station walk vs marketing distance.',
+    bestFor: 'Startup / product roles with ORR + Sarjapur split',
+    bestPockets: ['Sector 2 / 4 quieter grids', '27th Main cafe spine (if noise OK)'],
+    avoidPockets: ['Known flooding grids', 'Agara connector slip at peak'],
+    tone: 'info',
+  },
+  jp_nagar: {
+    zone: 'south',
+    zoneLabel: ZONE_LABEL.south,
+    label: 'Jayanagar / JP Nagar (metro mesh)',
+    shortLabel: 'JP / Jayanagar',
+    commuteRef: 'CBD 25–45 min · ORR 20–40 min',
+    pricePerSqft: '₹9,000–14,000',
+    pricePerSqftMid: 11200,
+    whatYouGet: 'Mix of old independent floors and new mid-rises',
+    sqftAt3Cr: '~1,350–1,750 sqft',
+    livability: {
+      greenery: 7,
+      airQuality: 6,
+      trafficCongestion: 5,
+      schools: 9,
+      hospitals: 9,
+      shoppingDining: 8,
+      walkability: 8,
+      safety: 8,
+      roadQuality: 6,
+      communityFeel: 8,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'Most rounded South BLR belt: trees, schools, and Metro without Indiranagar sticker shock.',
+    metroStatus: 'Green Line dense coverage — prefer walks under 900 m to a station.',
+    bestFor: 'Families wanting walkable markets and strong schools',
+    bestPockets: ['JP Nagar 2nd / 3rd Phase', 'Jayanagar 4th T Block'],
+    avoidPockets: ['Narrow dead-end lanes if you need two cars', 'Busy market-adjacent floors'],
+    tone: 'success',
+  },
+  electronic_city: {
+    zone: 'south',
+    zoneLabel: ZONE_LABEL.south,
+    label: 'Electronic City Phase 1–2',
+    shortLabel: 'Electronic City',
+    commuteRef: 'EC offices 5–20 min · ORR 40–70 min · CBD 60–90 min',
+    pricePerSqft: '₹6,000–8,800',
+    pricePerSqftMid: 7400,
+    whatYouGet: 'Large 3 BHK plates; best value if jobs are south of ORR',
+    sqftAt3Cr: '~1,900–2,400 sqft',
+    livability: {
+      greenery: 6,
+      airQuality: 6,
+      trafficCongestion: 6,
+      schools: 6,
+      hospitals: 6,
+      shoppingDining: 6,
+      walkability: 5,
+      safety: 7,
+      roadQuality: 7,
+      communityFeel: 6,
+    },
+    livabilityTotal: 0,
     valueVerdict: 'undervalued',
-    valueSummary: 'Cheapest per sqft in this list while offering decent livability. Social infrastructure is 2–3 years behind Yelahanka, but large gated societies with good internal amenities compensate. Good appreciation runway.',
-    appreciation5yr: 38,
-    metroStatus: 'No near-term Metro. Dependent on road access improvements.',
-    bestPockets: ['Kothanur Main (established part)', 'Hennur Cross', 'Near Bagalur Road (gated townships)'],
-    avoidPockets: ['Deep into Bagalur (too far)', 'Flood-risk pockets near nullahs'],
+    valueSummary:
+      'Yellow Line changed the calculus: airport and mid-city reachable by rail without ORR daily war. Still weak on fine dining vs central Bangalore.',
+    metroStatus: 'Yellow Line RV Road–Bommasandra operational; buy on provable station walk, not brochure radius.',
+    bestFor: 'Infosys / Biocon / south-tech park employees',
+    bestPockets: ['Phase 1 established sectors', 'Neotown-style integrated townships'],
+    avoidPockets: ['Phase 2 fringe without Metro walk', 'Industrial-interface pockets'],
+    tone: 'success',
+  },
+  malleshwaram: {
+    zone: 'west',
+    zoneLabel: ZONE_LABEL.west,
+    label: 'Malleshwaram / Sadashivanagar edge',
+    shortLabel: 'Malleshwaram',
+    commuteRef: 'CBD 20–40 min · Manyata 55–85 min',
+    pricePerSqft: '₹10,000–16,000',
+    pricePerSqftMid: 12500,
+    whatYouGet: 'Older charm, strong culture; stock is heterogenous',
+    sqftAt3Cr: '~1,150–1,450 sqft',
+    livability: {
+      greenery: 7,
+      airQuality: 7,
+      trafficCongestion: 5,
+      schools: 9,
+      hospitals: 9,
+      shoppingDining: 8,
+      walkability: 8,
+      safety: 8,
+      roadQuality: 6,
+      communityFeel: 9,
+    },
+    livabilityTotal: 0,
+    valueVerdict: 'fair',
+    valueSummary:
+      'West BLR stability: institutions, trees, and Metro without ORR madness. Less ideal if Manyata is a daily anchor.',
+    metroStatus: 'Green Line access; airport still a long northward hop.',
+    bestFor: 'Heritage-city lovers and school-first families',
+    bestPockets: ['11th Cross quieter grids', 'Sadashivanagar extension pockets'],
+    avoidPockets: ['Sankey-facing noise', 'Tight heritage lanes if you need SUV parking'],
     tone: 'info',
   },
 };
 
+(Object.keys(areas) as AreaKey[]).forEach(k => {
+  areas[k].livabilityTotal = totalLivability(areas[k].livability);
+});
+
 const LIVABILITY_FACTORS: [keyof LiveScore, string][] = [
-  ['greenery', 'Greenery / Parks'],
-  ['airQuality', 'Air Quality'],
-  ['trafficCongestion', 'Low Congestion'],
+  ['greenery', 'Greenery'],
+  ['airQuality', 'Air quality'],
+  ['trafficCongestion', 'Low congestion'],
   ['schools', 'Schools'],
   ['hospitals', 'Hospitals'],
-  ['shoppingDining', 'Shopping / Dining'],
+  ['shoppingDining', 'Dining / retail'],
   ['walkability', 'Walkability'],
   ['safety', 'Safety'],
-  ['roadQuality', 'Road Quality'],
-  ['communityFeel', 'Community Feel'],
+  ['roadQuality', 'Road quality'],
+  ['communityFeel', 'Community'],
 ];
 
-export default function AreaLivabilityAnalysis() {
-  const [activeArea, setActiveArea] = useCanvasState<AreaKey>('liveArea', 'yelahanka');
-  const a = areas[activeArea];
-  const areaKeys = Object.keys(areas) as AreaKey[];
+/** Shortlisted property areas for the head-to-head comparison chart. */
+const COMPARE_KEYS: AreaKey[] = [
+  'hosahalli',
+  'thanisandra',
+  'yelahanka',
+  'devanahalli',
+];
 
-  // Value score = livability per ₹1000/sqft
+const CHART_FACTOR_KEYS: (keyof LiveScore)[] = [
+  'greenery',
+  'airQuality',
+  'trafficCongestion',
+  'schools',
+  'hospitals',
+  'shoppingDining',
+  'walkability',
+  'safety',
+];
+
+const CHART_FACTOR_LABELS = [
+  'Green',
+  'Air',
+  'Low traffic',
+  'Schools',
+  'Hospitals',
+  'Dining',
+  'Walk',
+  'Safety',
+];
+
+const SHORTLIST_AREA_KEYS: AreaKey[] = ['hosahalli', 'thanisandra', 'yelahanka', 'devanahalli'];
+
+export default function AreaLivabilityAnalysis() {
+  const [activeZone, setActiveZone] = useCanvasState<ZoneKey | 'all' | 'shortlist'>('liveZone', 'shortlist');
+  const [activeArea, setActiveArea] = useCanvasState<AreaKey>('liveArea', 'hosahalli');
+
+  const areaKeys = Object.keys(areas) as AreaKey[];
+  const keysInZone =
+    activeZone === 'shortlist'
+      ? SHORTLIST_AREA_KEYS
+      : activeZone === 'all'
+        ? areaKeys
+        : areaKeys.filter(k => areas[k].zone === activeZone);
+
+  const firstInZone = (z: ZoneKey): AreaKey =>
+    areaKeys.find(k => areas[k].zone === z) ?? areaKeys[0];
+
+  const pickZone = (z: ZoneKey | 'all' | 'shortlist') => {
+    setActiveZone(z);
+    if (z === 'all') return;
+    if (z === 'shortlist') { setActiveArea('hosahalli'); return; }
+    setActiveArea(firstInZone(z));
+  };
+
+  const sortedByLive = [...areaKeys].sort(
+    (a, b) => areas[b].livabilityTotal - areas[a].livabilityTotal
+  );
+
   const valueScore = (key: AreaKey) =>
     (areas[key].livabilityTotal / (areas[key].pricePerSqftMid / 1000)).toFixed(1);
 
-  return (
-    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 960 }}>
+  const bestValue = [...areaKeys].sort(
+    (a, b) => parseFloat(valueScore(b)) - parseFloat(valueScore(a))
+  )[0];
 
-      {/* ── header ── */}
-      <Stack gap={4}>
-        <H1>Livability vs Price — Is the Area Worth What It Costs?</H1>
-        <Text tone="secondary">North Bangalore · ₹3 Cr budget · Livability-first, commute secondary (≤30–40 min)</Text>
+  const priciest = [...areaKeys].sort(
+    (a, b) => areas[b].pricePerSqftMid - areas[a].pricePerSqftMid
+  )[0];
+
+  const effectiveArea: AreaKey = keysInZone.includes(activeArea as AreaKey)
+    ? (activeArea as AreaKey)
+    : (keysInZone[0] ?? (activeArea as AreaKey));
+  const a = areas[effectiveArea];
+
+  const comparisonSeries = COMPARE_KEYS.map(k => ({
+    name: areas[k].shortLabel,
+    data: CHART_FACTOR_KEYS.map(f => areas[k].livability[f]),
+  }));
+
+  return (
+    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 980 }}>
+
+      <Stack gap={6}>
+        <Row gap={10} align="center">
+          <H1>Priority 3 — Livability</H1>
+          <Pill tone="info">After Builder + Investment</Pill>
+        </Row>
+        <Text tone="secondary">
+          Apr 2026 · 14 belts across Bengaluru · shortlist areas (Hosahalli, Thanisandra, Yelahanka, Devanahalli) tagged · scores are directional guides, not appraisals
+        </Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="Yelahanka" label="Best Livability Per Rupee" tone="success" />
-        <Stat value="Hebbal" label="Most Overpriced" tone="danger" />
-        <Stat value="83/100" label="Top Livability Score" tone="success" />
-        <Stat value="2,500 sqft" label="Max Size @ ₹3 Cr" tone="info" />
+        <Stat value="4" label="Shortlisted areas" tone="success" />
+        <Stat
+          value={areas[sortedByLive.filter(k => SHORTLIST_AREA_KEYS.includes(k))[0]].shortLabel}
+          label="Highest livability (shortlist)"
+          tone="success"
+        />
+        <Stat value={areas[bestValue].shortLabel} label="Best livability per ₹1k/sqft (all)" tone="info" />
+        <Stat value="₹3 Cr" label="Budget anchor" tone="warning" />
       </Grid>
 
       <Divider />
 
-      {/* ── value matrix ── */}
       <Stack gap={12}>
-        <H2>Value-for-Money Matrix — Price vs What You Actually Get</H2>
-        <Text tone="secondary" size="small">
-          Value Score = Livability (out of 100) ÷ Price per sqft (in ₹000s). Higher = more livability per rupee spent.
+        <H2>How to read this page</H2>
+        <Text size="small" tone="secondary">
+          Each belt is scored on ten factors (1–10). Total is out of 100. Traffic scores reward moving against congestion, not distance. Use the zone strip to narrow the list, then open a belt for pockets to favour or avoid.
         </Text>
+        <Row gap={8} wrap>
+          <Pill tone="success" active={activeZone === 'shortlist'} onClick={() => pickZone('shortlist')}>
+            ★ Shortlist areas only
+          </Pill>
+          <Pill active={activeZone === 'all'} onClick={() => setActiveZone('all')}>
+            All zones
+          </Pill>
+          {ZONE_ORDER.map(z => (
+            <Pill key={z} active={activeZone === z} onClick={() => pickZone(z)}>
+              {ZONE_LABEL[z]}
+            </Pill>
+          ))}
+        </Row>
+      </Stack>
 
+      <Divider />
+
+      <Stack gap={12}>
+        <H2>Value matrix — price vs livability (₹3 Cr sizing)</H2>
+        <Text tone="secondary" size="small">
+          Value score = livability total ÷ price per sqft (₹ thousands). Higher means more score per rupee of entry ticket.
+        </Text>
         <Table
-          headers={['Area', 'Price/sqft', 'Livability Score', 'Value Score', 'Size @ ₹3 Cr', 'Verdict']}
-          rows={areaKeys.map(k => [
+          headers={[
+            'Belt',
+            'Zone',
+            'Price / sqft',
+            'Livability',
+            'Value',
+            'Size @ ₹3 Cr',
+            'Verdict',
+          ]}
+          rows={keysInZone.map(k => [
             areas[k].shortLabel,
+            areas[k].zoneLabel.split('·')[0].trim(),
             areas[k].pricePerSqft,
             `${areas[k].livabilityTotal}/100`,
             valueScore(k),
-            areas[k].sqftAt3Cr.split('(')[0].trim(),
-            areas[k].valueVerdict === 'undervalued' ? 'Undervalued' :
-            areas[k].valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair',
+            areas[k].sqftAt3Cr,
+            areas[k].valueVerdict === 'undervalued'
+              ? 'Undervalued'
+              : areas[k].valueVerdict === 'overpriced'
+                ? 'Overpriced'
+                : 'Fair',
           ])}
-          rowTone={areaKeys.map(k =>
-            areas[k].valueVerdict === 'undervalued' ? 'success' :
-            areas[k].valueVerdict === 'overpriced' ? 'danger' :
-            undefined
+          rowTone={keysInZone.map(k =>
+            areas[k].valueVerdict === 'undervalued'
+              ? 'success'
+              : areas[k].valueVerdict === 'overpriced'
+                ? 'danger'
+                : undefined
           )}
           striped
         />
@@ -288,38 +744,52 @@ export default function AreaLivabilityAnalysis() {
 
       <Divider />
 
-      {/* ── charts ── */}
       <Grid columns={2} gap={16}>
         <Stack gap={8}>
-          <H3>Livability Score (out of 100)</H3>
+          <H3>Livability total (of 100)</H3>
           <BarChart
-            categories={areaKeys.map(k => areas[k].shortLabel)}
-            series={[{ name: 'Livability Score', data: areaKeys.map(k => areas[k].livabilityTotal) }]}
-            height={220}
+            categories={sortedByLive.map(k => areas[k].shortLabel)}
+            series={[
+              {
+                name: 'Livability',
+                data: sortedByLive.map(k => areas[k].livabilityTotal),
+              },
+            ]}
+            height={280}
           />
         </Stack>
         <Stack gap={8}>
-          <H3>Value Score (Livability ÷ Price)</H3>
+          <H3>Value score (livability ÷ price)</H3>
           <BarChart
-            categories={areaKeys.map(k => areas[k].shortLabel)}
-            series={[{ name: 'Value Score', data: areaKeys.map(k => parseFloat(valueScore(k))) }]}
-            height={220}
+            categories={sortedByLive.map(k => areas[k].shortLabel)}
+            series={[
+              {
+                name: 'Value',
+                data: sortedByLive.map(k => parseFloat(valueScore(k))),
+              },
+            ]}
+            height={280}
           />
         </Stack>
       </Grid>
 
       <Divider />
 
-      {/* ── deep dive ── */}
       <Stack gap={14}>
         <Row gap={8} align="center" wrap>
-          <H2>Area Deep Dive</H2>
+          <H2>Belt deep dive</H2>
           <Row gap={6} wrap>
-            {areaKeys.map(k => (
+            {keysInZone.map(k => (
               <Pill
                 key={k}
-                active={activeArea === k}
-                tone={areas[k].valueVerdict === 'undervalued' ? 'success' : areas[k].valueVerdict === 'overpriced' ? 'warning' : 'neutral'}
+                active={effectiveArea === k}
+                tone={
+                  areas[k].valueVerdict === 'undervalued'
+                    ? 'success'
+                    : areas[k].valueVerdict === 'overpriced'
+                      ? 'warning'
+                      : 'neutral'
+                }
                 onClick={() => setActiveArea(k)}
               >
                 {areas[k].shortLabel}
@@ -331,44 +801,75 @@ export default function AreaLivabilityAnalysis() {
         <Grid columns={4} gap={14}>
           <Stat
             value={`${a.livabilityTotal}/100`}
-            label="Livability Score"
-            tone={a.livabilityTotal >= 80 ? 'success' : a.livabilityTotal >= 70 ? undefined : 'warning'}
+            label="Livability total"
+            tone={a.livabilityTotal >= 75 ? 'success' : a.livabilityTotal >= 65 ? undefined : 'warning'}
           />
           <Stat
-            value={valueScore(activeArea)}
-            label="Value Score"
-            tone={parseFloat(valueScore(activeArea)) >= 11 ? 'success' : parseFloat(valueScore(activeArea)) >= 8 ? undefined : 'danger'}
+            value={valueScore(effectiveArea)}
+            label="Value score"
+            tone={
+              parseFloat(valueScore(effectiveArea)) >= 10
+                ? 'success'
+                : parseFloat(valueScore(effectiveArea)) >= 7.5
+                  ? undefined
+                  : 'danger'
+            }
           />
-          <Stat value={a.sqftAt3Cr.split('(')[0].trim()} label="Size at ₹3 Cr" />
-          <Stat
-            value={a.valueVerdict === 'undervalued' ? 'Undervalued' : a.valueVerdict === 'overpriced' ? 'Overpriced' : 'Fair Value'}
-            label="Price Assessment"
-            tone={a.valueVerdict === 'undervalued' ? 'success' : a.valueVerdict === 'overpriced' ? 'danger' : undefined}
-          />
+          <Stat value={a.sqftAt3Cr} label="Typical size @ ₹3 Cr" />
+          <Stat value={a.bestFor} label="Best for" />
         </Grid>
 
         <Card>
-          <CardHeader trailing={<Pill tone={a.valueVerdict === 'undervalued' ? 'success' : a.valueVerdict === 'overpriced' ? 'warning' : 'neutral'} size="sm">{a.valueVerdict}</Pill>}>
+          <CardHeader
+            trailing={
+              <Row gap={6}>
+                {a.shortlistProp ? (
+                  <Pill tone="success" size="sm">Shortlisted</Pill>
+                ) : null}
+                <Pill
+                  tone={
+                    a.valueVerdict === 'undervalued'
+                      ? 'success'
+                      : a.valueVerdict === 'overpriced'
+                        ? 'warning'
+                        : 'neutral'
+                  }
+                  size="sm"
+                >
+                  {a.valueVerdict}
+                </Pill>
+              </Row>
+            }
+          >
             {a.label}
           </CardHeader>
           <CardBody>
             <Stack gap={12}>
+              {a.shortlistProp ? (
+                <Text size="small" weight="semibold">{a.shortlistProp}</Text>
+              ) : null}
               <Text size="small">{a.valueSummary}</Text>
+              <Text size="small" tone="secondary">
+                {a.zoneLabel} · {a.commuteRef}
+              </Text>
 
               <Grid columns={2} gap={14}>
                 <Stack gap={8}>
-                  <H3>Livability Breakdown</H3>
+                  <H3>Factor table</H3>
                   <Table
-                    headers={['Factor', 'Score /10']}
+                    headers={['Factor', '/10']}
                     rows={LIVABILITY_FACTORS.map(([key, label]) => [
                       label,
                       `${a.livability[key]}/10`,
                     ])}
                     rowTone={LIVABILITY_FACTORS.map(([key]) =>
-                      a.livability[key] >= 8 ? 'success' :
-                      a.livability[key] <= 4 ? 'danger' :
-                      a.livability[key] <= 6 ? 'warning' :
-                      undefined
+                      a.livability[key] >= 8
+                        ? 'success'
+                        : a.livability[key] <= 4
+                          ? 'danger'
+                          : a.livability[key] <= 5
+                            ? 'warning'
+                            : undefined
                     )}
                     striped
                   />
@@ -376,16 +877,13 @@ export default function AreaLivabilityAnalysis() {
 
                 <Stack gap={14}>
                   <Stack gap={6}>
-                    <H3>Practical Details</H3>
+                    <H3>Practical notes</H3>
                     <Table
                       headers={['Item', 'Detail']}
                       rows={[
-                        ['Price per sqft', a.pricePerSqft],
-                        ['What ₹3 Cr gets', a.whatYouGet],
-                        ['Size range', a.sqftAt3Cr],
-                        ['Commute to Manyata', a.commuteManyata],
-                        ['Metro status', a.metroStatus],
-                        ['5yr appreciation', `~${a.appreciation5yr}%`],
+                        ['Price band', a.pricePerSqft],
+                        ['What the ticket buys', a.whatYouGet],
+                        ['Metro', a.metroStatus],
                       ]}
                       striped
                     />
@@ -393,25 +891,29 @@ export default function AreaLivabilityAnalysis() {
 
                   <Grid columns={2} gap={10}>
                     <Card>
-                      <CardHeader trailing={<Pill tone="success" size="sm">Buy here</Pill>}>
-                        Best Pockets
+                      <CardHeader trailing={<Pill tone="success" size="sm">Favour</Pill>}>
+                        Pockets to prefer
                       </CardHeader>
                       <CardBody>
                         <Stack gap={4}>
-                          {a.bestPockets.map(p => (
-                            <Text key={p} size="small">{p}</Text>
+                          {a.bestPockets.map((p: string) => (
+                            <Text key={p} size="small">
+                              {p}
+                            </Text>
                           ))}
                         </Stack>
                       </CardBody>
                     </Card>
                     <Card>
-                      <CardHeader trailing={<Pill tone="warning" size="sm">Avoid</Pill>}>
-                        Skip These
+                      <CardHeader trailing={<Pill tone="warning" size="sm">Caution</Pill>}>
+                        Pockets to scrutinise
                       </CardHeader>
                       <CardBody>
                         <Stack gap={4}>
-                          {a.avoidPockets.map(p => (
-                            <Text key={p} size="small" tone="secondary">{p}</Text>
+                          {a.avoidPockets.map((p: string) => (
+                            <Text key={p} size="small" tone="secondary">
+                              {p}
+                            </Text>
                           ))}
                         </Stack>
                       </CardBody>
@@ -423,128 +925,47 @@ export default function AreaLivabilityAnalysis() {
           </CardBody>
         </Card>
 
-        {/* livability bar for active area */}
         <Stack gap={8}>
-          <H3>Livability Factor Breakdown — {a.shortLabel}</H3>
+          <H3>Factor radar — {a.shortLabel}</H3>
           <BarChart
             categories={LIVABILITY_FACTORS.map(([, label]) => label)}
             series={[{ name: a.shortLabel, data: LIVABILITY_FACTORS.map(([key]) => a.livability[key]) }]}
             horizontal
-            height={300}
+            height={320}
           />
         </Stack>
       </Stack>
 
       <Divider />
 
-      {/* ── side by side livability comparison ── */}
       <Stack gap={12}>
-        <H2>Head-to-Head: All Areas on Key Livability Factors</H2>
-        <BarChart
-          categories={['Greenery', 'Air Quality', 'Low Congestion', 'Schools', 'Hospitals', 'Shopping', 'Safety', 'Roads']}
-          series={[
-            { name: 'Yelahanka', data: [9, 9, 8, 9, 7, 8, 9, 9] },
-            { name: 'Jakkur', data: [8, 8, 8, 6, 6, 6, 8, 6] },
-            { name: 'Thanisandra', data: [6, 6, 5, 8, 9, 7, 7, 6] },
-            { name: 'HBR Layout', data: [5, 5, 4, 8, 8, 8, 7, 6] },
-          ]}
-          stacked={false}
-          height={300}
-        />
+        <H2>Shortlist head-to-head — environment vs convenience</H2>
         <Text size="small" tone="secondary">
-          Yelahanka leads on greenery, air quality, low congestion, safety, and roads. Thanisandra leads on hospitals and schools proximity. HBR Layout wins on shopping/walkability but fails on environment.
+          Four shortlist areas side-by-side: Hosahalli (Purva Zenium 2), Thanisandra (Prestige Avon), Yelahanka (Sattva Lumina + Brigade Eternia), Devanahalli (Tata Varnam). Same eight factors, scores from data.
         </Text>
+        <BarChart
+          categories={CHART_FACTOR_LABELS}
+          series={comparisonSeries}
+          stacked={false}
+          height={320}
+        />
       </Stack>
 
       <Divider />
 
-      {/* ── what overpriced actually means ── */}
       <Stack gap={12}>
-        <H2>Why Some Areas Are Overpriced — The Honest Numbers</H2>
-        <Grid columns={3} gap={14}>
-          <Card>
-            <CardHeader trailing={<Pill tone="warning" size="sm">Overpriced</Pill>}>
-              Hebbal — Paying for Proximity You Don't Need
-            </CardHeader>
-            <CardBody>
-              <Stack gap={6}>
-                <Text size="small">At ₹12,000/sqft, ₹3 Cr = <Text weight="semibold" as="span">~1,150 sqft — a cramped 2 BHK.</Text></Text>
-                <Text size="small">You're paying ₹5,000/sqft extra vs Yelahanka for:</Text>
-                {['10 min shorter commute (you said this doesn\'t matter)', 'Constant traffic / flyover noise', 'Poor air quality from Bellary Road trucks', 'No greenery'].map(r => (
-                  <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>−</Text><Text size="small" tone="secondary">{r}</Text></Row>
-                ))}
-                <Text size="small" weight="semibold" style={{ marginTop: 4 }}>Skip it entirely for self-use.</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader trailing={<Pill tone="neutral" size="sm">Fair Value</Pill>}>
-              Thanisandra — Good Area, Right Price
-            </CardHeader>
-            <CardBody>
-              <Stack gap={6}>
-                <Text size="small">At ₹7,800/sqft, ₹3 Cr = <Text weight="semibold" as="span">~1,800 sqft — a comfortable 3 BHK.</Text></Text>
-                <Text size="small">Price is justified by:</Text>
-                {['Metro Phase 2B upcoming (future price catalyst)', 'Good hospitals and schools nearby', 'Active social scene — restaurants, cafes growing', 'Reasonable commute'].map(r => (
-                  <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>+</Text><Text size="small" tone="secondary">{r}</Text></Row>
-                ))}
-                <Text size="small" tone="secondary" style={{ marginTop: 4 }}>But livability (air, green, congestion) is noticeably below Yelahanka.</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader trailing={<Pill tone="success" size="sm">Undervalued</Pill>}>
-              Yelahanka — The Sweet Spot
-            </CardHeader>
-            <CardBody>
-              <Stack gap={6}>
-                <Text size="small">At ₹7,000/sqft, ₹3 Cr = <Text weight="semibold" as="span">~2,150–2,500 sqft — a very spacious 3–4 BHK.</Text></Text>
-                <Text size="small">You get MORE for LESS because:</Text>
-                {['Planned layout = wider roads, less density', 'NH44 keeps it connected but insulated from chaos', 'Top schools (DPS, Orchids) literally walking distance in some pockets', 'Clean air — no industrial belt proximity'].map(r => (
-                  <Row key={r} gap={6} align="start"><Text tone="secondary" size="small" style={{ minWidth: 12 }}>+</Text><Text size="small" tone="secondary">{r}</Text></Row>
-                ))}
-                <Text size="small" weight="semibold" style={{ marginTop: 4 }}>Best long-term self-use choice for quality of life.</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-        </Grid>
-      </Stack>
-
-      <Divider />
-
-      {/* ── final recommendation ── */}
-      <Stack gap={12}>
-        <H2>Final Verdict — Livability-First Ranking</H2>
-
+        <H2>Quick city-wide ranking</H2>
         <Table
-          headers={['Rank', 'Area', 'Why', 'One Concern']}
-          rows={[
-            ['1', 'Yelahanka New Town / Sahakar Nagar', 'Highest livability score (83/100), best value-per-rupee, largest units. Planned sector = better living standards.', 'Commute ~40–50 min peak (acceptable per your criteria)'],
-            ['2', 'Jakkur / Kodigehalli', 'Lake proximity, clean air, large units, quieter. Good if you want a slightly more secluded feel.', 'Social infra (dining, schools) still maturing'],
-            ['3', 'Thanisandra / Nagavara (select pockets)', 'Best Metro upside, good schools + hospitals. Choose inner pockets away from main road for livability.', 'Congested main road; air quality below Yelahanka'],
-            ['4', 'Kothanur / Hennur Cross', 'Cheapest per sqft, largest units, decent livability. 2–3 yrs behind on social infra.', 'Needs patience; social infra not yet top-tier'],
-            ['Avoid', 'Hebbal / HBR at current prices', 'Overpriced for self-use — paying proximity premium you don\'t need; poor environmental scores.', '—'],
-          ]}
-          rowTone={['success', 'success', undefined, undefined, 'danger']}
+          headers={['Rank', 'Belt', 'Best for', 'First thing to verify']}
+          rows={sortedByLive.map((k, i) => [
+            String(i + 1),
+            areas[k].shortLabel,
+            areas[k].bestFor,
+            areas[k].avoidPockets[0] ?? '—',
+          ])}
+          rowTone={sortedByLive.map((k, i) => (i === 0 ? 'success' : undefined))}
           striped
         />
-
-        <Card>
-          <CardHeader trailing={<Pill tone="success" size="sm">Recommendation</Pill>}>
-            What to Do Next
-          </CardHeader>
-          <CardBody>
-            <Stack gap={8}>
-              <Text>Your profile — livability-first, ₹3 Cr, self-use, Manyata commute acceptable up to 40 min — points clearly to <Text weight="semibold" as="span">Yelahanka New Town (Sahakar Nagar / New Town phases)</Text> as the primary target.</Text>
-              <Text>At ₹7,000–8,000/sqft, you get a <Text weight="semibold" as="span">1,800–2,000 sqft, 3–3.5 BHK</Text> in a well-planned, green, low-congestion area with excellent schools, and the NH44 corridor gives you easy airport + Manyata access.</Text>
-              <Text tone="secondary" size="small">
-                Next step: Decide between <Text weight="semibold" as="span">Under-Construction vs Ready-to-Move</Text>. In Yelahanka, there's a healthy mix of both — ready society resales and 2–3 year UC projects from reputed builders.
-              </Text>
-            </Stack>
-          </CardBody>
-        </Card>
       </Stack>
 
     </Stack>
