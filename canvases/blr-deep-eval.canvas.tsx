@@ -100,12 +100,14 @@ const PROPS: PropData[] = [
       },
       specs: {
         verdict: 'pass', score: 8,
-        headline: '3 BHK 1,231–1,710 sqft SBA · RERA confirmed · BluNex smart home differentiator',
+        headline: '3 BHK 1,231–1,710 sqft SBA · loading ~27% · RERA clean Oct 2022 · BluNex smart home',
         bullets: [
-          'RERA: PRM/KA/RERA/1251/309/PR/071022/005303 — verify construction % on krera.karnataka.gov.in',
-          'SBA range 1,231–1,710 sqft; ask for 3 BHK RERA-registered carpet area (target ≥ 900 sqft)',
-          'Loading factor: Puravankara typically 25–28%; confirm on RERA portal filing',
-          'BluNex smart home (app control, digital lock) is a resale differentiator unique to Puravankara',
+          'RERA: PRM/KA/RERA/1251/309/PR/071022/005303 — registered Oct 2022; check construction % on krera.karnataka.gov.in',
+          'SBA 1,231–1,710 sqft; at ~27% loading → carpet ~900–1,248 sqft; ask for RERA carpet cert; target 3 BHK ≥1,450 sqft SBA',
+          'Loading factor ~25–28% (Puravankara best-in-class); confirm against RERA portal carpet area filing before signing',
+          'BluNex smart home (app-controlled locks, digital access) — unique Puravankara differentiator; good for resale to tech buyers',
+          'Verify WFH room size ≥140 sqft and NOT adjacent to elevator shaft — ask to see floor plan on RERA portal',
+          'Floor range: full selection available; target 5th–12th floor, NE/N facing for WFH room; corner unit adds 5–8% premium but worth it',
         ],
       },
       legal: {
@@ -212,13 +214,14 @@ const PROPS: PropData[] = [
       },
       specs: {
         verdict: 'warn', score: 7,
-        headline: 'Size TBC on visit; Aug 2025 launch = newest project, low RERA completion %',
+        headline: 'SBA TBC at visit · Aug 2025 launch = very low RERA % · 230 units boutique scale · over budget',
         bullets: [
-          'RERA: registered — confirm exact number at sales office; Aug 2025 launch means very low completion % now',
-          'Floor plan and SBA not confirmed; get carpet area in writing before booking',
-          '230 units on 10 acres: boutique feel vs Sattva/Tata townships; smaller common areas',
-          'Loading factor: Prestige typically 27–30%; verify RERA-registered carpet vs brochure SBA',
-          'Price premium (~₹9,000+ psf) means you must negotiate — ask for lower-floor/compact unit under ₹3 Cr',
+          'RERA: verify exact number at sales office before any payment — Aug 2025 launch = very early stage; verify on krera.karnataka.gov.in',
+          'SBA and carpet area not publicly confirmed; est. ~1,400–1,800 sqft SBA at ~27–30% loading → ~1,008–1,260 sqft carpet',
+          '230 units on 10 acres: boutique scale = less crowded, faster society formation, quieter — but fewer floor plan options',
+          'Loading factor: Prestige typically 27–30%; insist on RERA carpet area certificate; do not rely on brochure dimensions',
+          'All-in ~₹3.41 Cr is 14% over ₹3 Cr ceiling — negotiate hard; ask for compact 3 BHK unit or lower floor to bring under ₹3 Cr',
+          'No construction started yet; highest UC risk on the list — only book if Prestige brand trust compensates for the early stage and price stretch',
         ],
       },
       legal: {
@@ -327,12 +330,14 @@ const PROPS: PropData[] = [
       },
       specs: {
         verdict: 'pass', score: 8,
-        headline: '3 BHK 1,450–1,780 sqft SBA · RERA confirmed · 8 towers G+29',
+        headline: '3 BHK 1,450–1,780 sqft SBA · loading ~28–32% · 8 towers G+29 · RERA Sep 2024',
         bullets: [
-          'RERA: PR/060924/007009 — verify construction % on krera.karnataka.gov.in',
-          'SBA 1,450–1,780 sqft; ask for Grand 3 BHK carpet area (target ≥ 1,000 sqft)',
-          '8 towers G+29: ask for preferred tower (corner unit, east/north facing, mid floor)',
-          'Loading factor: large township projects sometimes have higher corridor loading; verify RERA carpet',
+          'RERA: PR/060924/007009 (Sep 2024) — verify current construction % on krera.karnataka.gov.in',
+          'SBA 1,450–1,780 sqft; at ~30% loading → carpet ~1,015–1,246 sqft; ask for Grand 3 BHK RERA carpet cert (target ≥1,050 sqft)',
+          '8 towers G+29 (30 floors): wide floor choice; target 10th–18th floor in perimeter tower for best light and views',
+          'Township loading can creep above 30% in large corridor layouts — insist on RERA-registered carpet number, not brochure SBA',
+          'Best carpet area per rupee on list; best ₹/sqft entry value of all Grade A projects in North BLR',
+          'Confirm tower orientation at site: large 12.8-acre site means inner towers face podium/courtyard, outer towers face open land',
         ],
       },
       legal: {
@@ -441,13 +446,15 @@ const PROPS: PropData[] = [
         ],
       },
       specs: {
-        verdict: 'pass', score: 8,
-        headline: '3 BHK 1,620–1,820 sqft SBA · RERA confirmed · 14 acres · among largest 3 BHK',
+        verdict: 'pass', score: 9,
+        headline: '3 BHK 1,620–1,820 sqft SBA · loading ~28–32% · RERA Mar 2025 · 14 acres BDA area',
         bullets: [
-          'RERA: PRM/KA/RERA/1251/309/PR/070325/007559 — verify on krera.karnataka.gov.in',
-          'SBA 1,620–1,820 sqft: largest 3 BHK on list (ex-Tata); ask carpet area (target ≥ 1,100 sqft)',
-          '14 acres, 1,124 units: mid-size township; good common-area ratio',
-          'Ask which tower/floor offers south- or east-facing units with natural cross-ventilation',
+          'RERA: PRM/KA/RERA/1251/309/PR/070325/007559 (Mar 2025) — verify construction % on krera.karnataka.gov.in',
+          'SBA 1,620–1,820 sqft: second-largest 3 BHK on list; at ~30% loading → carpet ~1,134–1,274 sqft; ask for RERA carpet cert',
+          '14 acres, 1,124 units: BDA-planned site in Yelahanka NT — widest roads, best external infrastructure on list',
+          'Brigade typically delivers 3 BHK with genuine room proportions; confirm WFH room ≥145 sqft from RERA floor plan',
+          'Best specs-per-budget ratio at ₹2.41 Cr: large SBA, BDA address, and Brigade brand resale premium (~5–8%)',
+          'Verify Mar 2030 possession is confirmed, not soft estimate — Brigade has occasionally slipped 6–12 months on large projects',
         ],
       },
       legal: {
@@ -558,13 +565,14 @@ const PROPS: PropData[] = [
       },
       specs: {
         verdict: 'pass', score: 9,
-        headline: 'Best specs per rupee — 1,681–2,061 sqft, Tata A+ quality, RERA clean',
+        headline: 'Best carpet/rupee on list — SBA 1,681–2,061 sqft · loading ~24% · 70-acre Carnatica',
         bullets: [
-          'RERA: PR/110825/007988 — verify on krera.karnataka.gov.in (Aug 2025 launch)',
-          'SBA 1,681–2,061 sqft: largest 3 BHK on list at lowest price — best sqft per rupee overall',
-          'Tata loading factor: typically 22–26% — lowest on list; more carpet area per SBA rupee',
-          '70 acres within 135-acre Carnatica township: best land parcel structure on the list',
-          'Ask for 3 BHK + 2T floor plan (1,681 sqft, ₹1.55 Cr base) — the target value unit',
+          'RERA: PR/110825/007988 (Aug 2025 launch) — early stage; verify construction % on krera.karnataka.gov.in before committing',
+          'SBA 1,681–2,061 sqft: largest on list; at ~24% loading → carpet ~1,278–1,566 sqft — most real space per rupee spent',
+          'Tata loading factor ~22–26%: lowest on list; carpet area is genuinely large; dimensions on site match the brochure (Tata quality standard)',
+          '70 acres within 135-acre Carnatica township: best land structure on list; internal roads, schools (planned), and retail within campus',
+          'Target: 3 BHK + 2T floor plan at 1,681 sqft SBA (₹1.55 Cr base); confirm floor plan shows WFH room ≥145 sqft from RERA portal',
+          'Large township means some towers face inward — verify your unit faces external direction (open land or road, not another tower)',
         ],
       },
       legal: {
