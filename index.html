@@ -419,7 +419,7 @@
 
   <!-- ── PROPERTIES TAB ── -->
   <div class="tab active" id="tab-properties">
-    <div class="section-label">Today — Yelahanka (from Manyata Embassy)</div>
+    <div class="section-label">Today — Thanisandra Main Rd (from Manyata Embassy)</div>
 
     <div id="prop-list"></div>
     <div id="prop-list-2"></div>
@@ -492,34 +492,34 @@
 
 const PROPERTIES = [
   {
-    rank: 1, day: 1, shortName: 'Godrej',
-    name: 'Godrej Yelahanka',
-    builder: 'Godrej Properties',
+    rank: 1, day: 1, shortName: 'Purva',
+    name: 'Purva Atmosphere',
+    builder: 'Puravankara Ltd',
     grade: 'A', status: 'UC', priority: 'Must Visit',
-    price: '₹2.53–2.97 Cr (all-in ~₹2.70–3.16 Cr)', size: '1,600–1,900 sqft SBA',
-    launched: 'Jan 2026', possession: 'Jan 2030 (est.)',
-    area: 'Yelahanka · NH44',
-    address: 'NH 44, Yelahanka, Bangalore – 560064',
-    mapsUrl: 'https://maps.google.com/?q=Godrej+Yelahanka+NH44+Bangalore',
-    drive: '~10 km / 16–20 min from Manyata Embassy',
+    price: '₹2.70 Cr (3 BHK Comfort, all-in ~₹2.88 Cr)', size: '1,330–1,680 sqft SBA',
+    launched: 'Feb 2019', possession: 'Dec 2025–Jun 2027 (verify on RERA portal)',
+    area: 'Thanisandra Main Rd',
+    address: 'Thanisandra Main Road, Bangalore – 560077',
+    mapsUrl: 'https://maps.google.com/?q=Purva+Atmosphere+Thanisandra+Bangalore',
+    drive: '~6 km / 20 min from Manyata Embassy',
     visitTime: '10:00 AM',
-    contact: 'RERA registration pending (very new Jan 2026 launch) — do NOT pay booking amount until RERA number is live on rera.karnataka.gov.in. Call Godrej Properties (godrejproperties.com) to register EOI and get floor plans. Ask for RERA timeline.',
-    rera: 'Pending — verify on rera.karnataka.gov.in before paying anything',
-    ocStatus: 'N/A — Under Construction',
+    contact: 'RERA: PRM/KA/RERA/1251/472/PR/190204/002350 — verified, check actual possession date on portal. 939 units, 3 towers, G+33. Call Puravankara (puravankara.com). Ask for 3 BHK Comfort floor plan and confirm current handover status.',
+    rera: 'PRM/KA/RERA/1251/472/PR/190204/002350',
+    ocStatus: 'Verify on RERA — some sources say 2025, some Jun 2027',
   },
   {
-    rank: 2, day: 1, shortName: 'Century',
-    name: 'Century Kindle',
-    builder: 'Century Real Estate',
-    grade: 'B+', status: 'UC', priority: 'Must Visit',
-    price: '₹1.64–1.70 Cr (all-in ~₹1.75–1.81 Cr)', size: '1,400–1,800 sqft SBA',
-    launched: '2025 (new launch)', possession: 'TBD — ask on visit',
-    area: 'Yelahanka · Attur Main Road',
-    address: 'Attur Main Road (near NITTE Road), Yelahanka, Bangalore – 560064',
-    mapsUrl: 'https://maps.google.com/?q=Century+Kindle+Yelahanka+Attur+Main+Road+Bangalore',
-    drive: '~15 km / 25 min from Manyata Embassy',
-    visitTime: '12:30 PM (same Yelahanka trip)',
-    contact: 'RERA registration pending — do NOT pay until RERA number issued. Visit Century sales office at site. 15.7 acres, 458+ units. Ask for possession date, payment schedule, and RERA filing timeline. centurydevelopers.in',
+    rank: 2, day: 1, shortName: 'Prestige',
+    name: 'Prestige Avon',
+    builder: 'Prestige Group',
+    grade: 'A', status: 'UC', priority: 'Must Visit',
+    price: '₹2–2.5 Cr est. (3 BHK, "on request" — ask on visit)', size: '1,500–2,000 sqft SBA',
+    launched: 'Jul 2025', possession: 'Jan 2029',
+    area: 'Thanisandra Main Rd',
+    address: 'Thanisandra Main Road, Bangalore – 560077',
+    mapsUrl: 'https://maps.google.com/?q=Prestige+Avon+Thanisandra+Bangalore',
+    drive: '~5 km / 18 min from Manyata Embassy',
+    visitTime: '12:30 PM (same road as Purva Atmosphere)',
+    contact: 'RERA pending (Jul 2025 launch) — do NOT pay booking amount until RERA number is live. Contact Prestige (prestige-group.com) for 3 BHK pricing and floor plans. 230 units, 10 acres, G+16. Ask when RERA registration expected.',
     rera: 'Pending — verify on rera.karnataka.gov.in before paying anything',
     ocStatus: 'N/A — Under Construction',
   },
@@ -635,23 +635,23 @@ function calcBuyScore(rank) {
 
 // ── FLOOR PLANS (per property, real data Apr 2026) ─────────────────────
 const FLOOR_PLANS = {
-  1: { // Godrej Yelahanka
+  1: { // Purva Atmosphere
     variants: [
-      { type: '3 BHK',      sba: '1,600 sqft', carpet: '~1,120 sqft', price: '₹2.53 Cr', allin: '₹2.70 Cr' },
-      { type: '3 BHK+',     sba: '1,900 sqft', carpet: '~1,330 sqft', price: '₹2.97 Cr', allin: '₹3.16 Cr' },
+      { type: '3 BHK Comfort (S)', sba: '1,330 sqft', carpet: '~930 sqft',  price: '₹2.70 Cr', allin: '₹2.88 Cr' },
+      { type: '3 BHK Comfort (L)', sba: '1,680 sqft', carpet: '~1,175 sqft', price: '~₹2.90 Cr', allin: '~₹3.09 Cr' },
     ],
-    rooms: 'Exact layout TBC on visit — ~3 bed + 3 bath, living ~20×12, WFH room expected ~12×10 ✓',
+    rooms: 'G+33-floor luxury towers · master ~14×12, WFH ~11×10 ✓ · living ~20×13 · semi-modular kitchen',
     loading: '~30%',
-    note: 'Jan 2026 launch, RERA pending. 840 units, 9 towers, G+15. Possession Jan 2030. Closest to Manyata on this list.',
+    note: 'RERA registered & verified. 939 units, 13 acres. Closest to Manyata on this list (~6 km). Confirm exact possession date on RERA portal before visit.',
   },
-  2: { // Century Kindle
+  2: { // Prestige Avon
     variants: [
-      { type: '3 BHK (small)', sba: '1,400 sqft', carpet: '~980 sqft',  price: '₹1.64 Cr', allin: '₹1.75 Cr' },
-      { type: '3 BHK (large)', sba: '1,800 sqft', carpet: '~1,260 sqft', price: '₹1.70 Cr', allin: '₹1.81 Cr' },
+      { type: '3 BHK',       sba: '~1,500 sqft', carpet: '~1,050 sqft', price: 'On request', allin: 'On request' },
+      { type: '3 BHK Large', sba: '~2,000 sqft', carpet: '~1,400 sqft', price: 'On request', allin: 'On request' },
     ],
-    rooms: 'Exact layout TBC on visit — 3 bed, semi-modular kitchen, balcony. Vastu-compliant. Ask for WFH room dimensions.',
+    rooms: 'Layout TBC on visit — 10-acre campus, G+16 towers, 80% open space. Ask for printed floor plan on visit.',
     loading: '~30%',
-    note: '458+ units, 15.7 acres. RERA pending. Possession date not disclosed — critical question to ask. Most affordable on list.',
+    note: 'RERA pending (launched Jul 2025). Possession Jan 2029. Only 230 units — boutique for a Prestige project. Ask for 3 BHK price sheet in person.',
   },
 };
 
