@@ -419,15 +419,18 @@
 
   <!-- ── PROPERTIES TAB ── -->
   <div class="tab active" id="tab-properties">
-    <div class="section-label">Visit Day — North Bangalore (from Manyata Embassy)</div>
-
+    <div class="section-label">Day 1 — Hosahalli &rarr; Thanisandra belt</div>
     <div id="prop-list"></div>
+
+    <div class="section-label">Day 2 — Yelahanka &rarr; Devanahalli belt</div>
     <div id="prop-list-2"></div>
 
-    <div style="margin:0 16px 12px;background:var(--surface);border-radius:12px;padding:14px 16px;border-left:3px solid #7c3aed">
-      <div style="font-size:13px;font-weight:600;margin-bottom:4px">👁 Also Watch — Birla Yelahanka</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.6">
-        <strong>Birla Estates</strong> (Aditya Birla Group) has a pre-launch project in Yelahanka — 218 homes on 8 acres, RERA: PRM/KA/RERA/1250/304/PR/190724/002725. Pricing not yet disclosed. Register your interest at birlaproject.com — when pricing drops it may sit within ₹3 Cr. Not visitable yet but worth tracking.
+    <div style="margin:0 16px 12px;padding:14px 16px;border-radius:12px;background:var(--surface);border-left:3px solid var(--accent)">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-bottom:8px">Watch List — Not Visitable Yet</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <strong>Embassy Manyata Residences</strong> — Embassy Group (A), RERA pending, price TBC. Literally on top of your office. Register interest: embassymanyatatechpark.com<br>
+        <strong>Birla Yelahanka</strong> — Birla Estates / Aditya Birla (A), RERA: PRM/KA/RERA/1250/304/PR/190724/002725, price TBC. 8 acres, 218 homes. birlaproject.com<br>
+        <strong>Mahindra North Bangalore</strong> — Mahindra Lifespaces (A), pre-launch, Navaratna Agrahara, 12 km from Manyata. Price + RERA pending.
       </div>
     </div>
 
@@ -498,19 +501,20 @@
 // ── DATA ──────────────────────────────────────────────────────────────────
 
 const PROPERTIES = [
+  // ── Day 1: Hosahalli → Thanisandra belt ───────────────────────────────
   {
     rank: 1, day: 1, shortName: 'Purva',
     name: 'Purva Zenium 2',
     builder: 'Puravankara Limited',
     grade: 'A', status: 'UC', priority: 'Must Visit — earliest handover',
     price: '₹1.71–2.38 Cr (all-in ~₹1.82–2.53 Cr)', size: '1,231–1,710 sqft SBA',
-    launched: 'Jul 2022', possession: 'Jun 2027 — earliest Grade A on this list',
+    launched: 'Jul 2022', possession: 'Jun 2027 — earliest Grade A',
     area: 'Hosahalli · Airport Road belt',
     address: 'Billamaranahalli Main Road, Hosahalli, North Bangalore – 560064',
     mapsUrl: 'https://maps.google.com/?q=Purva+Zenium+2+Hosahalli+Bangalore',
     drive: '~14 km / 24 min from Manyata Embassy',
     visitTime: '10:00 AM',
-    contact: 'RERA: PRM/KA/RERA/1251/309/PR/071022/005303. Puravankara listed company (NSE/BSE), 50yr track record. Bookings open. Ask for current unsold 3 BHK inventory, construction % on RERA portal, and payment plan. Possession Jun 2027 is RERA-committed.',
+    contact: 'RERA: PRM/KA/RERA/1251/309/PR/071022/005303. Puravankara NSE-listed, 50yr track record. Bookings open. Ask for current unsold 3 BHK inventory, construction % on RERA portal, and construction-linked payment plan.',
     rera: 'PRM/KA/RERA/1251/309/PR/071022/005303',
     ocStatus: 'N/A — Under Construction',
   },
@@ -525,25 +529,58 @@ const PROPERTIES = [
     address: 'Thanisandra Main Road, North Bangalore – 560077',
     mapsUrl: 'https://maps.google.com/?q=Prestige+Avon+Thanisandra+Bangalore',
     drive: '~10 km / 18–22 min from Manyata Embassy',
-    visitTime: '12:00 PM',
-    contact: 'RERA registered — confirm number at sales office. Boutique 230-unit project on 10 acres. Ask directly: is there any pricing flexibility given your ₹3 Cr ceiling? Ask for possession penalty clause and sample agreement.',
-    rera: 'Registered — get number at sales office',
+    visitTime: '12:30 PM',
+    contact: 'RERA registered — confirm number at sales office. 230 units on 10 acres. Ask: any pricing flexibility near ₹3 Cr? Get sample agreement before paying anything. Ask for possession penalty clause.',
+    rera: 'Registered — confirm at sales office',
+    ocStatus: 'N/A — Under Construction',
+  },
+  // ── Day 2: Yelahanka → Devanahalli belt ──────────────────────────────
+  {
+    rank: 3, day: 2, shortName: 'Sattva',
+    name: 'Sattva Lumina',
+    builder: 'Salarpuria Sattva',
+    grade: 'A', status: 'UC', priority: 'Must Visit — best ₹/sqft',
+    price: '₹1.52–1.75 Cr (all-in ~₹1.62–1.87 Cr)', size: '1,450–1,780 sqft SBA',
+    launched: 'Sep 2024', possession: 'Nov 2029',
+    area: 'Yelahanka · Rajanukunte',
+    address: 'Yelahanka-Doddaballapura Main Road (SH-9), Rajanukunte, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Sattva+Lumina+Rajanukunte+Yelahanka+Bangalore',
+    drive: '~11 km / 25 min from Manyata Embassy',
+    visitTime: '10:00 AM',
+    contact: 'RERA: PR/060924/007009. Salarpuria Sattva NSE-listed, large portfolio. 12.8 acres, 1,553 units, 8 towers G+29. 3 clubhouses (35,000 sqft each). Ask for construction-linked payment plan and floor plan for Grand 3 BHK variant.',
+    rera: 'PR/060924/007009',
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 3, day: 1, shortName: 'Brigade',
+    rank: 4, day: 2, shortName: 'Brigade',
     name: 'Brigade Eternia',
     builder: 'Brigade Group',
-    grade: 'A', status: 'UC', priority: 'Must Visit — well within budget',
+    grade: 'A', status: 'UC', priority: 'Must Visit — Grade A + value',
     price: '₹2.26 Cr (all-in ~₹2.41 Cr)', size: '1,620–1,820 sqft SBA',
     launched: 'Mar 2025', possession: 'Mar 2030',
     area: 'Yelahanka New Town',
     address: 'Yelahanka New Town, Behind Police Station, Bangalore – 560064',
     mapsUrl: 'https://maps.google.com/?q=Brigade+Eternia+Yelahanka+Bangalore',
-    drive: '~15 km / 15–20 min from Manyata Embassy',
-    visitTime: '2:30 PM',
-    contact: 'RERA: PRM/KA/RERA/1251/309/PR/070325/007559. Brigade Group (Grade A, NSE listed). 14 acres, 1,124 units. Ask for confirmed Mar 2030 RERA possession date — some sources say Dec 2030, get it in writing. Ask for penalty clause for delay.',
+    drive: '~15 km / 18 min from Manyata Embassy',
+    visitTime: '1:00 PM',
+    contact: 'RERA: PRM/KA/RERA/1251/309/PR/070325/007559. Brigade NSE-listed, 14 acres, 1,124 units. Critical: some sources show Dec 2030 — ask for the exact RERA-committed possession date in writing. Ask for penalty clause.',
     rera: 'PRM/KA/RERA/1251/309/PR/070325/007559',
+    ocStatus: 'N/A — Under Construction',
+  },
+  {
+    rank: 5, day: 2, shortName: 'Tata',
+    name: 'Tata Varnam',
+    builder: 'Tata Housing',
+    grade: 'A', status: 'UC', priority: 'Visit — Devanahalli, farther out',
+    price: '₹1.55–1.91 Cr (all-in ~₹1.65–2.04 Cr)', size: '1,681–2,061 sqft SBA',
+    launched: 'Aug 2025', possession: 'Dec 2029',
+    area: 'Devanahalli · Shettigere',
+    address: 'Shettigere Road, Devanahalli, North Bangalore – 562157',
+    mapsUrl: 'https://maps.google.com/?q=Tata+Varnam+Shettigere+Devanahalli+Bangalore',
+    drive: '~25–30 min from Manyata Embassy (airport direction)',
+    visitTime: '3:30 PM (on way back — Devanahalli direction)',
+    contact: 'RERA: PR/110825/007988. Tata Housing — gold-standard Grade A builder. 70 acres within 135-acre Carnatica township. Ask for 3 BHK + 2T floor plan (1,681 sqft, ₹1.55 Cr) — best value on this list per sqft. Check daily commute feel before deciding.',
+    rera: 'PR/110825/007988',
     ocStatus: 'N/A — Under Construction',
   },
 ];
@@ -660,39 +697,58 @@ function calcBuyScore(rank) {
 const FLOOR_PLANS = {
   1: { // Purva Zenium 2
     variants: [
-      { type: '3 BHK (compact)', sba: '1,231 sqft', carpet: '~862 sqft',  price: '₹1.71 Cr', allin: '₹1.82 Cr' },
-      { type: '3 BHK (mid)',     sba: '1,469 sqft', carpet: '~1,028 sqft', price: '₹2.00 Cr', allin: '₹2.13 Cr' },
-      { type: '3 BHK (large)',   sba: '1,710 sqft', carpet: '~1,197 sqft', price: '₹2.38 Cr', allin: '₹2.53 Cr' },
+      { type: '3 BHK Regular', sba: '1,231 sqft', carpet: '~862 sqft',  price: '₹1.71 Cr', allin: '₹1.82 Cr' },
+      { type: '3 BHK Mid',     sba: '1,469 sqft', carpet: '~1,028 sqft', price: '₹2.00 Cr', allin: '₹2.13 Cr' },
+      { type: '3 BHK Large',   sba: '1,710 sqft', carpet: '~1,197 sqft', price: '₹2.38 Cr', allin: '₹2.53 Cr' },
     ],
-    rooms: 'BluNex smart home tech · Master + 2 beds · WFH room varies by variant — ask for mid/large unit floor plan · Living ~18×12',
+    rooms: 'BluNex smart home tech · Master + 2 beds · WFH room varies — ask for mid/large unit · Living ~18×12',
     loading: '~30%',
-    note: 'Puravankara NSE-listed, 50yr track record. Jun 2027 = earliest possession of all Grade A options here. Check RERA portal for current construction %. 80% open spaces, 25+ amenities.',
+    note: 'Puravankara NSE-listed, 50yr track record. Jun 2027 = earliest Grade A possession. Check RERA portal for construction %. 80% open spaces, 25+ amenities.',
   },
   2: { // Prestige Avon
     variants: [
-      { type: '3 BHK', sba: 'TBC — get at sales office', carpet: 'TBC', price: '₹3.2 Cr', allin: '~₹3.41 Cr' },
+      { type: '3 BHK', sba: 'TBC at sales visit', carpet: 'TBC', price: '₹3.2 Cr', allin: '~₹3.41 Cr' },
     ],
-    rooms: 'Boutique 230-unit project — ask for full floor plan and room dimensions at sales visit',
+    rooms: 'Boutique 230-unit project — request full floor plan at visit. Dec 2028 = 2nd earliest Grade A on the list.',
     loading: '~30% est.',
-    note: 'Prestige Grade A, Dec 2028 possession = earliest Grade A after Purva Zenium. ₹3.41 Cr all-in = 13% over budget. Worth visiting to negotiate — small project may have flexibility.',
+    note: '₹3.41 Cr all-in = 13% over budget. Worth visiting to negotiate — small project, boutique builders have more flexibility. Prestige brand, strong resale.',
   },
-  3: { // Brigade Eternia
+  3: { // Sattva Lumina
+    variants: [
+      { type: '3 BHK Regular', sba: '1,450 sqft', carpet: '~1,015 sqft', price: '₹1.52 Cr', allin: '₹1.62 Cr' },
+      { type: '3 BHK Grand',   sba: '1,500 sqft', carpet: '~1,050 sqft', price: '₹1.57 Cr', allin: '₹1.67 Cr' },
+      { type: '3 BHK Grand+',  sba: '1,780 sqft', carpet: '~1,246 sqft', price: '₹1.75 Cr', allin: '₹1.87 Cr' },
+    ],
+    rooms: 'Master + 2 beds + 3 baths · WFH room in Grand+ variant · 3 clubhouses (35k sqft each) · EV chargers',
+    loading: '~30%',
+    note: 'Best ₹/sqft on the list. Salarpuria Sattva NSE-listed. 1,553 units, 12.8 acres, Sep 2024 launch. Solar, rainwater, EV. Ask for Grand+ floor plan for WFH room.',
+  },
+  4: { // Brigade Eternia
     variants: [
       { type: '3 BHK',        sba: '1,620 sqft', carpet: '~1,134 sqft', price: '₹2.26 Cr', allin: '₹2.41 Cr' },
       { type: '3 BHK+',       sba: '1,700 sqft', carpet: '~1,190 sqft', price: '₹2.35 Cr', allin: '₹2.50 Cr' },
       { type: '3 BHK Royale', sba: '1,820 sqft', carpet: '~1,274 sqft', price: '₹2.56 Cr', allin: '₹2.73 Cr' },
     ],
-    rooms: 'Master ~14×12 ft · Bed 2 ~12×11 ft · WFH/Bed 3 ~11×10 ft ✓ · Living ~20×13 ft · 50,000 sqft clubhouse',
+    rooms: 'Master ~14×12 ft · Bed 2 ~12×11 ft · WFH ~11×10 ft ✓ · Living ~20×13 ft · 50,000 sqft clubhouse',
     loading: '~30%',
-    note: 'Brigade NSE-listed. Best value of the 3 at ₹2.41 Cr all-in. 1,124 units on 14 acres. Possession Mar 2030 — confirm this vs Dec 2030 discrepancy at the visit.',
+    note: 'Brigade NSE-listed, 14 acres, 1,124 units. Mar 2030 vs Dec 2030 conflict — get RERA-confirmed date in writing.',
+  },
+  5: { // Tata Varnam
+    variants: [
+      { type: '3 BHK + 2T', sba: '1,681 sqft', carpet: '~1,177 sqft', price: '₹1.55 Cr', allin: '₹1.65 Cr' },
+      { type: '3 BHK + 3T', sba: '2,061 sqft', carpet: '~1,443 sqft', price: '₹1.91 Cr', allin: '₹2.04 Cr' },
+    ],
+    rooms: 'Tata premium finishes · master + 2 beds · WFH room in both variants ✓ · east-west facing · large balconies',
+    loading: '~30%',
+    note: 'Tata Housing = India\'s most trusted brand. 70 acres in 135-acre Carnatica township, Devanahalli. Drive the commute before deciding — 25-30 min is fine; peak hours may stretch to 45 min.',
   },
 };
 
 function renderProperties() {
   const day1 = PROPERTIES.filter(p => p.day === 1);
   const day2 = PROPERTIES.filter(p => p.day === 2);
-  document.getElementById('prop-list').innerHTML   = day1.map(propCard).join('');
-  document.getElementById('prop-list-2').innerHTML = day2.map(propCard).join('');
+  document.getElementById('prop-list').innerHTML   = day1.map(propCard).join('') || '<div style="padding:12px 16px;color:var(--text3);font-size:13px">None for this day.</div>';
+  document.getElementById('prop-list-2').innerHTML = day2.map(propCard).join('') || '<div style="padding:12px 16px;color:var(--text3);font-size:13px">None for this day.</div>';
 }
 
 function propCard(p) {
