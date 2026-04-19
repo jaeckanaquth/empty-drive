@@ -4,6 +4,21 @@ import {
   Pill, Row, Stack, Stat, Table, Text,
 } from 'cursor/canvas';
 
+// ── Canonical 10-point order (same labels as blr-deep-eval) ────────────────
+
+const TEN_POINT: { num: number; label: string; canvas: string; status: 'Done' | 'Partial' | 'Next' }[] = [
+  { num: 1,  label: 'Area Selection & micro-market',     canvas: 'blr-areas.canvas.tsx',                         status: 'Done' },
+  { num: 2,  label: 'Connectivity & infrastructure',    canvas: 'blr-areas.canvas.tsx (connectivity tab)',      status: 'Done' },
+  { num: 3,  label: 'Investment & appreciation',        canvas: 'blr-investment.canvas.tsx',                    status: 'Done' },
+  { num: 4,  label: 'Property type / specs / UDS / hold', canvas: 'blr-property-type-config.canvas.tsx',      status: 'Done' },
+  { num: 5,  label: 'Legal & documentation',            canvas: 'blr-legal-documentation.canvas.tsx',         status: 'Done' },
+  { num: 6,  label: 'Project amenities',                canvas: 'blr-amenities.canvas.tsx',                     status: 'Next' },
+  { num: 7,  label: 'Social infrastructure (neighbourhood)', canvas: 'blr-areas.canvas.tsx (social tab) + deep-eval', status: 'Partial' },
+  { num: 8,  label: 'Financial parameters',             canvas: 'blr-budget-financial-planning · blr-your-budget-profile', status: 'Partial' },
+  { num: 9,  label: 'Risk factors',                     canvas: 'blr-safety-lifestyle.canvas.tsx',            status: 'Partial' },
+  { num: 10, label: 'End use vs investment intent',     canvas: 'blr-deep-eval.canvas.tsx (enduse column)',   status: 'Partial' },
+];
+
 const categories = [
   {
     id: 1,
@@ -163,9 +178,26 @@ export default function BLRPropertyCriteria() {
       <Stack gap={4}>
         <H1>Bangalore Property Buying Criteria</H1>
         <Text tone="secondary">
-          Goal: buy in Bangalore with a preference for North Bangalore, for under ₹3 Crore — area, investment upside, connectivity, amenities, and legal risk in one checklist.
+          North Bangalore · UC Grade A · under ₹3 Cr — detailed checklist below. Use the 10-point row first to match <Text weight="semibold" as="span">blr-deep-eval</Text>; then drill into category cards.
         </Text>
       </Stack>
+
+      <Stack gap={8}>
+        <H2>10-point evaluation — where we are</H2>
+        <Table
+          headers={['#', 'Criterion', 'Primary canvas', 'Status']}
+          rows={TEN_POINT.map(r => [String(r.num), r.label, r.canvas, r.status])}
+          rowTone={TEN_POINT.map(r =>
+            r.status === 'Done' ? 'success' : r.status === 'Next' ? 'warning' : undefined
+          )}
+          striped
+        />
+        <Text tone="secondary" size="small">
+          Resume work at <Text weight="semibold" as="span">#6 Project amenities</Text> (visit questions + per-project scoring in <Text weight="semibold" as="span">blr-amenities.canvas.tsx</Text> and the amenities row in <Text weight="semibold" as="span">blr-deep-eval</Text>).
+        </Text>
+      </Stack>
+
+      <Divider />
 
       <Grid columns={4} gap={12}>
         <Stat value={`${categories.length}`} label="Major Categories" />
