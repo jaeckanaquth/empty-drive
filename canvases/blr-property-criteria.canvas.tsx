@@ -196,7 +196,7 @@ export default function BLRPropertyCriteria() {
           #6: shortlist matrix + WFH checklist live in <Text weight="semibold" as="span">blr-amenities</Text>; deep-eval amenities row updated. Resume at <Text weight="semibold" as="span">#7 Social infrastructure</Text> (<Text weight="semibold" as="span">blr-areas</Text> social tab + social column in <Text weight="semibold" as="span">blr-deep-eval</Text>).
         </Text>
         <Text tone="secondary" size="small">
-          Shortlist hub (20 pool → ranked top 10 → site-visit all finalists; five-filter + research links, scores): <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text> — replaces former project-selection / research-snapshot / shortlist-ten canvases.
+          Shortlist hub (20 pool → criteria <Text weight="semibold" as="span">top 10</Text> → visits; five-filter + research + scores): <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text> — replaces former project-selection / research-snapshot / shortlist-ten canvases.
         </Text>
       </Stack>
 
@@ -206,7 +206,8 @@ export default function BLRPropertyCriteria() {
         <H2>Who is “best” on this page’s categories?</H2>
         <Text size="small" tone="secondary">
           The cards below define <Text weight="semibold" as="span">ten category families</Text> (budget, area, investment, connectivity, type/config, legal, builder, amenities, society/maintenance, safety/lifestyle).
-          This table maps each family to the <Text weight="semibold" as="span">strongest visit shortlist option(s)</Text> using <Text weight="semibold" as="span">blr-deep-eval</Text> scores / verdicts and listed builder grade — not visit order from <Text weight="semibold" as="span">index.html</Text>.
+          This table maps each family to the <Text weight="semibold" as="span">strongest shortlist option(s)</Text> using <Text weight="semibold" as="span">blr-deep-eval</Text> scores / verdicts and listed builder grade — evidence for ranking, not visit order from <Text weight="semibold" as="span">index.html</Text>.
+          After you run the <Text weight="semibold" as="span">top-10 protocol</Text> below, actual visits follow that ranked set (sync <Text weight="semibold" as="span">blr-property-shortlist</Text> <Text weight="semibold" as="span">C</Text> + <Text weight="semibold" as="span">index.html</Text>).
         </Text>
         <Table
           headers={['Category (this canvas)', 'Priority', 'Lead option(s)', 'Why (deep-eval spine)']}
@@ -237,6 +238,26 @@ export default function BLRPropertyCriteria() {
               <Text size="small" tone="secondary">
                 If you <Text weight="semibold" as="span">strictly prioritise budget + earliest keys</Text> within the same framework, <Text weight="semibold" as="span">Purva</Text> or <Text weight="semibold" as="span">Sattva</Text> is the better fit than Brigade despite lower area score.
                 If you <Text weight="semibold" as="span">strictly prioritise Manyata + social + liquidity</Text> and can fix price, <Text weight="semibold" as="span">Prestige Avon</Text> wins several High-priority rows but must clear the <Text weight="semibold" as="span">Budget</Text> critical gate first.
+              </Text>
+            </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader trailing={<Pill tone="info" size="sm">Visits</Pill>}>
+            Top 10 — how you pick who gets a site visit
+          </CardHeader>
+          <CardBody>
+            <Stack gap={8}>
+              <Text size="small">
+                <Text weight="semibold" as="span">Policy:</Text> you commit to visiting <Text weight="semibold" as="span">every project that survives into the criteria top 10</Text> from the hub pool (currently 20 names in <Text weight="semibold" as="span">blr-property-shortlist.canvas.tsx</Text>).
+              </Text>
+              <Text size="small" tone="secondary">
+                <Text weight="semibold" as="span">Ranking rubric (this canvas is authoritative):</Text>{' '}
+                (1) Score each candidate against the <Text weight="semibold" as="span">ten category families</Text> above — treat <Text weight="semibold" as="span">Critical</Text> items as gates (e.g. budget ceiling, live RERA, legal red flags can disqualify before you compare “nice-to-haves”).{' '}
+                (2) Use the <Text weight="semibold" as="span">“Who is best on this page’s categories?”</Text> table plus <Text weight="semibold" as="span">blr-deep-eval</Text> cells / verdicts as written evidence per family.{' '}
+                (3) Combine into one ordered list; take the <Text weight="semibold" as="span">top 10</Text> — your tie-breakers and weights are yours, but they must be expressible in terms of these families (not a single portal headline).{' '}
+                (4) In the hub, mark those rows <Text weight="semibold" as="span">C</Text> and mirror day/time in <Text weight="semibold" as="span">index.html</Text> <Text weight="semibold" as="span">PROPERTIES</Text>; keep <Text weight="semibold" as="span">E</Text>/<Text weight="semibold" as="span">W</Text>/<Text weight="semibold" as="span">R</Text> for the rest per the hub legend.
               </Text>
             </Stack>
           </CardBody>

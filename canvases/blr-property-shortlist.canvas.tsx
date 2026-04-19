@@ -7,8 +7,8 @@ import {
 /**
  * Unified North-BLR property hub (Apr 2026).
  * Replaces former canvases: blr-project-selection, blr-research-snapshot, blr-shortlist-ten, and the old bar-chart shortlist.
- * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (full matrices where written), index/analysis facts.
- * Whittle 20 → top 10 → visits: freeze your ranked top 10, then site-visit every finalist; sync index.html PROPERTIES / analysis / deep-eval in that order. Trk = eval tier while ranking, not “C-only visits.”
+ * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (core 5 scores), index/analysis facts.
+ * Whittle 20 → criteria top 10 (blr-property-criteria) → visits: mark `C` only for that ranked set; sync index.html / deep-eval after the criteria pass — never infer C from index/deep-eval alone.
  */
 
 type Track = 'C' | 'E' | 'W' | 'R';
@@ -22,7 +22,7 @@ interface HubRow {
   area: string;
   allIn: string;
   oc: string;
-  /** Σ /100 = sum of ten blr-deep-eval scores where that canvas has a full write-up. ·ext / ·est / ·ref / ·bench = scaled or bench estimates. */
+  /** Core 5 = sum of ten blr-deep-eval scores /100. Others = legacy 8-dimension score /80 scaled to ~100, or bench estimate. */
   score: string;
   lead: string;
   research: string;
@@ -52,7 +52,7 @@ const HUB: HubRow[] = [
 ];
 
 const TRACK_LEGEND =
-  'C = primary eval band (full blr-deep-eval Σ/100 where written) · E = expand contender (same thesis; can still reach top 10) · W = watch / pre-RERA · R = RTM reference only. Trk is depth / sourcing while you rank — not who is excluded from visits. After you freeze top 10: site-visit every name in that list; mirror that exact set into index.html PROPERTIES.';
+  'C = criteria top 10 (blr-property-criteria ranking — you commit to visiting those sites; mirror slots in index.html PROPERTIES) · E = pool UC outside current top 10 / backup thesis · W = watch / pre-RERA · R = RTM reference only. blr-deep-eval supplies evidence per category; it does not replace the criteria pass for who enters the top 10.';
 
 const REDDIT: { t: string; u: string }[] = [
   { t: 'GST UC + Prestige Bangalore', u: 'https://www.reddit.com/r/indianrealestate/comments/1rc7n9g/gst_on_under_construction_property/' },
@@ -64,31 +64,30 @@ const REDDIT: { t: string; u: string }[] = [
   { t: 'Karnataka UC delay + RERA mindset (Mysuru case)', u: 'https://www.reddit.com/r/indianrealestate/comments/1otdmy6/my_ongoing_experience_with_a_villa_builder_in/' },
 ];
 
+const CRITERIA_VISIT_TARGET = 10;
+
 export default function NorthBLRPropertyHub() {
-  const ceBand = HUB.filter(r => r.track === 'C' || r.track === 'E').length;
+  const markedC = HUB.filter(r => r.track === 'C').length;
   return (
     <Stack gap={20} style={{ padding: '24px 28px', maxWidth: 1240 }}>
 
       <Stack gap={6}>
         <Row gap={10} align="center" wrap>
           <H1>North BLR property hub</H1>
-          <Pill tone="info">20 → whittle</Pill>
-          <Pill tone="success">Top 10 → visit all</Pill>
+          <Pill tone="info">20 → criteria top 10 → visits</Pill>
         </Row>
-        <Text size="small">
-          <Text weight="semibold" as="span">Visit commitment:</Text> you will take an in-person site visit for <Text weight="semibold" as="span">every</Text> project that survives in your <Text weight="semibold" as="span">final ranked top 10</Text> (≤10 UC trips in one ranking pass; use <Text weight="semibold" as="span">R</Text> rows as comps, not necessarily a tenth “visit” unless you promote one). <Text weight="semibold" as="span">Trk</Text> below is evaluation depth / pool role <Text weight="semibold" as="span">while</Text> you cut 20 → 10 — not a promise that <Text weight="semibold" as="span">E</Text> names never get visited if they climb into the top 10.
-        </Text>
         <Text tone="secondary">
-          Single surface for <Text weight="semibold" as="span">blr-property-criteria</Text> (10 category families + TEN_POINT),{' '}
-          <Text weight="semibold" as="span">blr-deep-eval</Text> (where you maintain full matrices), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.{' '}
-          <Text weight="semibold" as="span">Score</Text> column: Σ /100 where blr-deep-eval has a full write-up (today that matches the five <Text weight="semibold" as="span">C</Text> rows); ·ext / ·est / ·ref / ·bench = scaled or qualitative pool entries.
+          Single surface for <Text weight="semibold" as="span">blr-property-criteria</Text> (10 category families + TEN_POINT — <Text weight="semibold" as="span">authoritative for the visit top 10</Text>),{' '}
+          <Text weight="semibold" as="span">blr-deep-eval</Text> (evidence per criterion), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.
+          <Text weight="semibold" as="span"> Trk</Text>: mark <Text weight="semibold" as="span">C</Text> for the <Text weight="semibold" as="span">{CRITERIA_VISIT_TARGET}</Text> names you lock after the criteria ranking pass; <Text weight="semibold" as="span">E</Text>/<Text weight="semibold" as="span">W</Text>/<Text weight="semibold" as="span">R</Text> for the rest.{' '}
+          <Text weight="semibold" as="span">Score</Text> column: Σ /100 where blr-deep-eval has a full write-up; ·ext / ·est / ·ref / ·bench = scaled or qualitative pool entries — scores inform the criteria pass, they do not auto-fill <Text weight="semibold" as="span">C</Text>.
         </Text>
       </Stack>
 
       <Grid columns={6} gap={12}>
         <Stat value="20" label="Pool" tone="success" />
-        <Stat value="10" label="Top-10 visit cap" tone="success" />
-        <Stat value={`${ceBand}`} label="UC band (C+E)" tone="info" />
+        <Stat value={`${CRITERIA_VISIT_TARGET}`} label="Visit target (criteria)" tone="info" />
+        <Stat value={`${markedC}`} label="Marked C (sync visits)" tone="success" />
         <Stat value="≤₹3 Cr" label="Policy (most UC)" tone="warning" />
         <Stat value="403" label="K-RERA auto-fetch" tone="danger" />
         <Stat value="79" label="Top Σ (Brigade)" tone="success" />
@@ -106,7 +105,7 @@ export default function NorthBLRPropertyHub() {
               <Text weight="semibold" as="span">Manyata + social + liquidity</Text> (if price fixed): Prestige Avon.
             </Text>
             <Text size="small" tone="secondary">
-              Full per-category winner table lives in <Text weight="semibold" as="span">blr-property-criteria.canvas.tsx</Text> (section “Who is best on this page’s categories?”).
+              Full per-category winner table + <Text weight="semibold" as="span">top-10 → visits</Text> protocol live in <Text weight="semibold" as="span">blr-property-criteria.canvas.tsx</Text> (sections “Who is best on this page’s categories?” and “Top 10 — how you pick who gets a site visit”).
             </Text>
           </Stack>
         </CardBody>
@@ -116,6 +115,9 @@ export default function NorthBLRPropertyHub() {
 
       <H2>Master table — 20 projects</H2>
       <Text size="small" tone="secondary">{TRACK_LEGEND}</Text>
+      <Text size="small" tone="secondary">
+        Sample below: <Text weight="semibold" as="span">{markedC}</Text>× <Text weight="semibold" as="span">C</Text> today (matches the current deep-eval + PWA itinerary) — after your criteria ranking pass, mark exactly <Text weight="semibold" as="span">{CRITERIA_VISIT_TARGET}</Text>× <Text weight="semibold" as="span">C</Text> for the projects that actually land in the top 10.
+      </Text>
       <Table
         headers={['#', 'Trk', 'Project', 'Builder', 'G', 'Micro-market', 'All-in', 'OC', 'Σ', 'Lead (criteria)', 'Research / RERA']}
         rows={HUB.map(r => [
@@ -140,7 +142,7 @@ export default function NorthBLRPropertyHub() {
           <Card>
             <CardHeader trailing={<Pill tone="warning" size="sm">2026–30 OC</Pill>}>Possession band</CardHeader>
             <CardBody>
-              <Text size="small">No full-eval UC before Jun 2027 (Purva in the current <Text weight="semibold" as="span">C</Text> band). If you need <Text weight="semibold" as="span">2026</Text> keys, favour row 9 (Arvind) or <Text weight="semibold" as="span">R</Text> RTM refs — not that early-OC cluster.</Text>
+              <Text size="small">No early OC on the current deep-eval UC cluster before Jun 2027 (Purva). If you need <Text weight="semibold" as="span">2026</Text> keys, favour row 9 (Arvind) or <Text weight="semibold" as="span">R</Text> RTM refs — your criteria top 10 may still include them if Critical gates pass.</Text>
             </CardBody>
           </Card>
         </Stack>
@@ -152,14 +154,14 @@ export default function NorthBLRPropertyHub() {
             rows={REDDIT.map(x => [x.t, x.u])}
             striped
           />
-          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the five projects with full Σ/100 deep-eval rows — absence ≠ clean; re-search per row when whittling.</Text>
+          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the current criteria-visit set — absence ≠ clean; re-search per row when locking the top 10.</Text>
         </Stack>
       </Grid>
 
       <Divider />
 
       <Text tone="secondary" size="small">
-        When rankings move: edit <Text weight="semibold" as="span">HUB</Text> (including <Text weight="semibold" as="span">track</Text>). When the <Text weight="semibold" as="span">top 10</Text> is frozen, set <Text weight="semibold" as="span">index.html</Text> <Text weight="semibold" as="span">PROPERTIES</Text> to that full finalist set (one itinerary slot each — your “visit all top 10” promise), then sync <Text weight="semibold" as="span">analysis.html</Text> and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
+        When the pool or <Text weight="semibold" as="span">criteria top 10</Text> changes: re-run the ranking on <Text weight="semibold" as="span">blr-property-criteria</Text>, then edit <Text weight="semibold" as="span">HUB</Text> (<Text weight="semibold" as="span">track</Text> — aim for <Text weight="semibold" as="span">{CRITERIA_VISIT_TARGET}</Text>× <Text weight="semibold" as="span">C</Text>), then sync <Text weight="semibold" as="span">index.html</Text>, <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
       </Text>
     </Stack>
   );
