@@ -5,7 +5,7 @@ import {
 } from 'cursor/canvas';
 
 /**
- * Apr 2026 — Web research pass vs repo canvases (blr-deep-eval, blr-areas, index/analysis).
+ * Apr 2026 — Web + Reddit research pass vs repo canvases (blr-deep-eval, blr-areas, index/analysis).
  * Marketing sites conflict; K-RERA PDF is authoritative. Automated fetch to rera.karnataka.gov.in returned 403 — verify manually.
  */
 
@@ -18,7 +18,7 @@ const CRITERIA_CHECK: { num: number; label: string; checked: string; canvases: s
   { num: 6,  label: 'Amenities (adult / WFH)',     checked: 'Club/tower counts on aggregators vs brochure — no change to amenity scores', canvases: 'blr-amenities · deep-eval amenities' },
   { num: 7,  label: 'Social infra',               checked: 'Peers in belt for retail/hospital density only; deep-eval social cells unchanged', canvases: 'blr-areas social · deep-eval social' },
   { num: 8,  label: 'Financial / all-in',          checked: 'Prestige web “from ₹1.8 Cr” vs repo ₹3.2 Cr base — ignored list-price noise', canvases: 'blr-budget-financial-planning · project-selection facts' },
-  { num: 9,  label: 'Risk / UC timing',            checked: 'Possession date conflicts (Brigade, Tata, Prestige, Sobha) flagged for portal check', canvases: 'blr-safety-lifestyle · deep-eval risk' },
+  { num: 9,  label: 'Risk / UC timing',            checked: 'Possession date conflicts + Reddit sentiment pass (see Reddit section below)', canvases: 'blr-safety-lifestyle · deep-eval risk' },
   { num: 10, label: 'End use vs liquidity',      checked: 'Sobha Athena sold-out rumours not verified; not altering end-use ranks', canvases: 'blr-deep-eval enduse' },
 ];
 
@@ -105,6 +105,62 @@ const PEERS: { name: string; belt: string; webNote: string; criteriaLens: string
   },
 ];
 
+/** Reddit: threads with useful diligence themes for North BLR / UC buys (Apr 2026 search). Full URLs for your browser. */
+const REDDIT_THREADS: { title: string; url: string; themes: string; mapsToCriteria: string; shortlistNote: string }[] = [
+  {
+    title: 'GST on under-construction property (Prestige Bangalore UC, possession ~2027–28 mentioned)',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1rc7n9g/gst_on_under_construction_property/',
+    themes: 'Builder response on GST law change; buyer follow-up fatigue.',
+    mapsToCriteria: '8 Financial · 5 Legal (agreement clarity) · 9 Risk (policy shock)',
+    shortlistNote: 'Relevant to Prestige Avon UC path — not project-specific defects.',
+  },
+  {
+    title: 'Three outers — Electronic City vs Sarjapur vs Budigere Cross (North: Yelahanka / Devanahalli called out)',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1r2m6ku/three_outers_electronic_city_sarjapura_budigere/',
+    themes: 'Yelahanka described as strong long-term; Devanahalli “hype” skepticism in thread snippets.',
+    mapsToCriteria: '1 Area · 3 Investment thesis · 2 Connectivity (when reading north comments only)',
+    shortlistNote: 'Context for Sattva (Yelahanka belt) + Tata (Devanahalli) — sentiment, not data.',
+  },
+  {
+    title: 'Mega elevated railway terminal planned for Yelahanka (Doddaballapur Rd / SH-9 traffic worries)',
+    url: 'https://www.reddit.com/r/bangalore/comments/1r7cibo/indias_largest_and_first_fully_elevated_railway/',
+    themes: 'Locals worry about congestion once terminal is live; elevated link to Kogilu Metro mentioned in discussion.',
+    mapsToCriteria: '2 Connectivity · 7 Social/noise · 1 Area (future infra shock)',
+    shortlistNote: 'Relevant to Rajanukunte SH-9 commute to Yelahanka town — stress-test peak hour after visit.',
+  },
+  {
+    title: 'TDS fraud by builders (general India thread; applies to any UC booking)',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1nvbkbd/tds_fraud_by_builders/',
+    themes: '1% TDS passed to buyer improperly; documentation discipline.',
+    mapsToCriteria: '5 Legal · 8 Financial',
+    shortlistNote: 'Ask every sales desk how TDS is handled on your agreement line items.',
+  },
+  {
+    title: 'What all charges to pay for new flat in Bengaluru?',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1rcgn14/what_all_charges_to_pay_for_new_flat_in_bengaluru/',
+    themes: 'Stamp, reg, GST, corpus — checklist style.',
+    mapsToCriteria: '8 Financial',
+    shortlistNote: 'Cross-check your all-in model before comparing builders.',
+  },
+  {
+    title: 'Khata bifurcation — registration delays post-possession',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1pqhtw6/khata_bifurcation_discuss_and_possible_solution/',
+    themes: 'Builders blaming khata rules for delayed registration.',
+    mapsToCriteria: '5 Legal',
+    shortlistNote: 'Thanisandra / Rajanukunte Khata threads matter more than plot projects — align with blr-legal-documentation.',
+  },
+  {
+    title: 'Mysuru villa — delays, quality, K-RERA case (Karnataka UC pattern; not Puravankara)',
+    url: 'https://www.reddit.com/r/indianrealestate/comments/1otdmy6/my_ongoing_experience_with_a_villa_builder_in/',
+    themes: '3+ yr delay; seepage/cracks; pay only on milestones; RERA complaint mindset.',
+    mapsToCriteria: '9 Risk · 4 Specs/finish · 5 Legal (RERA recourse)',
+    shortlistNote: 'No Puravankara tie — use as UC diligence mindset for Purva visit questions.',
+  },
+];
+
+const REDDIT_NEGATIVE_FINDINGS =
+  'Targeted site:reddit.com queries (Apr 2026) for Puravankara+Bangalore problems, Prestige+Bangalore delay, Sattva/Salarpuria+Yelahanka, Brigade Group+Bangalore (query polluted by unrelated “brigading” posts), Tata Housing+Carnatica+Varnam, Thanisandra flooding, Hosahalli, and “Manyata apartment” did not surface indexed complaint threads that name Purva Zenium 2, Prestige Avon, Sattva Lumina, Brigade Eternia, or Tata Varnam. That is absence in search snippets only — not evidence of a clean record. For named complaints use K-RERA complaint / adjudication search and Google/Reddit site search with exact tower name over time.';
+
 export default function ResearchSnapshot() {
   return (
     <Stack gap={22} style={{ padding: '24px 28px', maxWidth: 1180 }}>
@@ -122,10 +178,11 @@ export default function ResearchSnapshot() {
         </Text>
       </Stack>
 
-      <Grid columns={4} gap={12}>
+      <Grid columns={5} gap={12}>
         <Stat value="10" label="Criteria rows checked" tone="neutral" />
         <Stat value="5" label="Visit shortlist" tone="success" />
         <Stat value="6" label="Peers / watch sampled" tone="info" />
+        <Stat value="7" label="Reddit threads logged" tone="warning" />
         <Stat value="403" label="K-RERA auto-fetch" tone="danger" />
       </Grid>
 
@@ -181,6 +238,34 @@ export default function ResearchSnapshot() {
         <Table
           headers={['Name', 'Belt', 'Web note (Apr 2026)', 'Criteria lens', 'Visit shortlist']}
           rows={PEERS.map(p => [p.name, p.belt, p.webNote, p.criteriaLens, p.onVisitList])}
+          striped
+        />
+      </Stack>
+
+      <Divider />
+
+      <Stack gap={10}>
+        <H2>Reddit — complaints, area sentiment, builder practices</H2>
+        <Card>
+          <CardHeader trailing={<Pill tone="warning" size="sm">Method</Pill>}>
+            How this was gathered
+          </CardHeader>
+          <CardBody>
+            <Stack gap={6}>
+              <Text size="small">
+                Multiple <Text weight="semibold" as="span">site:reddit.com</Text> searches on r/indianrealestate, r/bangalore, and related subs (Apr 2026).
+                Opening Reddit thread HTML from this environment <Text weight="semibold" as="span">timed out</Text>, so summaries are from search snippets + known thread titles —
+                open each URL and read current comments yourself.
+              </Text>
+              <Text size="small" tone="secondary">
+                {REDDIT_NEGATIVE_FINDINGS}
+              </Text>
+            </Stack>
+          </CardBody>
+        </Card>
+        <Table
+          headers={['Thread', 'URL', 'Themes', 'Criteria', 'Shortlist tie-in']}
+          rows={REDDIT_THREADS.map(t => [t.title, t.url, t.themes, t.mapsToCriteria, t.shortlistNote])}
           striped
         />
       </Stack>
