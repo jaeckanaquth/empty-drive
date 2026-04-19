@@ -492,35 +492,35 @@
 
 const PROPERTIES = [
   {
-    rank: 1, day: 1, shortName: 'Arvind',
-    name: 'Arvind Bel Air',
-    builder: 'Arvind SmartSpaces',
-    grade: 'B+', status: 'UC', priority: 'Must Visit',
-    price: '₹1.55–1.57 Cr (all-in ~₹1.65 Cr)', size: '1,524–1,626 sqft SBA',
-    launched: 'May 2020', possession: 'Jun 2026 (est.)',
-    area: 'Yelahanka New Town Rd',
-    address: 'Yelahanka New Town Road, Bangalore – 560064',
-    mapsUrl: 'https://maps.google.com/?q=Arvind+Bel+Air+Yelahanka+Bangalore',
-    drive: '~15 km / 25–30 min from Manyata Embassy',
+    rank: 1, day: 1, shortName: 'Godrej',
+    name: 'Godrej Yelahanka',
+    builder: 'Godrej Properties',
+    grade: 'A', status: 'UC', priority: 'Must Visit',
+    price: '₹2.53–2.97 Cr (all-in ~₹2.70–3.16 Cr)', size: '1,600–1,900 sqft SBA',
+    launched: 'Jan 2026', possession: 'Jan 2030 (est.)',
+    area: 'Yelahanka · NH44',
+    address: 'NH 44, Yelahanka, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Godrej+Yelahanka+NH44+Bangalore',
+    drive: '~10 km / 16–20 min from Manyata Embassy',
     visitTime: '10:00 AM',
-    contact: 'RERA: PRM/KA/RERA/1251/472/PR/200515/003406. Call Arvind SmartSpaces sales. Earliest possession (Jun 2026) — ask for current construction % and confirm flat condition.',
-    rera: 'PRM/KA/RERA/1251/472/PR/200515/003406',
+    contact: 'RERA registration pending (very new Jan 2026 launch) — do NOT pay booking amount until RERA number is live on rera.karnataka.gov.in. Call Godrej Properties (godrejproperties.com) to register EOI and get floor plans. Ask for RERA timeline.',
+    rera: 'Pending — verify on rera.karnataka.gov.in before paying anything',
     ocStatus: 'N/A — Under Construction',
   },
   {
-    rank: 2, day: 1, shortName: 'Brigade',
-    name: 'Brigade Insignia',
-    builder: 'Brigade Group',
-    grade: 'A', status: 'UC', priority: 'Visit if size is priority',
-    price: '₹2.99–3.49 Cr (all-in ~₹3.18 Cr)', size: '2,145–2,481 sqft SBA',
-    launched: 'May 2024', possession: 'Jun 2029',
-    area: 'Yelahanka · Kogilu Cross',
-    address: 'Kogilu Cross, NH44, Yelahanka, Bangalore – 560064',
-    mapsUrl: 'https://maps.google.com/?q=Brigade+Insignia+Kogilu+Cross+Yelahanka+Bangalore',
-    drive: '~9.5 km / 20–25 min from Manyata Embassy',
+    rank: 2, day: 1, shortName: 'Century',
+    name: 'Century Kindle',
+    builder: 'Century Real Estate',
+    grade: 'B+', status: 'UC', priority: 'Must Visit',
+    price: '₹1.64–1.70 Cr (all-in ~₹1.75–1.81 Cr)', size: '1,400–1,800 sqft SBA',
+    launched: '2025 (new launch)', possession: 'TBD — ask on visit',
+    area: 'Yelahanka · Attur Main Road',
+    address: 'Attur Main Road (near NITTE Road), Yelahanka, Bangalore – 560064',
+    mapsUrl: 'https://maps.google.com/?q=Century+Kindle+Yelahanka+Attur+Main+Road+Bangalore',
+    drive: '~15 km / 25 min from Manyata Embassy',
     visitTime: '12:30 PM (same Yelahanka trip)',
-    contact: 'RERA: PR/180524/006894. Visit Brigade sales office. Budget is tight — only the base 3 BHK at ₹2.99 Cr is within ₹3 Cr. Ask specifically about payment plan and what % is paid upfront.',
-    rera: 'PR/180524/006894',
+    contact: 'RERA registration pending — do NOT pay until RERA number issued. Visit Century sales office at site. 15.7 acres, 458+ units. Ask for possession date, payment schedule, and RERA filing timeline. centurydevelopers.in',
+    rera: 'Pending — verify on rera.karnataka.gov.in before paying anything',
     ocStatus: 'N/A — Under Construction',
   },
 ];
@@ -635,23 +635,23 @@ function calcBuyScore(rank) {
 
 // ── FLOOR PLANS (per property, real data Apr 2026) ─────────────────────
 const FLOOR_PLANS = {
-  1: { // Arvind Bel Air
+  1: { // Godrej Yelahanka
     variants: [
-      { type: '3 BHK A', sba: '1,524 sqft', carpet: '1,024 sqft', price: '₹1.55 Cr', allin: '₹1.65 Cr' },
-      { type: '3 BHK B', sba: '1,626 sqft', carpet: '1,138 sqft', price: '₹1.57 Cr', allin: '₹1.67 Cr' },
+      { type: '3 BHK',      sba: '1,600 sqft', carpet: '~1,120 sqft', price: '₹2.53 Cr', allin: '₹2.70 Cr' },
+      { type: '3 BHK+',     sba: '1,900 sqft', carpet: '~1,330 sqft', price: '₹2.97 Cr', allin: '₹3.16 Cr' },
     ],
-    rooms: 'Master ~13×11 ft · Bed 2 ~11×10 ft · WFH ~10×9 ft (tight ~90 sqft — measure in person) · Living ~18×12',
-    loading: '~31%',
-    note: '334 units, Jun 2026 possession — nearest to ready. WFH room is smallest on list, verify size in person.',
-  },
-  2: { // Brigade Insignia
-    variants: [
-      { type: '3 BHK',       sba: '2,145 sqft', carpet: '~1,500 sqft', price: '₹2.99 Cr', allin: '₹3.18 Cr' },
-      { type: '3 BHK Large', sba: '2,481 sqft', carpet: '~1,735 sqft', price: '₹3.49 Cr', allin: '₹3.72 Cr' },
-    ],
-    rooms: 'All rooms large — master ~16×13, WFH ~13×11 ✓✓ · Living ~24×14 · Best WFH room of both options',
+    rooms: 'Exact layout TBC on visit — ~3 bed + 3 bath, living ~20×12, WFH room expected ~12×10 ✓',
     loading: '~30%',
-    note: '3 BHK at ₹2.99 Cr → all-in ₹3.18 Cr = slightly over ₹3 Cr budget. Only if space matters most. Possession Jun 2029.',
+    note: 'Jan 2026 launch, RERA pending. 840 units, 9 towers, G+15. Possession Jan 2030. Closest to Manyata on this list.',
+  },
+  2: { // Century Kindle
+    variants: [
+      { type: '3 BHK (small)', sba: '1,400 sqft', carpet: '~980 sqft',  price: '₹1.64 Cr', allin: '₹1.75 Cr' },
+      { type: '3 BHK (large)', sba: '1,800 sqft', carpet: '~1,260 sqft', price: '₹1.70 Cr', allin: '₹1.81 Cr' },
+    ],
+    rooms: 'Exact layout TBC on visit — 3 bed, semi-modular kitchen, balcony. Vastu-compliant. Ask for WFH room dimensions.',
+    loading: '~30%',
+    note: '458+ units, 15.7 acres. RERA pending. Possession date not disclosed — critical question to ask. Most affordable on list.',
   },
 };
 
