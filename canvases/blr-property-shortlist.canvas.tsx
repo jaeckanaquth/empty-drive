@@ -6,32 +6,33 @@ import {
   useCanvasState,
 } from 'cursor/canvas';
 
-// ── property data (sourced Apr 2026) ──────────────────────────────────────
+// ── Current shortlist (Apr 2026) — 5 UC Grade A properties < ₹3 Cr all-in ─
 
-type Status = 'RTM' | 'UC-2026' | 'UC-2027' | 'UC-2029+';
-type BuilderGrade = 'A' | 'B+' | 'B';
+type Status = 'UC-2027' | 'UC-2028' | 'UC-2029' | 'UC-2030';
+type BuilderGrade = 'A';
 
 interface Property {
   id: string;
+  rank: number;
   name: string;
   builder: string;
   builderGrade: BuilderGrade;
   area: string;
-  status: Status;
-  launchDate: string;      // project launch / RERA registration date
-  possessionDate: string;  // actual or expected handover date
   possession: string;
-  priceMin: number;   // ₹L
-  priceMax: number;   // ₹L
-  sbaMin: number;     // sqft
-  sbaMax: number;     // sqft
-  pricePerSqft: number;
+  possessionDate: string;
+  launchDate: string;
+  status: Status;
+  priceMin: number;     // ₹L base
+  priceMax: number;     // ₹L base
+  allInMin: number;     // ₹L (base + GST 5% + stamp/reg 6.5%)
+  allInMax: number;     // ₹L
+  sbaMin: number;       // sqft
+  sbaMax: number;       // sqft
+  psfMid: number;       // ₹/sqft mid
   rera: string;
-  ocStatus: 'confirmed' | 'likely' | 'not-applicable';
   societySize: string;
   highlights: string[];
   concerns: string[];
-  sourceUrl: string;
   scores: {
     builderRep: number;
     legalSafety: number;
@@ -44,151 +45,173 @@ interface Property {
   };
 }
 
-const CHARGES_PCT = 0.065; // stamp duty 5% + reg 1% + legal 0.5%
-const GST_PCT = 0.05;      // UC only
-
-function allinCost(priceL: number, isUC: boolean): number {
-  const pct = isUC ? CHARGES_PCT + GST_PCT : CHARGES_PCT;
-  return Math.round(priceL * (1 + pct));
-}
+const BUDGET = 300; // ₹L = ₹3 Cr ceiling
 
 const properties: Property[] = [
-  // ── Grade A UC — < 2 yr old or new build (all RTM options pre-2024 removed) ──
+  // ── Rank 1 ──────────────────────────────────────────────────────────────
   {
-    id: 'sobha-athena',
-    name: 'Sobha Athena (new)',
-    builder: 'Sobha Limited',
+    id: 'purva',
+    rank: 1,
+    name: 'Purva Zenium 2',
+    builder: 'Puravankara Limited',
     builderGrade: 'A',
-    area: 'Thanisandra Main Rd',
+    area: 'Hosahalli · Airport Road belt',
+    possession: 'Jun 2027',
+    possessionDate: 'Jun 2027 — earliest Grade A on list',
+    launchDate: 'Jul 2022',
     status: 'UC-2027',
-    launchDate: 'Mar 2024',
-    possessionDate: 'Jun 2027 (est.)',
-    possession: 'Est. 2026–27',
-    priceMin: 227,
-    priceMax: 228,
-    sbaMin: 1682,
-    sbaMax: 1692,
-    pricePerSqft: 13500,
-    rera: 'Verify on Karnataka RERA portal',
-    ocStatus: 'not-applicable',
-    societySize: '72 units only — boutique',
+    priceMin: 171, priceMax: 238,
+    allInMin: 182, allInMax: 253,
+    sbaMin: 1231, sbaMax: 1710,
+    psfMid: 8200,
+    rera: 'PRM/KA/RERA/1251/309/PR/071022/005303',
+    societySize: 'Large gated community · multi-tower',
     highlights: [
-      'Sobha build quality — the gold standard for Indian residential construction',
-      '72-unit boutique project — private, quiet, exclusive community',
-      'All-in ~₹2.43 Cr — fits ₹3 Cr budget with significant buffer (₹57L)',
-      'New construction — you are the first occupant',
-      'Thanisandra — 20–25 min to Hebbal, best social scene in North BLR',
+      'Earliest Grade A possession on the list — Jun 2027 (~14 months)',
+      'NSE-listed Puravankara, 50+ yr track record, 85M+ sqft delivered',
+      'All-in ₹1.82–2.53 Cr — largest budget buffer on the list (up to ₹1.18 Cr)',
+      'BluNex smart-home tech standard across all units',
+      'Airport Road belt — best KIA access (20–25 min); NH44 elevated expressway',
     ],
     concerns: [
-      'Under construction — no OC, no society to assess',
-      'GST 5% on under-construction = extra ₹11L',
-      'Possession timeline risk — verify RERA % completion before booking',
-      'Only 72 units — if RWA has fractious owners, hard to outvote',
+      'Hosahalli is maturing, not yet established — thin social infra today',
+      'No Metro near-term; car-dependent for all errands',
+      'After-sales consistency varies across Puravankara projects — verify for this society',
+      'Lower loading factor may mean smaller carpet than SBA implies',
     ],
-    sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/sobha-athena/109847/project',
-    scores: { builderRep: 10, legalSafety: 7, valueForMoney: 8, societyQuality: 7, sizeAdequacy: 9, locationFit: 8, wfhReadiness: 9, budgetFit: 9 },
+    scores: { builderRep: 8, legalSafety: 8, valueForMoney: 9, societyQuality: 7, sizeAdequacy: 8, locationFit: 7, wfhReadiness: 8, budgetFit: 10 },
   },
+  // ── Rank 2 ──────────────────────────────────────────────────────────────
   {
-    id: 'brigade-insignia',
-    name: 'Brigade Insignia',
-    builder: 'Brigade Group',
-    builderGrade: 'A',
-    area: 'Yelahanka · NH44',
-    status: 'UC-2029+',
-    launchDate: 'May 2024',
-    possessionDate: 'Jun 2029',
-    possession: 'Jun 2029',
-    priceMin: 299,
-    priceMax: 360,
-    sbaMin: 2145,
-    sbaMax: 2481,
-    pricePerSqft: 13900,
-    rera: 'PRM/KA/RERA/1251/309/PR/180524/006894',
-    ocStatus: 'not-applicable',
-    societySize: '379 units · 6 towers · 6 acres · 80% open space',
-    highlights: [
-      'Brigade Group — Grade A, flagship Yelahanka project',
-      'RERA registered (2024 launch) — fully transparent progress',
-      'Next to NH44 — best connectivity in Yelahanka',
-      '80% open spaces — exceptional greenery and air quality',
-      '25,000 sqft clubhouse — premium amenities',
-    ],
-    concerns: [
-      'Starts at ₹2.99 Cr — all-in ₹3.18 Cr+ for smallest 3 BHK = just at budget edge',
-      'Possession 2029 — 3 years away. Long wait + GST 5% applicable',
-      'Largest UC risk: 3 years of construction exposure',
-      'Bigger units (2,145 sqft+) = higher maintenance charges',
-    ],
-    sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/brigade-insignia/248548/project',
-    scores: { builderRep: 9, legalSafety: 6, valueForMoney: 6, societyQuality: 7, sizeAdequacy: 10, locationFit: 10, wfhReadiness: 8, budgetFit: 5 },
-  },
-  // ── Grade A UC ────────────────────────────────────────────────────────
-  {
-    id: 'prestige-camden',
-    name: 'Prestige Camden Gardens',
+    id: 'prestige',
+    rank: 2,
+    name: 'Prestige Avon',
     builder: 'Prestige Group',
     builderGrade: 'A',
-    area: 'Thanisandra Main Rd',
-    status: 'UC-2027',
-    launchDate: 'Mar 2023',
-    possessionDate: 'Dec 2027 (est.)',
-    possession: 'Dec 2027',
-    priceMin: 189,
-    priceMax: 250,
-    sbaMin: 1550,
-    sbaMax: 1800,
-    pricePerSqft: 12000,
-    rera: 'PR/140524/006872',
-    ocStatus: 'not-applicable',
-    societySize: '120 units · 2 acres · boutique',
+    area: 'Thanisandra · Nagavara belt',
+    possession: 'Dec 2028',
+    possessionDate: 'Dec 2028 (~32 months)',
+    launchDate: 'Late 2023',
+    status: 'UC-2028',
+    priceMin: 295, priceMax: 310,
+    allInMin: 314, allInMax: 330,
+    sbaMin: 1780, sbaMax: 1975,
+    psfMid: 8800,
+    rera: 'Verify on Karnataka RERA portal — confirm current number',
+    societySize: 'Mid-size gated society · Thanisandra Main Rd',
     highlights: [
-      'Prestige Group — Grade A, among the most trusted builders in Bangalore',
-      'Boutique 120-unit project — quiet, private, no township crowd feel',
-      'RERA registered (verified PR/140524/006872) — fully transparent progress',
-      'Thanisandra Main Rd — 20–25 min to Hebbal, excellent social scene',
-      '₹1.89 Cr+ base price — budget buffer of ₹50L+ even at top end',
-      'New build — you are the first occupant, no wear-and-tear risk',
+      'Best micro-market: Thanisandra — highest CAGR (10–12%), best rental yield, deepest resale pool',
+      'Prestige Group — Grade A, NSE-listed, 40+ yr track record',
+      'Largest SBA on shortlist (1,780–1,975 sqft)',
+      'Metro Phase 2B station ~1.5 km — direct Manyata/Hebbal walkability',
+      'Manyata/Nagavara corridor: best social scene, F&B, schools, hospitals in North BLR',
     ],
     concerns: [
-      'Under construction — GST 5% applicable',
-      'Possession Dec 2027 — ~18 months away',
-      'Only 120 units — verify RERA % completion and payment milestone schedule',
-      '2 acres is compact — amenity space will be limited vs larger projects',
+      'All-in ₹3.14–3.30 Cr — slightly above ₹3 Cr ceiling; negotiate a lower floor or compact unit',
+      'Verify RERA number independently — confirm it matches the project',
+      'Dec 2028 possession — 32-month wait + GST 5% applicable',
+      'High demand = less negotiating leverage with Prestige sales team',
     ],
-    sourceUrl: 'https://www.prestigesevergreen.info/prestige-group/prestige-best-residential-apartments-for-sale-in-thanisandra-2025.html',
-    scores: { builderRep: 9, legalSafety: 8, valueForMoney: 8, societyQuality: 7, sizeAdequacy: 8, locationFit: 8, wfhReadiness: 8, budgetFit: 9 },
+    scores: { builderRep: 9, legalSafety: 8, valueForMoney: 7, societyQuality: 8, sizeAdequacy: 10, locationFit: 10, wfhReadiness: 9, budgetFit: 4 },
   },
+  // ── Rank 3 ──────────────────────────────────────────────────────────────
   {
-    id: 'arvind-bel-air',
-    name: 'Arvind Bel Air',
-    builder: 'Arvind SmartSpaces',
-    builderGrade: 'B+',
-    area: 'Yelahanka New Town Rd',
-    status: 'UC-2026',
-    launchDate: 'May 2020',
-    possessionDate: 'Jun 2026',
-    possession: 'Jun 2026',
-    priceMin: 116,
-    priceMax: 175,
-    sbaMin: 1469,
-    sbaMax: 1626,
-    pricePerSqft: 9500,
-    rera: 'PRM/KA/RERA/1251/472/PR/200515/003406',
-    ocStatus: 'not-applicable',
-    societySize: 'Mid-size gated community',
+    id: 'sattva',
+    rank: 3,
+    name: 'Sattva Lumina',
+    builder: 'Salarpuria Sattva',
+    builderGrade: 'A',
+    area: 'Rajanukunte · Yelahanka (SH-9)',
+    possession: 'Nov 2029',
+    possessionDate: 'Nov 2029 (~43 months)',
+    launchDate: '2023',
+    status: 'UC-2029',
+    priceMin: 152, priceMax: 175,
+    allInMin: 162, allInMax: 187,
+    sbaMin: 1450, sbaMax: 1780,
+    psfMid: 7000,
+    rera: 'Verify on Karnataka RERA portal',
+    societySize: '12.8-acre township · 3 clubhouses · ~750 units',
     highlights: [
-      'Arvind SmartSpaces — SEBI-listed, financially transparent',
-      'Near Forest Research Centre — best green micro-location in Yelahanka',
-      'Jun 2026 possession — 14 months away, construction risk manageable',
-      'Best price in this list — leaves ₹1.25–1.8 Cr to invest after purchase',
+      'Best value per sqft on the list — lowest PSF among Grade A options',
+      'Township scale: 12.8 acres, 3 clubhouses, large open spaces',
+      'Greenest location (Yelahanka belt, Air Quality 9/10)',
+      'STRR Phase 1 alignment directly benefits SH-9 belt — future connectivity uplift',
+      'NSE-listed Salarpuria Sattva, strong financial backing',
     ],
     concerns: [
-      'Under construction — GST 5% applies',
-      'B+ builder — not premium build quality',
-      'Must verify construction progress % before committing',
+      'Nov 2029 — longest wait on the list (43 months)',
+      'Some older Sattva projects had 6–9 month delays; verify RERA % completion',
+      'Rajanukunte pocket is thin on daily infra — drive to Yelahanka town for most needs',
+      'No Metro near-term for this specific pocket',
     ],
-    sourceUrl: 'https://www.squareyards.com/bangalore-residential-property/arvind-bel-air/101291/project',
-    scores: { builderRep: 7, legalSafety: 6, valueForMoney: 9, societyQuality: 6, sizeAdequacy: 8, locationFit: 9, wfhReadiness: 7, budgetFit: 10 },
+    scores: { builderRep: 8, legalSafety: 7, valueForMoney: 10, societyQuality: 9, sizeAdequacy: 9, locationFit: 7, wfhReadiness: 7, budgetFit: 10 },
+  },
+  // ── Rank 4 ──────────────────────────────────────────────────────────────
+  {
+    id: 'brigade',
+    rank: 4,
+    name: 'Brigade Eternia',
+    builder: 'Brigade Group',
+    builderGrade: 'A',
+    area: 'Yelahanka New Town · BDA sector',
+    possession: 'Mar 2030',
+    possessionDate: 'Mar 2030 (~47 months)',
+    launchDate: '2023',
+    status: 'UC-2030',
+    priceMin: 226, priceMax: 243,
+    allInMin: 241, allInMax: 259,
+    sbaMin: 1720, sbaMax: 1900,
+    psfMid: 8500,
+    rera: 'Verify on Karnataka RERA portal',
+    societySize: 'BDA-planned Yelahanka NT · established layout',
+    highlights: [
+      'Best family area on the list — Yelahanka NT is BDA-planned, wide roads, top schools 2–3 km',
+      'Brigade brand premium: 5–8% resale uplift vs generic; established 35+ yr builder',
+      'BWSSB direct supply confirmed in NT area — most reliable water',
+      'Aster Hospital 3 km, DPS North 3 km, CMR 2 km — best school/hospital proximity',
+      'STRR interchange location — strong future connectivity catalyst',
+    ],
+    concerns: [
+      'Mar 2030 possession — longest UC wait (47 months); resolve exact date before booking',
+      'No Metro: Yelahanka NT will not have Metro in the 2030 horizon',
+      'Brigade Eternia RERA number pending confirmation — verify before booking',
+      'Higher price than Sattva/Tata for similar sqft',
+    ],
+    scores: { builderRep: 9, legalSafety: 7, valueForMoney: 8, societyQuality: 9, sizeAdequacy: 9, locationFit: 9, wfhReadiness: 8, budgetFit: 8 },
+  },
+  // ── Rank 5 ──────────────────────────────────────────────────────────────
+  {
+    id: 'tata',
+    rank: 5,
+    name: 'Tata Varnam',
+    builder: 'Tata Housing',
+    builderGrade: 'A',
+    area: 'Devanahalli · Shettigere (Carnatica)',
+    possession: 'Dec 2029',
+    possessionDate: 'Dec 2029 (~44 months)',
+    launchDate: '2022',
+    status: 'UC-2029',
+    priceMin: 145, priceMax: 165,
+    allInMin: 155, allInMax: 176,
+    sbaMin: 1600, sbaMax: 1750,
+    psfMid: 6400,
+    rera: 'Verify — Tata Carnatica umbrella RERA, Varnam phase',
+    societySize: '70 acres within 135-acre Carnatica township',
+    highlights: [
+      'Highest builder trust on the list — Tata has never defaulted on a project in India',
+      'Best sqft value: ₹1.55 Cr all-in for ~1,681 sqft = ₹9,200/sqft all-in vs market ₹11,000+',
+      'Tata Group unlimited financial backing — zero construction abandonment risk',
+      '135-acre Carnatica township — self-contained with retail, school, sports infrastructure',
+      'Airport KIA 10–15 min — for frequent flyers this alone is a differentiator',
+    ],
+    concerns: [
+      'Devanahalli: 60–80 min peak commute to Manyata — the list\'s biggest practical concern',
+      'Very thin social infra outside township today: no Grade A schools/hospitals within 20 km',
+      'STRR Phase 1 (2027–28) is essential for self-use viability — confirm before committing',
+      'Borewell-primary water in Devanahalli belt; BWSSB timeline unclear',
+    ],
+    scores: { builderRep: 10, legalSafety: 10, valueForMoney: 9, societyQuality: 9, sizeAdequacy: 9, locationFit: 4, wfhReadiness: 7, budgetFit: 10 },
   },
 ];
 
@@ -208,49 +231,56 @@ function totalScore(p: Property): number {
 }
 
 function statusTone(s: Status) {
-  if (s === 'RTM') return 'success';
-  if (s === 'UC-2026') return 'warning';
-  if (s === 'UC-2027') return 'warning';
-  return 'danger';
-}
-
-function gradeTone(g: BuilderGrade) {
-  return g === 'A' ? 'success' : 'warning';
+  if (s === 'UC-2027') return 'warning' as const;
+  if (s === 'UC-2028') return 'warning' as const;
+  return 'danger' as const;
 }
 
 const sorted = [...properties].sort((a, b) => totalScore(b) - totalScore(a));
-const BUDGET = 300; // ₹L = ₹3 Cr
 
 export default function PropertyShortlist3Cr() {
-  const [selected, setSelected] = useCanvasState<string>('sel3cr', 'sobha-athena');
+  const [selected, setSelected] = useCanvasState<string>('sel3cr', 'purva');
   const [view, setView] = useCanvasState<'overview' | 'scores' | 'detail'>('view3cr', 'overview');
 
   const prop = properties.find(p => p.id === selected)!;
 
-  return (
-    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 1020 }}>
+  const topScore = Math.max(...properties.map(totalScore));
+  const topPick  = properties.find(p => totalScore(p) === topScore)!;
 
+  return (
+    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 1040 }}>
+
+      {/* ── Header ── */}
       <Stack gap={4}>
         <H1>Property Shortlist — ₹3 Cr Budget</H1>
-        <Text tone="secondary">Sourced Apr 2026 · 3 BHK · Yelahanka / Thanisandra / North Bangalore · ≤ ₹3 Cr all-in · Scored against all 10 criteria</Text>
+        <Text tone="secondary">
+          Apr 2026 · 5 UC Grade A properties · North Bangalore · ≤ ₹3 Cr all-in (except Prestige Avon at ₹3.14 Cr — negotiate)
+        </Text>
       </Stack>
 
+      {/* ── Summary stats ── */}
       <Grid columns={4} gap={14}>
-        <Stat value="4" label="Properties Found" tone="info" />
-        <Stat value="0" label="RTM Options" tone="secondary" />
-        <Stat value="4 UC" label="New Build (< 2 yrs)" tone="warning" />
-        <Stat value="3 Grade A" label="Premium Builders" tone="success" />
+        <Stat value="5" label="Properties shortlisted" tone="success" />
+        <Stat value="5 Grade A" label="Builder quality" tone="success" />
+        <Stat value="Jun 2027" label="Earliest possession" tone="warning" />
+        <Stat value={topPick.name.split(' ').slice(0,2).join(' ')} label={`Top score (${totalScore(topPick)}/80)`} tone="success" />
       </Grid>
 
+      {/* ── UC rationale ── */}
       <Card>
-        <CardHeader trailing={<Pill label="All new build" tone="warning" size="sm" />}>
-          Why Only UC? The RTM Reality Check
+        <CardHeader trailing={<Pill tone="warning" size="sm">UC-only strategy</Pill>}>
+          Why Under-Construction Only — and Why Grade A Only
         </CardHeader>
         <CardBody>
           <Grid columns={2} gap={14}>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">All RTM options are 2+ years old</Text>
-              {['Sobha City — handed over 2018–2023', 'Prestige Royale Gardens — 2019', 'Brigade Northridge — 2018', 'Godrej Avenues — 2019', 'Mahaveer Celesse — 2022'].map((item, i) => (
+              <Text size="small" weight="semibold">RTM options ruled out</Text>
+              {[
+                'All Grade A RTM (Prestige Royale, Brigade Northridge, Sobha City) are 2018–2023 builds',
+                'Older societies = inherited maintenance debt, older common areas, mixed community',
+                'Pre-RERA projects require extra legal due diligence and independent verification',
+                'Resale units carry a negotiation premium on top of market price',
+              ].map((item, i) => (
                 <Row key={i} gap={6} align="start">
                   <Text size="small" tone="secondary" style={{ minWidth: 12 }}>−</Text>
                   <Text size="small" tone="secondary">{item}</Text>
@@ -258,8 +288,14 @@ export default function PropertyShortlist3Cr() {
               ))}
             </Stack>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">New build: you're the first occupant</Text>
-              {['No accumulated wear, no deferred maintenance', 'Possession 2026–2027 — wait 12–20 months', 'Keep ₹2.5 Cr savings invested in the meantime', 'GST 5% applies — budget ₹10–15L for it', 'All Grade A builders with RERA tracking'].map((item, i) => (
+              <Text size="small" weight="semibold">Grade A UC: the right bet</Text>
+              {[
+                'You are the first occupant — no inherited wear or deferred maintenance',
+                'RERA tracking = monthly % updates, escrow-protected payments',
+                'Grade A builders (Tata, Prestige, Brigade, Puravankara, Sattva) = strong completion track record',
+                'Construction-linked payment plan: savings stay invested until each milestone',
+                'GST 5% applies (~₹8–15L extra) — budgeted in all-in figures below',
+              ].map((item, i) => (
                 <Row key={i} gap={6} align="start">
                   <Text size="small" tone="secondary" style={{ minWidth: 12 }}>+</Text>
                   <Text size="small">{item}</Text>
@@ -272,7 +308,7 @@ export default function PropertyShortlist3Cr() {
 
       <Divider />
 
-      {/* ── view toggle ── */}
+      {/* ── View toggle ── */}
       <Row gap={6} align="center">
         <Text size="small" weight="semibold">View:</Text>
         <Row gap={5}>
@@ -284,68 +320,69 @@ export default function PropertyShortlist3Cr() {
         </Row>
       </Row>
 
-      {/* ── overview table ── */}
+      {/* ── Overview table ── */}
       {view === 'overview' && (
         <Stack gap={10}>
-          <H2>All 8 Properties at a Glance</H2>
+          <H2>All 5 Properties at a Glance</H2>
           <Table
-            headers={['Property', 'Builder (Grade)', 'Launched', 'Possession', 'Size SBA', 'Price Range', 'All-in (est.)', '₹/sqft', 'Score']}
-            rows={sorted.map(p => {
-              const isUC = p.status !== 'RTM';
-              return [
-                p.name,
-                `${p.builder} (${p.builderGrade})`,
-                p.launchDate,
-                p.possessionDate,
-                `${p.sbaMin.toLocaleString('en-IN')}–${p.sbaMax.toLocaleString('en-IN')} sqft`,
-                `₹${p.priceMin}–${p.priceMax}L`,
-                `₹${allinCost(p.priceMin, isUC)}–${allinCost(p.priceMax, isUC)}L`,
-                `₹${p.pricePerSqft.toLocaleString('en-IN')}`,
-                `${totalScore(p)}/80`,
-              ];
-            })}
+            headers={['#', 'Property', 'Builder', 'Area', 'Possession', 'SBA sqft', 'Base price', 'All-in', '₹/sqft', 'Score']}
+            rows={sorted.map(p => [
+              `#${p.rank}`,
+              p.name,
+              p.builder,
+              p.area,
+              p.possession,
+              `${p.sbaMin.toLocaleString('en-IN')}–${p.sbaMax.toLocaleString('en-IN')}`,
+              `₹${p.priceMin}–${p.priceMax}L`,
+              `₹${p.allInMin}–${p.allInMax}L`,
+              `₹${p.psfMid.toLocaleString('en-IN')}`,
+              `${totalScore(p)}/80`,
+            ])}
             rowTone={sorted.map(p =>
-              totalScore(p) >= 68 ? 'success' : totalScore(p) >= 60 ? undefined : 'warning'
+              p.allInMax <= BUDGET && totalScore(p) >= 65 ? 'success' :
+              p.allInMin > BUDGET ? 'warning' : undefined
             )}
             striped
           />
           <Text size="small" tone="secondary">
-            All-in = property + stamp duty (5%) + registration (1%) + legal (0.5%). UC properties also include GST (5%). Budget ceiling: ₹{BUDGET}L.
+            All-in = base price + GST 5% (UC) + stamp duty 5% + registration 1% + legal 0.5%.
+            Budget ceiling: ₹{BUDGET}L (₹3 Cr). Prestige Avon is ₹14–30L over — negotiate lower floor.
           </Text>
         </Stack>
       )}
 
-      {/* ── scores view ── */}
+      {/* ── Scores view ── */}
       {view === 'scores' && (
         <Stack gap={12}>
-          <H2>Criteria Score Comparison — Top 5</H2>
+          <H2>Criteria Score Comparison — All 5 Properties</H2>
           <BarChart
             categories={Object.values(SCORE_LABELS)}
-            series={sorted.slice(0, 5).map(p => ({
+            series={sorted.map(p => ({
               name: p.name.split(' ').slice(0, 2).join(' '),
               data: Object.keys(SCORE_LABELS).map(k => p.scores[k as keyof Property['scores']]),
             }))}
             horizontal
             min={0}
             max={10}
-            height={360}
+            height={380}
           />
           <Table
-            headers={['Property', ...Object.values(SCORE_LABELS), 'Total']}
+            headers={['Rank', 'Property', ...Object.values(SCORE_LABELS), 'Total /80']}
             rows={sorted.map(p => [
+              `#${p.rank}`,
               p.name,
               ...Object.keys(SCORE_LABELS).map(k => `${p.scores[k as keyof Property['scores']]}/10`),
               `${totalScore(p)}/80`,
             ])}
             rowTone={sorted.map(p =>
-              totalScore(p) >= 68 ? 'success' : totalScore(p) >= 60 ? undefined : 'warning'
+              totalScore(p) >= 68 ? 'success' : totalScore(p) >= 58 ? undefined : 'warning'
             )}
             striped
           />
         </Stack>
       )}
 
-      {/* ── detail view ── */}
+      {/* ── Detail view ── */}
       {view === 'detail' && (
         <Stack gap={14}>
           <Row gap={6} align="center" wrap>
@@ -355,29 +392,29 @@ export default function PropertyShortlist3Cr() {
                 <Pill
                   key={p.id}
                   active={selected === p.id}
-                  tone={gradeTone(p.builderGrade)}
+                  tone="success"
                   onClick={() => setSelected(p.id)}
                 >
-                  {p.name.split(' ').slice(0, 2).join(' ')}
+                  #{p.rank} {p.name.split(' ').slice(0, 2).join(' ')}
                 </Pill>
               ))}
             </Row>
           </Row>
 
           <Grid columns={4} gap={12}>
-            <Stat value={`₹${prop.priceMin}–${prop.priceMax}L`} label="Price Range" />
-            <Stat value={prop.status} label="Status" tone={statusTone(prop.status)} />
-            <Stat value={prop.launchDate} label="Project Launched" />
-            <Stat value={prop.possessionDate} label="Possession" tone={prop.status === 'RTM' ? 'success' : 'warning'} />
+            <Stat value={`₹${prop.allInMin}–${prop.allInMax}L`} label="All-in cost"
+              tone={prop.allInMax <= BUDGET ? 'success' : 'warning'} />
+            <Stat value={prop.possession} label="Possession" tone={statusTone(prop.status)} />
+            <Stat value={`${prop.sbaMin.toLocaleString('en-IN')}–${prop.sbaMax.toLocaleString('en-IN')} sqft`} label="SBA range" />
+            <Stat value={`₹${prop.psfMid.toLocaleString('en-IN')}/sqft`} label="Mid PSF" />
           </Grid>
-
 
           <Grid columns={3} gap={12}>
             <Stack gap={3}>
               <Text size="small" weight="semibold">Builder</Text>
               <Row gap={4} align="center">
                 <Text size="small">{prop.builder}</Text>
-                <Pill label={`Grade ${prop.builderGrade}`} tone={gradeTone(prop.builderGrade)} size="sm" />
+                <Pill tone="success" size="sm">Grade A</Pill>
               </Row>
             </Stack>
             <Stack gap={3}>
@@ -385,18 +422,14 @@ export default function PropertyShortlist3Cr() {
               <Text size="small" tone="secondary">{prop.rera}</Text>
             </Stack>
             <Stack gap={3}>
-              <Text size="small" weight="semibold">OC Status</Text>
-              <Pill
-                label={prop.ocStatus === 'confirmed' ? 'Confirmed' : prop.ocStatus === 'likely' ? 'Verify required' : 'N/A (UC)'}
-                tone={prop.ocStatus === 'confirmed' ? 'success' : prop.ocStatus === 'likely' ? 'warning' : 'neutral'}
-                size="sm"
-              />
+              <Text size="small" weight="semibold">Society / scale</Text>
+              <Text size="small" tone="secondary">{prop.societySize}</Text>
             </Stack>
           </Grid>
 
           <Grid columns={2} gap={14}>
             <Card>
-              <CardHeader trailing={<Pill label="Why consider" tone="success" size="sm" />}>Highlights</CardHeader>
+              <CardHeader trailing={<Pill tone="success" size="sm">Why consider</Pill>}>Highlights</CardHeader>
               <CardBody>
                 <Stack gap={5}>
                   {prop.highlights.map((h, i) => (
@@ -409,7 +442,7 @@ export default function PropertyShortlist3Cr() {
               </CardBody>
             </Card>
             <Card>
-              <CardHeader trailing={<Pill label="Watch out for" tone="warning" size="sm" />}>Concerns</CardHeader>
+              <CardHeader trailing={<Pill tone="warning" size="sm">Watch out</Pill>}>Concerns</CardHeader>
               <CardBody>
                 <Stack gap={5}>
                   {prop.concerns.map((c, i) => (
@@ -429,128 +462,74 @@ export default function PropertyShortlist3Cr() {
                 key={k}
                 value={`${prop.scores[k as keyof Property['scores']]}/10`}
                 label={label}
-                tone={prop.scores[k as keyof Property['scores']] >= 8 ? 'success' : prop.scores[k as keyof Property['scores']] <= 6 ? 'warning' : undefined}
+                tone={prop.scores[k as keyof Property['scores']] >= 8 ? 'success' :
+                      prop.scores[k as keyof Property['scores']] <= 5 ? 'warning' : undefined}
               />
             ))}
           </Grid>
 
-          <Stack gap={4}>
-            <Text size="small" weight="semibold">All-in Cost</Text>
-            <Grid columns={3} gap={12}>
-              {[
-                { label: `Min (₹${prop.priceMin}L)`, val: allinCost(prop.priceMin, prop.status !== 'RTM') },
-                { label: `Max (₹${prop.priceMax}L)`, val: allinCost(prop.priceMax, prop.status !== 'RTM') },
-              ].map(({ label, val }) => (
-                <Stack key={label} gap={3}>
-                  <Text size="small" tone="secondary">{label}</Text>
-                  <Row gap={4} align="center">
-                    <Text size="small">₹{val}L</Text>
-                    <Pill
-                      label={val <= BUDGET ? 'Fits' : 'Over'}
-                      tone={val <= BUDGET ? 'success' : 'danger'}
-                      size="sm"
-                    />
-                  </Row>
-                </Stack>
-              ))}
-              <Stack gap={3}>
-                <Text size="small" tone="secondary">Budget remaining (min price)</Text>
-                <Text size="small">{allinCost(prop.priceMin, prop.status !== 'RTM') <= BUDGET ? `₹${BUDGET - allinCost(prop.priceMin, prop.status !== 'RTM')}L buffer` : 'Over budget'}</Text>
-              </Stack>
-            </Grid>
-          </Stack>
+          <Card>
+            <CardHeader trailing={<Pill tone="info" size="sm">Budget check</Pill>}>Cost breakdown</CardHeader>
+            <CardBody>
+              <Table
+                headers={['Item', 'At min price', 'At max price']}
+                rows={[
+                  ['Base price', `₹${prop.priceMin}L`, `₹${prop.priceMax}L`],
+                  ['GST 5% (UC)', `₹${Math.round(prop.priceMin * 0.05)}L`, `₹${Math.round(prop.priceMax * 0.05)}L`],
+                  ['Stamp + reg + legal 6.5%', `₹${Math.round(prop.priceMin * 0.065)}L`, `₹${Math.round(prop.priceMax * 0.065)}L`],
+                  ['All-in estimate', `₹${prop.allInMin}L`, `₹${prop.allInMax}L`],
+                  ['Budget remaining vs ₹3 Cr', `₹${BUDGET - prop.allInMin}L`, prop.allInMax <= BUDGET ? `₹${BUDGET - prop.allInMax}L` : 'Over by ₹' + (prop.allInMax - BUDGET) + 'L'],
+                ]}
+                rowTone={[undefined, undefined, undefined,
+                  prop.allInMax <= BUDGET ? 'success' : 'warning',
+                  prop.allInMin >= 0 ? 'success' : 'danger',
+                ]}
+                striped
+              />
+            </CardBody>
+          </Card>
         </Stack>
       )}
 
       <Divider />
 
-      {/* ── recommendation ── */}
+      {/* ── Ranked recommendation ── */}
       <Stack gap={12}>
-        <H2>Recommended Shortlist — Ranked for Your Profile</H2>
-        <Grid columns={3} gap={14}>
-          <Card>
-            <CardHeader trailing={<Pill label="#1 Overall" tone="success" size="sm" />}>
-              Prestige Royale Gardens
-            </CardHeader>
-            <CardBody>
-              <Stack gap={5}>
-                <Row gap={5} wrap>
-                  <Pill label="Grade A" tone="success" size="sm" />
-                  <Pill label="RTM" tone="success" size="sm" />
-                  <Pill label="₹1.5–1.95 Cr" size="sm" />
-                  <Pill label="1,705 sqft" size="sm" />
-                </Row>
-                <Text size="small">Prestige + Grade A + RTM + 22.5 acres + within budget with ~₹1 Cr buffer. The ₹1 Cr budget surplus stays invested. Best combination of builder credibility, society maturity, and value.</Text>
-                <Text size="small" tone="secondary">Action: Get 2–3 broker quotes for resale units. Verify OC + A-Khata + sinking fund.</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardHeader trailing={<Pill label="#2 Best Value" tone="success" size="sm" />}>
-              Brigade Northridge
-            </CardHeader>
-            <CardBody>
-              <Stack gap={5}>
-                <Row gap={5} wrap>
-                  <Pill label="Grade A" tone="success" size="sm" />
-                  <Pill label="RTM" tone="success" size="sm" />
-                  <Pill label="₹1.55–3 Cr" size="sm" />
-                  <Pill label="1,880 sqft max" size="sm" />
-                </Row>
-                <Text size="small">Brigade quality at the best sqft rate among Grade A options. Largest unit available (1,880 sqft). 7-acre society on quieter Kogilu Rd. Pre-RERA project — verify OC/CC documents independently.</Text>
-                <Text size="small" tone="secondary">Action: Ask broker for 1,800+ sqft units specifically. Budget for extra legal due diligence (pre-RERA).</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardHeader trailing={<Pill label="#3 Grade A UC" tone="warning" size="sm" />}>
-              Sobha Athena (new)
-            </CardHeader>
-            <CardBody>
-              <Stack gap={5}>
-                <Row gap={5} wrap>
-                  <Pill label="Grade A" tone="success" size="sm" />
-                  <Pill label="UC 2026–27" tone="warning" size="sm" />
-                  <Pill label="₹2.43 Cr all-in" size="sm" />
-                  <Pill label="1,682 sqft" size="sm" />
-                </Row>
-                <Text size="small">If you want brand-new Sobha quality and are willing to wait 12–18 months: ₹2.27 Cr + charges = ₹2.43 Cr all-in — leaves ₹57L buffer. Boutique 72-unit project, first occupant.</Text>
-                <Text size="small" tone="secondary">Action: Verify RERA completion %, confirm possession timeline, check if payment plan suits your cash flow.</Text>
-              </Stack>
-            </CardBody>
-          </Card>
-        </Grid>
+        <H2>Ranked Recommendation — For Your Profile</H2>
+        <Text size="small" tone="secondary">Single professional, Manyata/Embassy commute, ₹3 Cr budget, Grade A UC only</Text>
 
         <Table
-          headers={['Rank', 'Property', 'Why It Wins', 'Budget Buffer', 'First Action']}
+          headers={['Rank', 'Property', 'Builder', 'All-in', 'Possession', 'Why it ranks here', 'Key risk']}
           rows={[
-            ['1', 'Sobha Athena', 'Best build quality (Sobha) + boutique 72 units + 2027 possession', '~₹57L', 'Check RERA completion % on Karnataka portal'],
-            ['2', 'Prestige Camden Gardens', 'Grade A Prestige + boutique 120 units + RERA confirmed + Dec 2027', '₹50L+', 'Call Prestige sales — confirm 3 BHK floor plans + payment plan'],
-            ['3', 'Arvind Bel Air', 'Earliest possession (Jun 2026) + best budget fit + SEBI-listed builder', '₹1.25–1.8 Cr', 'Verify RERA construction % + confirm Jun 2026 is realistic'],
-            ['4', 'Brigade Insignia', 'Best location/size (2,145 sqft+) but 2029 wait + at budget edge', '0–minimal', 'Only if you want max size and can wait till 2029'],
+            ['#1', 'Sattva Lumina', 'Salarpuria Sattva', '₹1.62–1.87 Cr', 'Nov 2029', 'Best value PSF, township scale, STRR uplift, massive budget buffer', '43-month wait; thin daily infra at Rajanukunte today'],
+            ['#2', 'Brigade Eternia', 'Brigade Group', '₹2.41–2.59 Cr', 'Mar 2030', 'Best family area; BWSSB water; best schools/hospital proximity; Brigade brand', '47-month wait; no Metro; confirm RERA before booking'],
+            ['#3', 'Purva Zenium 2', 'Puravankara', '₹1.82–2.53 Cr', 'Jun 2027', 'Earliest possession — move in 14 months; strong budget buffer; NSE-listed builder', 'Hosahalli still maturing; car-dependent; no Metro'],
+            ['#4', 'Tata Varnam', 'Tata Housing', '₹1.55–1.76 Cr', 'Dec 2029', 'Best builder trust (Tata), best sqft value, township scale, airport 10 min', 'Devanahalli 60–80 min peak to Manyata — daily commute concern'],
+            ['#5*', 'Prestige Avon', 'Prestige Group', '₹3.14–3.30 Cr*', 'Dec 2028', 'Best location (Thanisandra), biggest units, Metro nearby, top resale market', '*Over ₹3 Cr ceiling — negotiate lower floor; still worth a visit'],
           ]}
-          rowTone={['success', 'success', 'warning', undefined]}
+          rowTone={['success', 'success', undefined, undefined, 'warning']}
           striped
         />
       </Stack>
 
       <Divider />
 
+      {/* ── Next actions ── */}
       <Card>
-        <CardHeader trailing={<Pill label="Action plan" tone="info" size="sm" />}>
-          Your Next 3 Weeks
+        <CardHeader trailing={<Pill tone="info" size="sm">Action plan</Pill>}>
+          Visit Plan — 2-Day Site Visit Schedule
         </CardHeader>
         <CardBody>
           <Stack gap={5}>
             {[
-              ['Week 1 — Research', 'On Karnataka RERA portal (rera.karnataka.gov.in): look up PR/140524/006872 (Prestige Camden) and Sobha Athena RERA number. Check construction % completed. If > 50%, project risk is manageable.'],
-              ['Week 1 — Finance', 'Get a home loan pre-approval for ₹1 Cr from SBI/HDFC. For UC properties with construction-linked payment plan, you draw down in tranches — EMI starts small and grows. With ₹2.5 Cr savings you can pay more upfront to reduce drawn loan.'],
-              ['Week 2 — Site Visit', 'Visit Sobha Athena and Prestige Camden construction sites. Ask: current % completion, any delay vs RERA date, number of bookings sold, maintenance team plan. Talk to other buyers if possible.'],
-              ['Week 2 — Arvind check', 'Visit Arvind Bel Air in Yelahanka — possession Jun 2026. If construction is 90%+ done, this is the fastest path to moving in and has the most budget buffer.'],
-              ['Week 3 — Book', 'Pick your top choice. Pay booking amount (₹2–5L). Engage property lawyer for agreement review before any further payment. Confirm RERA registration number on agreement.'],
-            ].map(([week, action]) => (
-              <Row key={week} gap={8} align="start">
-                <Pill label={week.split('—')[0].trim()} size="sm" />
+              ['Day 1 — AM', 'Purva Zenium 2 (Hosahalli). Ask: current RERA construction %, unsold 3 BHK inventory, CLP milestones, maintenance charge quote.'],
+              ['Day 1 — PM', 'Prestige Avon (Thanisandra). Ask: cheapest 3 BHK floor and facing available, possession date guarantee in agreement, RERA number.'],
+              ['Day 2 — AM', 'Sattva Lumina (Rajanukunte). Ask: RERA portal %, construction milestone status, 3-clubhouse delivery timeline, STRR update.'],
+              ['Day 2 — PM', 'Brigade Eternia (Yelahanka NT). Ask: RERA registration confirmation, Mar 2030 possession firmness, floor plan options.'],
+              ['Day 3 — Optional', 'Tata Varnam (Devanahalli). Test the commute: drive from Tata Varnam to Manyata Tech Park on a weekday at 8:30 AM. If bearable, worth serious consideration.'],
+            ].map(([when, action]) => (
+              <Row key={when} gap={8} align="start">
+                <Pill size="sm">{when}</Pill>
                 <Text size="small">{action}</Text>
               </Row>
             ))}
