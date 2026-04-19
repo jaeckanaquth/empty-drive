@@ -10,7 +10,7 @@ import {
 // Covers: UC vs RTM decision · per-property specs comparison · loading factor
 //         BHK config · floor selection · orientation · WFH checklist
 
-type Tab = 'decision' | 'properties' | 'sizing' | 'unit';
+type Tab = 'decision' | 'properties' | 'format' | 'sizing' | 'unit';
 
 // ── Per-property specs ──────────────────────────────────────────────────────
 
@@ -140,6 +140,181 @@ const PROPS: PropSpec[] = [
   },
 ];
 
+// ── format & 5-year exit data ───────────────────────────────────────────────
+
+interface FormatRow {
+  format: string;
+  budget3cr: string;
+  northBlrAvail: string;
+  density: string;
+  appreciation5yr: string;
+  rentalYield: string;
+  exitLiquidity: string;
+  exitPool: string;
+  tone: 'success' | 'warning' | 'info' | 'danger';
+  verdict: string;
+}
+
+const FORMATS: FormatRow[] = [
+  {
+    format: 'Independent Villa',
+    budget3cr: '~1,200–1,500 sqft BUA on 1,200–1,500 sqft plot. Very basic construction at this price.',
+    northBlrAvail: 'Rare below ₹3 Cr — mostly IVC Road, Devanahalli outskirts. No Grade A builder in this segment.',
+    density: 'N/A — standalone',
+    appreciation5yr: 'High on paper (land component), but at ₹3 Cr you are buying land + shed, not a quality villa',
+    rentalYield: '~1.5–2.5% — hard to rent a standalone villa; tenant maintenance issues',
+    exitLiquidity: 'Low',
+    exitPool: 'Narrow: only villa-seeking buyers with ₹3–4 Cr budget in Devanahalli/IVC Road — thin pool',
+    tone: 'danger',
+    verdict: 'Skip. ₹3 Cr does not buy a quality villa in North BLR. You get land with basic construction. Poor rental yield and thin exit pool.',
+  },
+  {
+    format: 'Row House / Villa in Gated Community',
+    budget3cr: '~1,800–2,200 sqft BUA, shared wall. Some in Devanahalli; prestige/embassy projects on IVC Road are ₹4–6 Cr.',
+    northBlrAvail: 'Limited at ₹3 Cr. SOBHA HRC Pristine, Century Ethos on IVC Road are ₹4 Cr+. Devanahalli row houses exist.',
+    density: 'Very low (20–80 units per community)',
+    appreciation5yr: 'Good — land component + brand name. IVC Road gated communities show 10–13% CAGR historically.',
+    rentalYield: '~2–3% — lower than apartments; harder to manage remotely',
+    exitLiquidity: 'Moderate',
+    exitPool: 'Specific buyer — wants ground living, car-park convenience, private garden. Smaller but motivated segment.',
+    tone: 'warning',
+    verdict: 'Revisit if budget stretches to ₹3.5 Cr+ or villa format is non-negotiable. At exactly ₹3 Cr, apartment gives better value and liquidity.',
+  },
+  {
+    format: 'Plotted Development (bare plot)',
+    budget3cr: '~40×60 ft (2,400 sqft) in Devanahalli / Bagalur area. No construction = no rent.',
+    northBlrAvail: 'Available — KIADB allotments, BDA auctioned plots, private layouts in Bagalur / Nandi Hills belt.',
+    density: 'N/A',
+    appreciation5yr: 'Speculative — highest ceiling (15–20% if Aerospace SEZ delivers), lowest floor (5% if it doesn\'t)',
+    rentalYield: 'Zero — cannot rent a bare plot',
+    exitLiquidity: 'Moderate',
+    exitPool: 'Builder / developer buying to construct, or plot investor. Limited pool but transactions do happen.',
+    tone: 'danger',
+    verdict: 'Not for this profile. Zero rental income for 5 years, speculative exit depends on SEZ timing. Works only if you plan to construct.',
+  },
+  {
+    format: 'Boutique Apartment (50–250 units)',
+    budget3cr: '1,400–1,800 sqft SBA, 3 BHK in a well-maintained low-density society.',
+    northBlrAvail: 'Prestige Avon (230 units), some Sobha boutique projects. Limited supply = scarcity premium.',
+    density: 'Low-medium (50–250 units)',
+    appreciation5yr: 'Good — scarcity premium + brand. 8–11% CAGR in Thanisandra zone.',
+    rentalYield: '~2.5–3.5% — premium tenant profile; easier single-tenant management',
+    exitLiquidity: 'Moderate-High',
+    exitPool: 'Quality buyer who values exclusivity; slightly premium price at exit vs large township.',
+    tone: 'info',
+    verdict: 'Good choice IF you can tolerate over-budget (Prestige Avon at ₹3.4 Cr). Premium exit and rental quality. Thin floor plan options are the main risk.',
+  },
+  {
+    format: 'Mid Township Apartment (300–800 units)',
+    budget3cr: '1,500–1,820 sqft SBA, 3 BHK with full amenities.',
+    northBlrAvail: 'Purva Zenium 2 (~500 units). Strong representation in North BLR.',
+    density: 'Medium (300–800 units)',
+    appreciation5yr: 'Best balance — 8–11% CAGR. Not oversupplied at exit, enough transactions for price discovery.',
+    rentalYield: '~3–3.5% — strong tenant demand; easy to find replacement tenant quickly',
+    exitLiquidity: 'High',
+    exitPool: 'Broad — IT professionals, families, investors. Most liquid segment in North BLR resale.',
+    tone: 'success',
+    verdict: 'Best format for a 5-year hold at ₹3 Cr. Right balance of appreciation, rental income, and exit liquidity. Purva Zenium 2 is in this band.',
+  },
+  {
+    format: 'Large Township Apartment (1,000+ units)',
+    budget3cr: '1,600–2,061 sqft SBA, 3 BHK with premium amenities and campus-scale infrastructure.',
+    northBlrAvail: 'Sattva Lumina (1,200+), Brigade Eternia (1,124), Tata Carnatica (large). The dominant format in North BLR.',
+    density: 'High (1,000–3,000+ units)',
+    appreciation5yr: 'Good — project creates its own micro-market. STRR/metro re-rating lifts all units together.',
+    rentalYield: '~3–4% — deepest rental pool; always a tenant available',
+    exitLiquidity: 'Highest',
+    exitPool: 'Largest buyer pool — comparable transactions happening constantly. Easy for buyer to get a home loan (many bank-approved projects).',
+    tone: 'success',
+    verdict: 'Best exit liquidity on the list. Slight supply pressure (many similar units at exit) is offset by deepest buyer pool. Sattva/Brigade/Tata all fall here — strong 5-yr exit.',
+  },
+];
+
+// ── 5-year exit profile per shortlisted property ────────────────────────────
+
+const EXIT_PROFILES = [
+  {
+    rank: 1, name: 'Purva Zenium 2', shortName: 'Purva',
+    exitYear: '~2032 (Jun 2027 + 5 yr)',
+    format: 'Mid township (~500 units)',
+    density: 'Medium',
+    exitScore: 8,
+    exitTone: 'success' as const,
+    appreciation5yr: '8–10% CAGR → ~₹2.8–3.7 Cr on ₹1.82–2.53 Cr entry',
+    rentalYrs: '~3 yrs pre-exit (from Jun 2027)',
+    rentalIncome: '~₹10–12L cumulative rental',
+    exitBuyer: 'IT professional moving to Airport Road belt for airport access; working at KIADB Aerospace tenant companies (long-term)',
+    catalyst: 'STRR completion (~2028) → Airport Road connectivity boost → demand surge from logistics/aerospace workers',
+    risk: 'Area still maturing in 2032; lower exit price ceiling vs Thanisandra',
+    verdict: 'Good 5-yr exit. Earliest possession = most rental income before exit. Best short-hold option on the list.',
+    verdictTone: 'success' as const,
+  },
+  {
+    rank: 2, name: 'Prestige Avon', shortName: 'Prestige',
+    exitYear: '~2034 (Dec 2028 + 5 yr)',
+    format: 'Boutique (~230 units)',
+    density: 'Low',
+    exitScore: 7,
+    exitTone: 'info' as const,
+    appreciation5yr: '10–12% CAGR → ~₹3.8–4.2 Cr from ~₹3.41 Cr entry',
+    rentalYrs: '~5 yrs (from Dec 2028)',
+    rentalIncome: '~₹16–20L cumulative rental',
+    exitBuyer: 'Quality buyer in Thanisandra — young family from Manyata/Hebbal corridor wanting a premium boutique society',
+    catalyst: 'Thanisandra Metro Phase 2B (~2031) → direct lift to rental and capital values',
+    risk: 'Entry over ₹3 Cr limits your appreciation in % terms; boutique means few comparable sales = harder to price exit',
+    verdict: 'Decent exit if you negotiate entry under ₹3 Cr. Metro catalyst is real. But limited upside from a ₹3.4 Cr entry.',
+    verdictTone: 'warning' as const,
+  },
+  {
+    rank: 3, name: 'Sattva Lumina', shortName: 'Sattva',
+    exitYear: '~2034 (Nov 2029 + 5 yr)',
+    format: 'Large township (1,200+ units)',
+    density: 'High',
+    exitScore: 9,
+    exitTone: 'success' as const,
+    appreciation5yr: '9–12% CAGR → ~₹2.5–3.0 Cr from ₹1.62–1.87 Cr entry',
+    rentalYrs: '~5 yrs (from Nov 2029)',
+    rentalIncome: '~₹18–22L cumulative rental',
+    exitBuyer: 'IT professional/family in Yelahanka belt who wants Grade A amenities at the best price per sqft',
+    catalyst: 'STRR re-rating for SH-9 belt; Yelahanka maturing into a full-service suburb by 2032–34',
+    risk: '1,200+ units = most supply at exit in same project; many identical units competing; must price correctly',
+    verdict: 'Best 5-yr appreciation upside. Lowest entry + STRR catalyst = highest % gain. Supply pressure at exit is manageable with right pricing.',
+    verdictTone: 'success' as const,
+  },
+  {
+    rank: 4, name: 'Brigade Eternia', shortName: 'Brigade',
+    exitYear: '~2035 (Mar 2030 + 5 yr)',
+    format: 'Large township (1,124 units)',
+    density: 'High',
+    exitScore: 9,
+    exitTone: 'success' as const,
+    appreciation5yr: '8–10% CAGR → ~₹3.5–4.0 Cr from ₹2.41 Cr entry',
+    rentalYrs: '~5 yrs (from Mar 2030)',
+    rentalIncome: '~₹17–21L cumulative rental',
+    exitBuyer: 'Family buyer in Yelahanka NT — BDA-planned address with wide roads, established schools, and Brigade brand = most trusted address on the list',
+    catalyst: 'STRR + Yelahanka NT already mature = double-effect: infrastructure + established social infra',
+    risk: 'Mar 2030 possession risk — any delay pushes exit to 2036+; lock-in is long',
+    verdict: 'Best exit quality. BDA address + Brigade brand = most liquid resale on the list. Most reliable outcome if you can wait for 2030.',
+    verdictTone: 'success' as const,
+  },
+  {
+    rank: 5, name: 'Tata Varnam', shortName: 'Tata',
+    exitYear: '~2034 (Dec 2029 + 5 yr)',
+    format: 'Mega township (70 acres / 135-acre Carnatica)',
+    density: 'High',
+    exitScore: 7,
+    exitTone: 'warning' as const,
+    appreciation5yr: '6–9% CAGR → ~₹2.3–2.9 Cr from ₹1.65–2.04 Cr entry',
+    rentalYrs: '~5 yrs (from Dec 2029)',
+    rentalIncome: '~₹12–16L cumulative rental (lower due to Devanahalli location)',
+    exitBuyer: 'Airport-adjacent buyer — aviation/aerospace professional or someone who flies every week. Narrow profile but growing as KIAL expands.',
+    catalyst: 'Aerospace SEZ Phase 1 employment materialising (highest upside) or STRR completing (base case)',
+    risk: 'Devanahalli location is the constraint — if Aerospace SEZ delays, exit buyer pool stays thin; commute concern drives away mainstream IT buyers',
+    verdict: 'Best sqft per rupee, but 5-yr exit depends on Aerospace SEZ which is not yet confirmed. Safest if you self-use; riskier as pure investment exit.',
+    verdictTone: 'warning' as const,
+  },
+];
+
 // ── loading factor ──────────────────────────────────────────────────────────
 
 function carpetFromSBA(sba: number, loadingPct: number): number {
@@ -214,6 +389,7 @@ export default function PropertySpecs() {
       {/* ── Tab nav ── */}
       <Row gap={6} wrap>
         <Pill active={tab === 'properties'} onClick={() => setTab('properties')}>Shortlisted properties</Pill>
+        <Pill active={tab === 'format'}     onClick={() => setTab('format')}>Format & 5-yr exit</Pill>
         <Pill active={tab === 'decision'}   onClick={() => setTab('decision')}>UC vs RTM decision</Pill>
         <Pill active={tab === 'sizing'}     onClick={() => setTab('sizing')}>Sizing & loading</Pill>
         <Pill active={tab === 'unit'}       onClick={() => setTab('unit')}>Unit selection</Pill>
@@ -360,6 +536,183 @@ export default function PropertySpecs() {
               height={180}
             />
           </Stack>
+
+        </Stack>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          TAB — FORMAT & 5-YEAR EXIT
+      ══════════════════════════════════════════════════════════════════════ */}
+      {tab === 'format' && (
+        <Stack gap={20}>
+
+          {/* Quick verdict */}
+          <Card>
+            <CardHeader trailing={<Pill tone="success" size="sm">~5-yr hold · ₹3 Cr</Pill>}>
+              Format verdict for your profile
+            </CardHeader>
+            <CardBody>
+              <Stack gap={6}>
+                <Text size="small">
+                  <Text size="small" weight="semibold">Villa / row house</Text> — ₹3 Cr does not buy a quality villa in North BLR. You get a small plot + basic construction with low rental yield and thin exit pool. Skip unless budget reaches ₹3.5 Cr+ and IVC Road specifically.
+                </Text>
+                <Text size="small">
+                  <Text size="small" weight="semibold">Apartment — mid township (300–800 units)</Text> — best balance of appreciation, rental income, and exit liquidity for 5 years. Large enough for strong tenant demand; not so large that exit is crowded.
+                </Text>
+                <Text size="small">
+                  <Text size="small" weight="semibold">Apartment — large township (1,000+ units)</Text> — deepest exit liquidity (always comparable sales, always tenants). Slight supply pressure at exit is offset by largest buyer pool. Sattva/Brigade/Tata are all here — very strong 5-yr exit.
+                </Text>
+                <Text size="small" tone="secondary">
+                  Bottom line: Apartment in a Grade A township of 300–1,500 units is the optimal format. The exact density tier matters less than: entry price, builder quality, area trajectory, and STRR/metro catalyst timing.
+                </Text>
+              </Stack>
+            </CardBody>
+          </Card>
+
+          {/* Format comparison table */}
+          <Stack gap={10}>
+            <H2>Property format comparison at ₹3 Cr — North BLR</H2>
+            <Table
+              headers={['Format', 'What ₹3 Cr buys', 'Density', '5-yr appreciation', 'Rental yield', 'Exit liquidity', 'Verdict']}
+              rows={FORMATS.map(f => [
+                f.format,
+                f.budget3cr,
+                f.density,
+                f.appreciation5yr,
+                f.rentalYield,
+                f.exitLiquidity,
+                f.verdict,
+              ])}
+              rowTone={FORMATS.map(f => f.tone)}
+              striped
+            />
+          </Stack>
+
+          <Divider />
+
+          {/* Community density impact */}
+          <Stack gap={10}>
+            <H2>Community density — how it affects your 5-year exit</H2>
+            <Grid columns={3} gap={14}>
+              <Card>
+                <CardHeader trailing={<Pill tone="danger" size="sm">Low density</Pill>}>
+                  Boutique (&lt;250 units)
+                </CardHeader>
+                <CardBody>
+                  <Stack gap={6}>
+                    <Text size="small" weight="semibold">Appreciation</Text>
+                    <Text size="small" tone="secondary">Scarcity premium — few comparable units = seller has pricing power. But thin transaction history makes valuation hard for buyer's bank.</Text>
+                    <Text size="small" weight="semibold">Exit challenge</Text>
+                    <Text size="small" tone="secondary">Fewer comparable sales → banks sometimes offer lower LTV on boutique projects → buyer needs more own funds → smaller buyer pool.</Text>
+                    <Text size="small" weight="semibold">Best for</Text>
+                    <Text size="small" tone="secondary">Prestige Avon (230 units, Thanisandra). Brand compensates for thin liquidity. Thanisandra's deep market is the backstop.</Text>
+                  </Stack>
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardHeader trailing={<Pill tone="success" size="sm">Mid density</Pill>}>
+                  Mid township (300–800 units)
+                </CardHeader>
+                <CardBody>
+                  <Stack gap={6}>
+                    <Text size="small" weight="semibold">Appreciation</Text>
+                    <Text size="small" tone="secondary">Strong — enough transactions for price discovery without competing against 500+ identical units. Builder's unsold inventory is gone by year 2–3, so resale price floats freely.</Text>
+                    <Text size="small" weight="semibold">Exit advantage</Text>
+                    <Text size="small" tone="secondary">Well-known project, bank-approved, active society = fastest transaction closure. Tenant pool is large relative to units available.</Text>
+                    <Text size="small" weight="semibold">Best for</Text>
+                    <Text size="small" tone="secondary">Purva Zenium 2 (~500 units, Hosahalli). Optimal density for a 5-yr hold and clean exit.</Text>
+                  </Stack>
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardHeader trailing={<Pill tone="info" size="sm">High density</Pill>}>
+                  Large township (1,000+ units)
+                </CardHeader>
+                <CardBody>
+                  <Stack gap={6}>
+                    <Text size="small" weight="semibold">Appreciation</Text>
+                    <Text size="small" tone="secondary">Project sets micro-market price benchmark. When infrastructure arrives (STRR, metro), all units in the project re-rate together — big catalyst uplift possible.</Text>
+                    <Text size="small" weight="semibold">Exit challenge</Text>
+                    <Text size="small" tone="secondary">Many similar units competing at exit. Differentiate with floor, facing, and condition. Price correctly — buyers have many options within the same project.</Text>
+                    <Text size="small" weight="semibold">Best for</Text>
+                    <Text size="small" tone="secondary">Sattva (1,200+), Brigade (1,124), Tata (large). Deepest rental pool and most liquid resale. Best for investor exit.</Text>
+                  </Stack>
+                </CardBody>
+              </Card>
+            </Grid>
+          </Stack>
+
+          <Divider />
+
+          {/* 5-year exit profiles per property */}
+          <Stack gap={10}>
+            <H2>5-year exit profile — shortlisted properties</H2>
+            <Table
+              headers={['#', 'Property', 'Format', 'Exit year', '5-yr appreciation', 'Rental income', 'Exit buyer', 'Exit score']}
+              rows={EXIT_PROFILES.map(p => [
+                `${p.rank}`,
+                p.shortName,
+                p.format,
+                p.exitYear,
+                p.appreciation5yr,
+                p.rentalIncome,
+                p.exitBuyer,
+                `${p.exitScore}/10`,
+              ])}
+              rowTone={EXIT_PROFILES.map(p => p.exitTone)}
+              striped
+            />
+          </Stack>
+
+          {/* Exit catalyst table */}
+          <Stack gap={10}>
+            <H2>Key exit catalysts by property</H2>
+            <Table
+              headers={['Property', 'Primary catalyst', 'Risk if catalyst delays', 'Verdict']}
+              rows={EXIT_PROFILES.map(p => [
+                p.shortName,
+                p.catalyst,
+                p.risk,
+                p.verdict,
+              ])}
+              rowTone={EXIT_PROFILES.map(p => p.verdictTone)}
+              striped
+            />
+          </Stack>
+
+          {/* Exit score bar chart */}
+          <Stack gap={8}>
+            <H3>5-year exit score — all properties</H3>
+            <BarChart
+              categories={EXIT_PROFILES.map(p => p.shortName)}
+              series={[{ name: '5-yr exit score /10', data: EXIT_PROFILES.map(p => p.exitScore) }]}
+              height={180}
+            />
+          </Stack>
+
+          {/* Final answer */}
+          <Card>
+            <CardHeader trailing={<Pill tone="success" size="sm">Recommendation</Pill>}>
+              What to buy for a 5-year hold — the direct answer
+            </CardHeader>
+            <CardBody>
+              <Table
+                headers={['Priority', 'Choice', 'Reasoning']}
+                rows={[
+                  ['Format', 'Apartment in Grade A township · 300–1,500 units', 'Deepest rental pool, most liquid exit, best bank-LTV support for buyers at exit'],
+                  ['Top exit pick', 'Brigade Eternia (Yelahanka NT)', 'BDA address, Brigade brand, 1,124 units, STRR catalyst, mature area = most reliable 5-yr exit'],
+                  ['Best upside', 'Sattva Lumina (Yelahanka SH-9)', 'Lowest entry PSF + STRR re-rating + large township = highest % appreciation if all goes to plan'],
+                  ['Quickest turnaround', 'Purva Zenium 2 (Hosahalli)', 'Jun 2027 possession = 3 yrs rental before 5-yr mark. Sell in 2032 while area is still appreciating fast'],
+                  ['Avoid for 5-yr hold', 'Villa / plotted dev / boutique <100 units', 'Either zero rental income (plot), thin buyer pool (boutique), or over-budget value trap (villa)'],
+                  ['Stretch pick', 'Prestige Avon (Thanisandra)', 'Best micro-market but ₹3.41 Cr entry caps % upside. Only if you negotiate under ₹3 Cr'],
+                ]}
+                rowTone={[undefined, 'success', 'success', 'info', 'danger', 'warning']}
+                striped
+              />
+            </CardBody>
+          </Card>
 
         </Stack>
       )}
