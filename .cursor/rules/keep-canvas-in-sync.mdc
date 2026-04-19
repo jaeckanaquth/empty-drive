@@ -1,0 +1,23 @@
+---
+description: Always update Cursor canvas files when index.html property data changes
+alwaysApply: true
+---
+
+# Keep Canvases in Sync with index.html
+
+Whenever `index.html` is edited — especially `PROPERTIES`, `FLOOR_PLANS`, or any property/visit data — **always update the corresponding canvas files in the same response** before committing.
+
+## Canvases that mirror index.html
+
+| Canvas file | Mirrors |
+|---|---|
+| `blr-property-shortlist.canvas.tsx` | `PROPERTIES` + `FLOOR_PLANS` + guardrail scores |
+| `blr-visit-guide.canvas.tsx` | `visits` array (property list + contact/RERA details) |
+| `blr-builder-reputation.canvas.tsx` | Builders active on the shortlist |
+
+## Rules
+
+- Any property added/removed from `index.html` → update all three canvases.
+- Any price, possession date, RERA number, or drive time change → update canvas data too.
+- Canvas files live at `C:\Users\jaeck\.cursor\projects\c-Users-jaeck-Github-drive-empty\canvases\`.
+- Commit canvas + index.html together in one git commit.

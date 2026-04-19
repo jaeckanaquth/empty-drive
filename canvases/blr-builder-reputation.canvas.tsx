@@ -8,7 +8,7 @@ import {
 
 // ── builder data ───────────────────────────────────────────────────────────
 
-type BuilderKey = 'sobha' | 'prestige' | 'brigade' | 'puravankara' | 'provident' | 'shriram' | 'totalEnv' | 'assetz';
+type BuilderKey = 'sobha' | 'prestige' | 'brigade' | 'puravankara' | 'sattva' | 'tata' | 'provident' | 'shriram' | 'totalEnv' | 'assetz';
 
 interface BuilderScore {
   reraCompliance: number;
@@ -75,16 +75,42 @@ const builders: Record<BuilderKey, Builder> = {
   },
   puravankara: {
     label: 'Puravankara',
-    tier: 2,
+    tier: 1,
+    priceRange: '₹7,000–9,500/sqft',
+    active: true,
+    listed: true,
+    scores: { reraCompliance: 8, deliveryRecord: 8, constructionQuality: 8, financialStability: 7, afterSales: 7, valueForMoney: 8 },
+    total: 46,
+    summary: 'NSE-listed (2007), 50+ yr track record, 85M+ sqft delivered. Tier 1 quality at Tier 2 prices — strong value proposition. BluNex smart-home tech is a differentiator. Purva Zenium 2 (Hosahalli) is shortlisted: earliest Grade A possession (Jun 2027) in our search. After-sales rated good by residents.',
+    yelahankaPick: 'Purva Zenium 2 (Hosahalli, Jun 2027) — ✅ SHORTLISTED for visit. Purva Atmosphere resale for RTM option.',
+    watchOut: 'After-sales support can be inconsistent across projects. Verify maintenance quality for specific society before committing.',
+    tone: 'success',
+  },
+  sattva: {
+    label: 'Salarpuria Sattva',
+    tier: 1,
     priceRange: '₹6,500–9,000/sqft',
     active: true,
     listed: true,
-    scores: { reraCompliance: 8, deliveryRecord: 7, constructionQuality: 7, financialStability: 7, afterSales: 6, valueForMoney: 8 },
-    total: 43,
-    summary: 'Listed developer, mid-premium positioning. Good value in North BLR. Some delivery delays historically but has improved under current management. Projects are typically RERA-compliant and well-structured legally.',
-    yelahankaPick: 'Purva Atmosphere, Purva Skywood — check for RTM resale units in Yelahanka.',
-    watchOut: 'After-sales support can be inconsistent. Check resident feedback on maintenance quality for specific projects.',
-    tone: 'info',
+    scores: { reraCompliance: 8, deliveryRecord: 7, constructionQuality: 8, financialStability: 8, afterSales: 7, valueForMoney: 9 },
+    total: 47,
+    summary: 'NSE-listed, large Bangalore portfolio across residential and commercial. Strong financial backing, good RERA compliance record. Sattva Lumina (Rajanukunte) is shortlisted: best ₹/sqft on our list at ₹1.52–1.75 Cr for 1,450–1,780 sqft SBA. 12.8-acre township with 3 clubhouses.',
+    yelahankaPick: 'Sattva Lumina (Rajanukunte/Yelahanka, Nov 2029) — ✅ SHORTLISTED for visit. Best value per sqft in Grade A segment.',
+    watchOut: 'Possession Nov 2029 — longest wait on the list. Some older Sattva projects had 6–9 month delays. Verify RERA construction % before committing.',
+    tone: 'success',
+  },
+  tata: {
+    label: 'Tata Housing',
+    tier: 1,
+    priceRange: '₹6,000–8,500/sqft',
+    active: true,
+    listed: false,
+    scores: { reraCompliance: 10, deliveryRecord: 9, constructionQuality: 9, financialStability: 10, afterSales: 8, valueForMoney: 8 },
+    total: 54,
+    summary: 'Highest-trust brand in Indian real estate. Never defaulted, never declared insolvency, never abandoned a project. Tata Varnam (Devanahalli) is shortlisted: 70 acres within 135-acre Carnatica township, best sqft value per rupee on the list (₹1.55 Cr for 1,681 sqft). Parent Tata Group provides unlimited financial backing.',
+    yelahankaPick: 'Tata Varnam (Shettigere/Devanahalli, Dec 2029) — ✅ SHORTLISTED for visit. Top pick on builder trust; verify commute before committing.',
+    watchOut: 'Devanahalli location adds ~10 min commute vs Yelahanka. Verify you are comfortable with the daily drive before committing. Not publicly listed as standalone entity but Tata Group backing eliminates financial risk.',
+    tone: 'success',
   },
   provident: {
     label: 'Provident Housing (Puravankara subsidiary)',
@@ -153,7 +179,7 @@ type BuilderKey2 = BuilderKey;
 
 export default function BuilderReputation() {
   const [active, setActive] = useCanvasState<BuilderKey2>('builder', 'prestige');
-  const b = builders[active];
+  const b = builders[active as BuilderKey2];
   const keys = Object.keys(builders) as BuilderKey2[];
 
   return (
@@ -161,36 +187,36 @@ export default function BuilderReputation() {
 
       <Stack gap={4}>
         <H1>Builder Reputation</H1>
-        <Text tone="secondary">Yelahanka / North Bangalore · RTM focus · ₹3 Cr budget</Text>
+        <Text tone="secondary">North Bangalore · Under Construction · Grade A only · ₹3 Cr budget</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="Sobha" label="Best Quality" tone="success" />
-        <Stat value="Prestige" label="Best Brand Liquidity" tone="success" />
-        <Stat value="Provident" label="Best Value" tone="info" />
-        <Stat value="RTM only" label="Your Risk Filter" tone="warning" />
+        <Stat value="Tata" label="Highest Trust / Zero Default" tone="success" />
+        <Stat value="Sobha" label="Best Construction Quality" tone="success" />
+        <Stat value="Sattva" label="Best ₹/sqft on Shortlist" tone="info" />
+        <Stat value="UC — Grade A only" label="Your Filter" tone="warning" />
       </Grid>
 
       <Card>
-        <CardHeader trailing={<Pill tone="success" size="sm">RTM changes the game</Pill>}>
-          Why Builder Risk Is Lower for Ready-to-Move
+        <CardHeader trailing={<Pill tone="warning" size="sm">UC strategy — builder trust is everything</Pill>}>
+          Why We Filter to Grade A Only for Under-Construction
         </CardHeader>
         <CardBody>
           <Grid columns={2} gap={14}>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">For Under-Construction — builder reputation is everything</Text>
-              {['Will they deliver on time?', 'Will they run out of money mid-project?', 'Will construction quality match the brochure?', 'Will RERA commitments be honoured?'].map(r => (
+              <Text size="small" weight="semibold">UC risks you cannot see upfront</Text>
+              {['Will they deliver on time?', 'Will they run out of money mid-project?', 'Will construction quality match the brochure?', 'Will RERA commitments be honoured?', 'Will the penalty clause protect you if delayed?'].map(r => (
                 <Row key={r} gap={6}><Text size="small" tone="secondary" style={{ minWidth: 12 }}>−</Text><Text size="small" tone="secondary">{r}</Text></Row>
               ))}
             </Stack>
             <Stack gap={5}>
-              <Text size="small" weight="semibold">For Ready-to-Move — these risks are already resolved</Text>
-              {['Construction is done — you can see and touch it', 'OC is obtained — legally safe', 'Society is functioning — talk to actual residents', 'Remaining risk: after-sales service + society management'].map(r => (
+              <Text size="small" weight="semibold">Why Grade A + NSE-listed filters protect you</Text>
+              {['Public financials — audited, harder to hide cash flow stress', 'RERA penalties hit brand value — strong incentive to comply', 'Institutional funding (banks, HDFC, SBI) — not dependent on sales cash alone', 'Board governance — not a single-promoter personal project', 'Brand resale premium — buyers pay more for known names'].map(r => (
                 <Row key={r} gap={6}><Text size="small" tone="secondary" style={{ minWidth: 12 }}>+</Text><Text size="small" tone="secondary">{r}</Text></Row>
               ))}
             </Stack>
           </Grid>
-          <Text size="small" tone="secondary" style={{ marginTop: 12 }}>For RTM, shift your focus from "will they deliver" to "what is the quality of what they built" and "how well is the society managed." Both can be verified in person before you pay.</Text>
+          <Text size="small" tone="secondary" style={{ marginTop: 12 }}>For UC, builder grade is the single most important filter. All 5 shortlisted properties are from NSE-listed Grade A builders: Puravankara, Prestige, Salarpuria Sattva, Brigade, Tata Housing.</Text>
         </CardBody>
       </Card>
 
