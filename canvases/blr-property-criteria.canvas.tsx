@@ -12,7 +12,7 @@ const TEN_POINT: { num: number; label: string; canvas: string; status: 'Done' | 
   { num: 3,  label: 'Investment & appreciation',        canvas: 'blr-investment.canvas.tsx',                    status: 'Done' },
   { num: 4,  label: 'Property type / specs / UDS / hold', canvas: 'blr-property-type-config.canvas.tsx',      status: 'Done' },
   { num: 5,  label: 'Legal & documentation',            canvas: 'blr-legal-documentation.canvas.tsx',         status: 'Done' },
-  { num: 6,  label: 'Project amenities',                canvas: 'blr-amenities.canvas.tsx',                     status: 'Next' },
+  { num: 6,  label: 'Project amenities',                canvas: 'blr-amenities.canvas.tsx',                     status: 'Partial' },
   { num: 7,  label: 'Social infrastructure (neighbourhood)', canvas: 'blr-areas.canvas.tsx (social tab) + deep-eval', status: 'Partial' },
   { num: 8,  label: 'Financial parameters',             canvas: 'blr-budget-financial-planning · blr-your-budget-profile', status: 'Partial' },
   { num: 9,  label: 'Risk factors',                     canvas: 'blr-safety-lifestyle.canvas.tsx',            status: 'Partial' },
@@ -193,7 +193,7 @@ export default function BLRPropertyCriteria() {
           striped
         />
         <Text tone="secondary" size="small">
-          Resume work at <Text weight="semibold" as="span">#6 Project amenities</Text> (visit questions + per-project scoring in <Text weight="semibold" as="span">blr-amenities.canvas.tsx</Text> and the amenities row in <Text weight="semibold" as="span">blr-deep-eval</Text>).
+          #6: shortlist matrix + WFH checklist live in <Text weight="semibold" as="span">blr-amenities</Text>; deep-eval amenities row updated. Resume at <Text weight="semibold" as="span">#7 Social infrastructure</Text> (<Text weight="semibold" as="span">blr-areas</Text> social tab + social column in <Text weight="semibold" as="span">blr-deep-eval</Text>).
         </Text>
       </Stack>
 

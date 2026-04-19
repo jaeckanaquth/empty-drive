@@ -50,7 +50,7 @@ const CRITERIA: { key: CritKey; num: number; label: string; subLabel: string }[]
   { key: 'investment',   num: 3,  label: 'Investment Potential',    subLabel: 'Historical CAGR, infra catalysts, price vs comparables, supply-demand' },
   { key: 'specs',        num: 4,  label: 'Property Specifications', subLabel: 'Config, carpet vs SBA, RERA, loading factor, builder grade' },
   { key: 'legal',        num: 5,  label: 'Legal & Documentation',   subLabel: 'Khata, title, EC, approved plan, OC/CC, land conversion' },
-  { key: 'amenities',    num: 6,  label: 'Project Amenities',       subLabel: 'Clubhouse, pool, power backup, EV, water security' },
+  { key: 'amenities',    num: 6,  label: 'Project Amenities',       subLabel: 'Clubhouse, pool, DG, EV, water — visit matrix in blr-amenities' },
   { key: 'social',       num: 7,  label: 'Social Infrastructure',   subLabel: 'Schools, hospitals, malls, daily essentials within 3–5 km' },
   { key: 'financial',    num: 8,  label: 'Financial Parameters',    subLabel: 'All-in cost, EMI, possession timeline, maintenance, rental yield' },
   { key: 'risk',         num: 9,  label: 'Risk Factors',            subLabel: 'Flooding, litigation, construction quality, jurisdiction' },
@@ -131,6 +131,7 @@ const PROPS: PropData[] = [
           'Ask: DG power backup — 100% all points including AC, or partial (lights/fans only)?',
           'Ask: ISP fiber ducting pre-built into structure (critical for WFH 3 days/week)',
           'Smaller unit count means fewer amenity clashes; clubhouse slots easier to book',
+          'blr-amenities shortlist matrix: use “Scale / density” and “Maintenance outlook” rows vs mega-townships',
         ],
       },
       social: {
@@ -247,6 +248,7 @@ const PROPS: PropData[] = [
           'Prestige after-sales: reputation for consistent quality in common areas post-handover',
           'Ask: DG backup 100% all-points or partial? ISP pre-ducting? EV charging per bay?',
           'Smaller society = lower maintenance charges and easier RWA governance',
+          'blr-amenities matrix: stress-test one clubhouse vs 230 families at peak weekend use',
         ],
       },
       social: {
@@ -365,6 +367,7 @@ const PROPS: PropData[] = [
           'Township scale: piped BWSSB + borewell backup, dedicated STP — water security covered',
           'DG backup: 100% at township scale (confirm in sale agreement)',
           'EV charging, solar provisions: ask for specifics and whether per-bay or shared',
+          'Trade-off: blr-amenities matrix “Pools / maintenance” — expect upper ₹/sqft band until RWA proves efficiency',
         ],
       },
       social: {
@@ -484,6 +487,7 @@ const PROPS: PropData[] = [
           'Brigade security consistently rated highly by residents: CCTV + intercom + gated',
           'DG backup: 100% expected; confirm AC + kitchen points covered (not just lights)',
           'Ask: EV charging per bay? Solar on common roof? Fiber ISP ducting pre-installed?',
+          'blr-amenities matrix: mid-density column — confirm committed maintenance ₹/sqft in writing',
         ],
       },
       social: {
@@ -604,6 +608,7 @@ const PROPS: PropData[] = [
           'Water security: township-level borewell + BWSSB connection planned — best water strategy',
           'DG backup: 100% at township scale; power supply more reliable near KIAL / airport area',
           'EV charging, solar: Tata Housing includes as standard in post-2023 projects',
+          'blr-amenities matrix: map phase-wise opening of club/retail to your tower possession tranche',
         ],
       },
       social: {

@@ -53,6 +53,89 @@ const internalNice = amenities.filter(a => a.category === 'internal' && a.priori
 const internalSkip = amenities.filter(a => a.category === 'internal' && a.priority === 'skip');
 const externalList = amenities.filter(a => a.category === 'external');
 
+/** Five visit shortlist — same projects as blr-deep-eval; brochure/RERA figures → verify on site. */
+const SHORTLIST_AMENITY_ROWS: { dim: string; cells: [string, string, string, string, string] }[] = [
+  {
+    dim: 'Scale / density',
+    cells: [
+      'Smaller unit count vs mega-townships — shorter queues, less podium crowding',
+      '230 units · 10 acres — most intimate society on the list',
+      '1,553 units · 12.8 acres — township queues; book clubhouse slots early',
+      '1,124 units · 14 acres — balanced Brigade footprint',
+      '70 acres inside 135-acre Carnatica — most self-contained campus',
+    ],
+  },
+  {
+    dim: 'Clubhouse / indoor sports',
+    cells: [
+      'Purva Grade A: clubhouse + gym + indoor sports per brochure — match to RERA annexure',
+      'Prestige A package on boutique scale — quality over count',
+      '3 large clubhouses + indoor courts marketed — strongest indoor programme on list',
+      'Large clubhouse + indoor courts — Brigade A standard',
+      'Club + indoor sports within Varnam; wider Carnatica master when phases complete',
+    ],
+  },
+  {
+    dim: 'Pools / “nice” load',
+    cells: [
+      'Likely single pool — lower maintenance drag than multi-pool townships',
+      'Pool + landscaped podium — typical Prestige mix',
+      'Multiple pools — best for swimmers; highest water/chem maintenance exposure',
+      'Pool + gardens — mid-tier amenity load vs Sattva',
+      'Township pool(s) — confirm count and which phase opens first',
+    ],
+  },
+  {
+    dim: 'DG backup · WFH',
+    cells: [
+      'Must confirm: all points incl. AC vs lights-only; BluNex does not replace DG',
+      'Early-stage UC — get backup scope in draft sale agreement',
+      'Township-scale DG claimed — verify per-tower vs common-only wording',
+      'Brigade usually strong — still confirm AC + kitchen points in writing',
+      'Township + airport belt — often reliable grid; confirm flat-level DG scope',
+    ],
+  },
+  {
+    dim: 'Fiber / ISP · quiet work',
+    cells: [
+      'Ask ISP ducting + Jio/ACT/Airtel live in building; BluNex is access control not internet',
+      'Pre-launch — insist conduit + riser spec in brochure annexure',
+      'Co-working / study zones marketed — check seat count, AC, booking rules on visit',
+      'Confirm fiber to flat + WFH room size on RERA plan (see deep-eval specs row)',
+      'Large campus — ask which phase gets retail + best ISP backbone first',
+    ],
+  },
+  {
+    dim: 'EV · parking',
+    cells: [
+      'Dedicated covered bay — confirm allotment letter; EV stub or conduit?',
+      '230 units — easier parking discipline; EV policy TBC',
+      'Township: ask per-bay EV vs shared chargers and parking ratio',
+      'Yelahanka NT — confirm visitor bays + EV per tower',
+      'Tata projects often bundle EV readiness — confirm bay-level vs podium shared',
+    ],
+  },
+  {
+    dim: 'Maintenance outlook (solo WFH)',
+    cells: [
+      'Fewer “trophy” amenities → likely ₹/sqft toward basic–standard band',
+      'Lowest headcount per acre on list — favourable for charges vs mega-blocks',
+      'Highest amenity mass — budget ₹5–7+/sqft until RWA proves efficiency',
+      'Brigade typically ₹4–6/sqft — confirm committed rate before booking',
+      'Mega-township — expect mid–upper band until society matures',
+    ],
+  },
+];
+
+const SHORTLIST_HEADERS = [
+  'Dimension',
+  'Purva Zenium 2',
+  'Prestige Avon',
+  'Sattva Lumina',
+  'Brigade Eternia',
+  'Tata Varnam',
+] as const;
+
 // maintenance cost model
 function maintenanceCost(sqft: number, complexityLevel: 'basic' | 'standard' | 'premium'): number {
   const rates = { basic: 3.5, standard: 5.5, premium: 8 };
@@ -68,12 +151,29 @@ export default function AmenitiesAnalysis() {
   const premiumCost = maintenanceCost(sqft, 'premium');
 
   return (
-    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 960 }}>
+    <Stack gap={28} style={{ padding: '24px 28px', maxWidth: 1180 }}>
 
       <Stack gap={4}>
         <H1>Amenities</H1>
-        <Text tone="secondary">Single adult · WFH 3 days · What actually matters vs what's just marketing</Text>
+        <Text tone="secondary">
+          Criterion 6 (project amenities) · Single adult · WFH 3 days · What actually matters vs brochure noise.
+          Scores and verdicts stay in <Text weight="semibold" as="span">blr-deep-eval</Text>; use the matrix below on visits.
+        </Text>
       </Stack>
+
+      <Stack gap={10}>
+        <H2>Five visit shortlist — side-by-side</H2>
+        <Text size="small" tone="secondary">
+          Same five projects as the deep-eval matrix. Builder marketing (e.g. clubhouse sqft) must match RERA annexures and sale agreement schedules.
+        </Text>
+        <Table
+          headers={[...SHORTLIST_HEADERS]}
+          rows={SHORTLIST_AMENITY_ROWS.map(r => [r.dim, ...r.cells])}
+          striped
+        />
+      </Stack>
+
+      <Divider />
 
       <Grid columns={4} gap={14}>
         <Stat value="4" label="Non-Negotiable Internals" tone="danger" />
@@ -83,7 +183,7 @@ export default function AmenitiesAnalysis() {
       </Grid>
 
       <Card>
-        <CardHeader trailing={<Pill label="The amenity trap" tone="warning" size="sm" />}>
+        <CardHeader trailing={<Pill tone="warning" size="sm">Amenity trap</Pill>}>
           More Amenities = Higher Maintenance, Not Better Living
         </CardHeader>
         <CardBody>
@@ -128,7 +228,7 @@ export default function AmenitiesAnalysis() {
 
           <Grid columns={3} gap={14}>
             <Card>
-              <CardHeader trailing={<Pill label="Recommended" tone="success" size="sm" />}>
+              <CardHeader trailing={<Pill tone="success" size="sm">Recommended</Pill>}>
                 Basic-Standard Society
               </CardHeader>
               <CardBody>
@@ -140,7 +240,7 @@ export default function AmenitiesAnalysis() {
               </CardBody>
             </Card>
             <Card>
-              <CardHeader trailing={<Pill label="Typical" tone="neutral" size="sm" />}>
+              <CardHeader trailing={<Pill tone="neutral" size="sm">Typical</Pill>}>
                 Standard Society
               </CardHeader>
               <CardBody>
@@ -152,7 +252,7 @@ export default function AmenitiesAnalysis() {
               </CardBody>
             </Card>
             <Card>
-              <CardHeader trailing={<Pill label="Avoid for solo" tone="warning" size="sm" />}>
+              <CardHeader trailing={<Pill tone="warning" size="sm">Avoid for solo</Pill>}>
                 Over-Amenitised Society
               </CardHeader>
               <CardBody>
@@ -176,7 +276,7 @@ export default function AmenitiesAnalysis() {
         <Stack gap={10}>
           <Row gap={6} align="center">
             <H3>Non-Negotiable — Walk Away If Missing</H3>
-            <Pill label="4 items" tone="warning" size="sm" />
+            <Pill tone="warning" size="sm">4 items</Pill>
           </Row>
           <Table
             headers={['Amenity', 'Why Critical', 'How to Verify']}
@@ -189,7 +289,7 @@ export default function AmenitiesAnalysis() {
         <Stack gap={10}>
           <Row gap={6} align="center">
             <H3>High Priority — Strong Preference</H3>
-            <Pill label="4 items" size="sm" />
+            <Pill size="sm">4 items</Pill>
           </Row>
           <Table
             headers={['Amenity', 'Why It Matters', 'Honest Check']}
@@ -202,7 +302,7 @@ export default function AmenitiesAnalysis() {
         <Stack gap={10}>
           <Row gap={6} align="center">
             <H3>Nice to Have — Don't Pay Premium For</H3>
-            <Pill label="4 items" size="sm" />
+            <Pill size="sm">4 items</Pill>
           </Row>
           <Table
             headers={['Amenity', 'Reality Check', 'Single Adult Note']}
@@ -214,7 +314,7 @@ export default function AmenitiesAnalysis() {
         <Stack gap={10}>
           <Row gap={6} align="center">
             <H3>Completely Irrelevant — Do Not Factor Into Decision</H3>
-            <Pill label="3 items" tone="neutral" size="sm" />
+            <Pill tone="neutral" size="sm">3 items</Pill>
           </Row>
           <Table
             headers={['Amenity', 'Why Irrelevant']}
@@ -229,9 +329,12 @@ export default function AmenitiesAnalysis() {
 
       {/* ── external amenities ── */}
       <Stack gap={12}>
-        <H2>External Amenities — What Yelahanka Delivers</H2>
+        <H2>External amenities — Yelahanka belt reference</H2>
+        <Text size="small" tone="secondary">
+          Hosahalli, Thanisandra, Rajanukunte, Yelahanka NT, and Devanahalli differ on drive time; use <Text weight="semibold" as="span">blr-areas</Text> for distance context — same checklist (hospital, 24h pharmacy, grocery, fuel) still applies.
+        </Text>
         <Table
-          headers={['Amenity', 'Priority', 'Yelahanka Situation']}
+          headers={['Amenity', 'Priority', 'Typical North BLR note']}
           rows={externalList.map(a => [
             a.name,
             a.priority.charAt(0).toUpperCase() + a.priority.slice(1),
@@ -251,7 +354,7 @@ export default function AmenitiesAnalysis() {
         <H2>WFH-Specific Amenity Checklist — Ask These Before Buying</H2>
         <Grid columns={2} gap={14}>
           <Card>
-            <CardHeader trailing={<Pill label="Ask the builder / seller" tone="warning" size="sm" />}>
+            <CardHeader trailing={<Pill tone="warning" size="sm">Ask builder / seller</Pill>}>
               Power & Internet Questions
             </CardHeader>
             <CardBody>
@@ -273,7 +376,7 @@ export default function AmenitiesAnalysis() {
           </Card>
 
           <Card>
-            <CardHeader trailing={<Pill label="Verify in person" tone="success" size="sm" />}>
+            <CardHeader trailing={<Pill tone="success" size="sm">Verify in person</Pill>}>
               On-Site Checks on Your Visit
             </CardHeader>
             <CardBody>
