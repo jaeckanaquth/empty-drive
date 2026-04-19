@@ -28,7 +28,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 |---|---|---|
 | `blr-property-shortlist.canvas.tsx` | Ranked 5 properties, scores, guardrails | Any add/remove/price/possession/RERA/commute |
 | `blr-visit-guide.canvas.tsx` | Itinerary, contacts, drive times | Same as shortlist + visit logistics |
-| `blr-areas.canvas.tsx` | Livability, connectivity, social infra, pockets, suitability | Area facts, shortlist geography, new corridors |
+| `blr-areas.canvas.tsx` | 5 core areas + watch-list pins (Manyata, Birla Yelahanka, Navaratna Agrahara, Aerospace Bagalur, IVC); livability, connectivity, social, suitability | Area facts, watch-list text, shortlist geography |
 | `blr-investment.canvas.tsx` | Criterion 3 — CAGR, PSF, yield, catalysts, return framing | Price, possession, area thesis, infra assumptions |
 | `blr-budget-financial-planning.canvas.tsx` | All-in, EMI, CLP, opportunity cost | Price, rate, timeline, budget ceiling |
 | `blr-your-budget-profile.canvas.tsx` | Personal budget / eligibility | User budget inputs or ceiling policy |

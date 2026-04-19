@@ -6,7 +6,7 @@ import {
   useCanvasState,
 } from 'cursor/canvas';
 
-// ── Consolidated area guide for the 5 shortlisted areas ───────────────────
+// ── North BLR area guide: 5 core micro-markets + 5 watch-list pins ────────
 // Replaces: blr-area-selection · blr-area-livability · blr-connectivity
 
 type AreaKey = 'hosahalli' | 'thanisandra' | 'yelahanka' | 'yelahankaNT' | 'devanahalli';
@@ -338,6 +338,66 @@ const areas: Record<AreaKey, Area> = {
   },
 };
 
+// ── Watch-list pins (same as index.html watch list) — not full-scored ──────
+
+interface WatchPin {
+  id: string;
+  pin: string;
+  project: string;
+  builder: string;
+  manyataEmbassy: string;
+  status: string;
+  revisit: string;
+}
+
+const WATCHLIST: WatchPin[] = [
+  {
+    id: 'embassy-manyata',
+    pin: 'Manyata / Nagavara',
+    project: 'Embassy Manyata Residences',
+    builder: 'Embassy Group (A)',
+    manyataEmbassy: 'On / adjacent Manyata Tech Park',
+    status: 'RERA pending · price TBC',
+    revisit: 'Register interest; book only when KRERA registration + all-in ≤ ₹3 Cr confirmed',
+  },
+  {
+    id: 'birla-yelahanka',
+    pin: 'Yelahanka (Birla belt)',
+    project: 'Birla Yelahanka',
+    builder: 'Birla Estates / Aditya Birla (A)',
+    manyataEmbassy: '~11–16 km (off-peak dependent)',
+    status: 'RERA PRM/KA/RERA/1250/304/PR/190724/002725 · price TBC · 8 ac / 218 homes',
+    revisit: 'When launch pricing and sample flat show 3 BHK within budget',
+  },
+  {
+    id: 'mahindra-navaratna',
+    pin: 'Navaratna Agrahara',
+    project: 'Mahindra North Bangalore',
+    builder: 'Mahindra Lifespaces (A)',
+    manyataEmbassy: '~12 km from Manyata (per pre-launch copy)',
+    status: 'Pre-launch · RERA + price pending',
+    revisit: 'When RERA live + possession quarter fits your 5-yr hold model',
+  },
+  {
+    id: 'aerospace-bagalur',
+    pin: 'KIADB Aerospace Park · Bagalur',
+    project: 'Purva Northern Lights Ph3',
+    builder: 'Puravankara (A)',
+    manyataEmbassy: 'Manyata peak long; airport ~18–20 min',
+    status: 'RERA Mar 2026 · possession Dec 2031 · 3 BHK ~₹1.8–2.1 Cr',
+    revisit: 'If Aerospace SEZ Phase 1 employment absorption firms up (2026–27)',
+  },
+  {
+    id: 'ivc-road',
+    pin: 'IVC Road corridor',
+    project: 'Embassy Springs · Sobha HRC Pristine · Century Ethos (examples)',
+    builder: 'Grade A mix',
+    manyataEmbassy: 'Typically +10–20 min vs Thanisandra baseline',
+    status: 'Mostly villas or >₹3 Cr apartments',
+    revisit: 'If budget stretches to ~₹3.5 Cr or villa format acceptable',
+  },
+];
+
 // ── Compute totals ──────────────────────────────────────────────────────────
 
 (Object.keys(areas) as AreaKey[]).forEach(k => {
@@ -378,16 +438,17 @@ export default function AreasGuide() {
       <Stack gap={4}>
         <H1>North BLR — Area Guide</H1>
         <Text tone="secondary">
-          5 shortlisted areas · livability · connectivity · social infrastructure · single-adult vs family suitability · pockets to favour and avoid
+          5 core micro-markets (visit shortlist) + 5 watch-list pins · livability · connectivity · social infra · suitability · pockets
         </Text>
       </Stack>
 
       {/* ── Quick stats ── */}
-      <Grid columns={4} gap={14}>
+      <Grid columns={5} gap={14}>
         <Stat value={areas[sortedLive[0]].shortName} label="Best livability" tone="success" />
         <Stat value={areas[sortedConn[0]].shortName} label="Best connectivity" tone="success" />
         <Stat value="Yelahanka NT" label="Best for families" tone="info" />
         <Stat value="Thanisandra"  label="Best for single adult" tone="info" />
+        <Stat value={`${WATCHLIST.length}`} label="Watch-list pins" tone="warning" />
       </Grid>
 
       <Divider />
@@ -697,6 +758,49 @@ export default function AreasGuide() {
           </Grid>
         </Stack>
       )}
+
+      <Divider />
+
+      <Stack gap={12}>
+        <H2>Watch list — not visitable yet</H2>
+        <Text tone="secondary" size="small">
+          Same pins as <Text weight="semibold" as="span">index.html</Text> watch list. No livability/connectivity scores here — use as corridor context and reopen when gates below clear.
+        </Text>
+        <Table
+          headers={['Area pin', 'Project', 'Builder', 'Manyata / Embassy', 'Status', 'Reopen when']}
+          rows={WATCHLIST.map(w => [
+            w.pin,
+            w.project,
+            w.builder,
+            w.manyataEmbassy,
+            w.status,
+            w.revisit,
+          ])}
+          rowTone={WATCHLIST.map(w =>
+            w.id === 'aerospace-bagalur' ? 'warning' :
+            w.id === 'ivc-road' ? 'warning' : undefined
+          )}
+          striped
+        />
+        <Grid columns={2} gap={14}>
+          <Card>
+            <CardHeader trailing={<Pill tone="info" size="sm">Core vs watch</Pill>}>How to use this section</CardHeader>
+            <CardBody>
+              <Text size="small" tone="secondary">
+                The five pills above are the only micro-markets tied to concrete visit dates and scored tabs. Watch pins are strategic reserves — keep them on radar for repricing, RERA publication, or SEZ news without diluting the visit plan.
+              </Text>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardHeader trailing={<Pill tone="warning" size="sm">Sync</Pill>}>Source of truth</CardHeader>
+            <CardBody>
+              <Text size="small" tone="secondary">
+                When you change watch-list facts in <Text weight="semibold" as="span">index.html</Text>, update the <Text weight="semibold" as="span">WATCHLIST</Text> rows in this file in the same commit so the canvas and PWA stay aligned.
+              </Text>
+            </CardBody>
+          </Card>
+        </Grid>
+      </Stack>
 
     </Stack>
   );
