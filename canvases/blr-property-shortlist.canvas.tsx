@@ -8,7 +8,7 @@ import {
  * Unified North-BLR property hub (Apr 2026).
  * Replaces former canvases: blr-project-selection, blr-research-snapshot, blr-shortlist-ten, and the old bar-chart shortlist.
  * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (core 5 scores), index/analysis facts.
- * Whittle 20 → visits: mark cuts in notes; sync index.html / deep-eval when the visit set changes.
+ * Whittle 20 → visits: set `track` here (C = you lock a visit); then sync index.html / deep-eval — never infer C from those files alone.
  */
 
 type Track = 'C' | 'E' | 'W' | 'R';
@@ -51,7 +51,8 @@ const HUB: HubRow[] = [
   { n: 20, track: 'R', name: 'IVC / Budigere villa+', builder: 'mixed', grade: 'A', area: 'IVC corridor', allIn: '≥₹3.5 Cr', oc: 'varies', score: '40·bench', lead: 'Over-budget bench', research: 'Embassy Springs / Sobha / Century — revisit if ceiling moves' },
 ];
 
-const TRACK_LEGEND = 'C = core visit (index.html + deep-eval) · E = expand UC same thesis · W = watch / pre-RERA · R = RTM reference only';
+const TRACK_LEGEND =
+  'C = committed in-person visit this round (your choice in this table; mirror slots in index.html PROPERTIES) · E = expand / backup UC same thesis · W = watch / pre-RERA · R = RTM reference only. Full blr-deep-eval write-ups are analytical — they do not assign C.';
 
 const REDDIT: { t: string; u: string }[] = [
   { t: 'GST UC + Prestige Bangalore', u: 'https://www.reddit.com/r/indianrealestate/comments/1rc7n9g/gst_on_under_construction_property/' },
@@ -75,8 +76,9 @@ export default function NorthBLRPropertyHub() {
         </Row>
         <Text tone="secondary">
           Single surface for <Text weight="semibold" as="span">blr-property-criteria</Text> (10 category families + TEN_POINT),{' '}
-          <Text weight="semibold" as="span">blr-deep-eval</Text> (core 5 scores), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.
-          <Text weight="semibold" as="span"> Score</Text> column: rows 1–5 are deep-eval sums /100; ·ext = old 8-criteria canvas scaled; ·est / ·ref / ·bench = qualitative pool entries.
+          <Text weight="semibold" as="span">blr-deep-eval</Text> (where you maintain full matrices), facts from <Text weight="semibold" as="span">index.html</Text> / <Text weight="semibold" as="span">analysis.html</Text>, five-filter stack, and web/Reddit research pointers.
+          <Text weight="semibold" as="span"> Trk</Text> is visit intent you set in <Text weight="semibold" as="span">HUB</Text> — not “because it is listed in the PWA or deep-eval.”{' '}
+          <Text weight="semibold" as="span">Score</Text> column: Σ /100 where blr-deep-eval has a full write-up (today that happens to match the five <Text weight="semibold" as="span">C</Text> rows — coincidence, not a rule); ·ext / ·est / ·ref / ·bench = scaled or qualitative pool entries.
         </Text>
       </Stack>
 
@@ -146,14 +148,14 @@ export default function NorthBLRPropertyHub() {
             rows={REDDIT.map(x => [x.t, x.u])}
             striped
           />
-          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the five core towers — absence ≠ clean; re-search per row when whittling.</Text>
+          <Text size="small" tone="secondary">site:reddit.com (Apr 2026) did not surface threads naming the five C-track (visit-locked) towers — absence ≠ clean; re-search per row when whittling.</Text>
         </Stack>
       </Grid>
 
       <Divider />
 
       <Text tone="secondary" size="small">
-        When you cut the pool: edit <Text weight="semibold" as="span">HUB</Text> above, then sync <Text weight="semibold" as="span">index.html</Text>, <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
+        When you cut the pool: edit <Text weight="semibold" as="span">HUB</Text> (including <Text weight="semibold" as="span">track</Text>) as the source of truth for visits, then sync <Text weight="semibold" as="span">index.html</Text>, <Text weight="semibold" as="span">analysis.html</Text>, and <Text weight="semibold" as="span">blr-deep-eval</Text> in the same commit — not the reverse. Rules: <Text weight="semibold" as="span">.cursor/rules/keep-canvas-in-sync.mdc</Text>.
       </Text>
     </Stack>
   );
