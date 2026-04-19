@@ -46,6 +46,7 @@ The user reads **canvases first**. Whenever facts change, update every surface t
 | `blr-property-criteria.canvas.tsx` | Framework definitions | Only if the 10-point framework text changes |
 | `blr-project-selection.canvas.tsx` | Five-filter stack (budget → area → builder → amenities → other) on the **visit shortlist** | Shortlist membership, all-in bands, deep-eval verdicts/scores that change pick order |
 | `blr-research-snapshot.canvas.tsx` | Web vs repo log; Reddit diligence threads (North BLR / UC / builder practices) + shortlist + peers/watch | After **external research** (portals, Reddit, etc.) or major portal vs repo conflicts |
+| `blr-shortlist-ten.canvas.tsx` | **Fixed list of 10** projects (5 core visits + 5 expand) for research passes | Any change to which ten are in-scope; then refresh research-snapshot pass #2 notes and, if visits expand, index + deep-eval |
 
 ### Criterion deep dives (keep aligned with `blr-deep-eval`)
 

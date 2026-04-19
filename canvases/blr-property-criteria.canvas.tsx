@@ -197,7 +197,7 @@ export default function BLRPropertyCriteria() {
         </Text>
         <Text tone="secondary" size="small">
           To choose among the five visit projects: budget → area → builder → adult amenities → other — <Text weight="semibold" as="span">blr-project-selection.canvas.tsx</Text>.
-          Web vs K-RERA conflict log (Apr 2026 pass): <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text>.
+          Web vs K-RERA conflict log (Apr 2026 pass): <Text weight="semibold" as="span">blr-research-snapshot.canvas.tsx</Text>. Ten-project research scope: <Text weight="semibold" as="span">blr-shortlist-ten.canvas.tsx</Text>.
         </Text>
       </Stack>
 

@@ -172,7 +172,8 @@ export default function ResearchSnapshot() {
         </Row>
         <Text tone="secondary">
           This document records a <Text weight="semibold" as="span">targeted web search</Text> (housing/prop sites, builder affiliates, aggregators) cross-checked against your
-          existing repo narrative. It is <Text weight="semibold" as="span">not</Text> a K-RERA scrape: direct portal fetch from this environment returned HTTP 403, so
+          existing repo narrative. The <Text weight="semibold" as="span">second pass</Text> (e.g. deeper Reddit) should follow the fixed <Text weight="semibold" as="span">blr-shortlist-ten</Text> table — ten names, same Manyata/North thesis.
+          It is <Text weight="semibold" as="span">not</Text> a K-RERA scrape: direct portal fetch from this environment returned HTTP 403, so
           completion %, final possession, and exact registration strings must still be pulled <Text weight="semibold" as="span">manually</Text> from{' '}
           <Text weight="semibold" as="span">rera.karnataka.gov.in</Text> or the sales PDF certificate.
         </Text>
