@@ -8,7 +8,7 @@ import {
  * Unified North-BLR property hub (Apr 2026).
  * Replaces former canvases: blr-project-selection, blr-research-snapshot, blr-shortlist-ten, and the old bar-chart shortlist.
  * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (core 5 scores), index/analysis facts.
- * Whittle 20 → criteria top 10 (blr-property-criteria) → visits: mark `C` only for that ranked set; sync `index.html` `PROPERTIES` (`rank` = criteria visit #), `blr-visit-guide` `visits[]`, and `blr-deep-eval` ranks after the criteria pass — never infer C from index/deep-eval alone.
+ * Whittle 20 → criteria top 10 (blr-property-criteria) → visits: mark `C` only for that ranked set; sync index.html / deep-eval after the criteria pass — never infer C from index/deep-eval alone.
  */
 
 type Track = 'C' | 'E' | 'W' | 'R';
@@ -63,6 +63,19 @@ const REDDIT: { t: string; u: string }[] = [
   { t: 'Bengaluru new-flat charges', u: 'https://www.reddit.com/r/indianrealestate/comments/1rcgn14/what_all_charges_to_pay_for_new_flat_in_bengaluru/' },
   { t: 'Khata bifurcation / registration friction', u: 'https://www.reddit.com/r/indianrealestate/comments/1pqhtw6/khata_bifurcation_discuss_and_possible_solution/' },
   { t: 'Karnataka UC delay + RERA mindset (Mysuru case)', u: 'https://www.reddit.com/r/indianrealestate/comments/1otdmy6/my_ongoing_experience_with_a_villa_builder_in/' },
+];
+
+const VILLA_LONG_10: { n: string; project: string; builder: string; pocket: string; budget: string; status: string }[] = [
+  { n: '1', project: 'Embassy Springs (villa inventory)', builder: 'Embassy', pocket: 'IVC Road', budget: '>=₹3.5 Cr', status: 'UC verify phases' },
+  { n: '2', project: 'Sobha HRC Pristine', builder: 'Sobha', pocket: 'IVC Road', budget: '>=₹3.5 Cr', status: 'UC verify inventory' },
+  { n: '3', project: 'Century IVC corridor (listed as Century Ethos)', builder: 'Century', pocket: 'IVC Road', budget: '>=₹3.5 Cr', status: 'UC verify exact project' },
+  { n: '4', project: 'Adarsh Tranqville', builder: 'Adarsh', pocket: 'North BLR', budget: '>=₹3.5 Cr', status: 'UC verify' },
+  { n: '5', project: 'Total Environment (north villa inventory)', builder: 'Total Environment', pocket: 'North BLR', budget: '>=₹4 Cr', status: 'Watch -> verify' },
+  { n: '6', project: 'Assetz north villa/townhouse pipeline', builder: 'Assetz', pocket: 'North BLR', budget: '>=₹3.2 Cr', status: 'Pipeline verify' },
+  { n: '7', project: 'Godrej north villa/townhouse pipeline', builder: 'Godrej', pocket: 'North BLR', budget: '>=₹3.3 Cr', status: 'Watch / launch verify' },
+  { n: '8', project: 'Brigade north villa pipeline', builder: 'Brigade', pocket: 'North BLR', budget: '>=₹3.5 Cr', status: 'Pipeline verify' },
+  { n: '9', project: 'Prestige north villa pipeline', builder: 'Prestige', pocket: 'North BLR', budget: '>=₹3.5 Cr', status: 'Pipeline verify' },
+  { n: '10', project: 'Puravankara north villa pipeline', builder: 'Puravankara', pocket: 'North BLR', budget: '>=₹3.2 Cr', status: 'Pipeline verify' },
 ];
 
 const CRITERIA_VISIT_TARGET = 10;
@@ -132,6 +145,19 @@ export default function NorthBLRPropertyHub() {
           r.track === 'W' ? 'warning' :
           undefined
         )}
+        striped
+      />
+
+      <Divider />
+
+      <H2>UC villa longlist (10) — separate from apartment criteria top 10</H2>
+      <Text size="small" tone="secondary">
+        This is your villa-first funnel (under-construction focus). Current workspace facts strongly anchor the first 3 names in IVC corridor; entries 4–10 are north-BLR watch candidates pending RERA and inventory confirmation. Full workflow lives in <Text weight="semibold" as="span">blr-uc-villa-shortlist.canvas.tsx</Text>.
+      </Text>
+      <Table
+        headers={['#', 'Project', 'Builder', 'Pocket', 'Typical budget', 'Status']}
+        rows={VILLA_LONG_10.map(v => [v.n, v.project, v.builder, v.pocket, v.budget, v.status])}
+        rowTone={VILLA_LONG_10.map((_, idx) => (idx < 3 ? undefined : 'warning'))}
         striped
       />
 
