@@ -8,7 +8,7 @@ import {
  * Unified North-BLR property hub (Apr 2026).
  * Replaces former canvases: blr-project-selection, blr-research-snapshot, blr-shortlist-ten, and the old bar-chart shortlist.
  * Aligns with blr-property-criteria (10 category families + TEN_POINT), blr-deep-eval (core 5 scores), index/analysis facts.
- * Whittle 20 → criteria top 10 (blr-property-criteria) → visits: mark `C` only for that ranked set; sync index.html / deep-eval after the criteria pass — never infer C from index/deep-eval alone.
+ * Whittle 20 → criteria top 10 (blr-property-criteria) → visits: mark `C` only for that ranked set; sync `index.html` `PROPERTIES` (`rank` = criteria visit #), `blr-visit-guide` `visits[]`, and `blr-deep-eval` ranks after the criteria pass — never infer C from index/deep-eval alone.
  */
 
 type Track = 'C' | 'E' | 'W' | 'R';

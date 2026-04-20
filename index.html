@@ -500,6 +500,8 @@
 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────
+// Visit set sync: edit together with repo canvases — blr-property-shortlist.canvas.tsx (HUB),
+// blr-property-criteria.canvas.tsx (top-10 lock), blr-visit-guide.canvas.tsx (visits[]), blr-deep-eval.canvas.tsx (rank on full matrix props). Rule: .cursor/rules/keep-canvas-in-sync.mdc
 
 const PROPERTIES = [
   // Day 1 — criteria ranks 3,5,6,7,8 (geography: Hosahalli → Thanisandra → Yelahanka NH44)
@@ -988,7 +990,8 @@ const Q_COLORS = { sales: 'badge-orange', rera: 'badge-red', buyer: 'badge-green
 function renderQPropSelector() {
   const el = document.getElementById('q-prop-selector');
   if (!el) return;
-  el.innerHTML = PROPERTIES.map(p => `
+  const byRank = PROPERTIES.slice().sort((a, b) => a.rank - b.rank);
+  el.innerHTML = byRank.map(p => `
     <button class="chip ${activeQProp === p.rank ? 'active' : ''}" onclick="setQProp(${p.rank})" style="font-size:11px">${p.shortName || p.name.split(' ').slice(-1)[0]}</button>
   `).join('');
 }
@@ -1082,7 +1085,8 @@ function toggleFlag(i) {
 function renderBuyScoreSummary() {
   const el = document.getElementById('buy-score-summary');
   if (!el) return;
-  el.innerHTML = PROPERTIES.map(p => {
+  const byRank = PROPERTIES.slice().sort((a, b) => a.rank - b.rank);
+  el.innerHTML = byRank.map(p => {
     const qs = calcBuyScore(p.rank);
     const stars = scores[p.rank] ? `${scores[p.rank]}/5 ★` : '';
     return `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
