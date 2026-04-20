@@ -28,17 +28,18 @@ interface HubRow {
   research: string;
 }
 
+/** Rows 1–10 = criteria rank (visit #) + C; 11–20 = W/R pool. */
 const HUB: HubRow[] = [
-  { n: 1,  track: 'C', name: 'Purva Zenium 2', builder: 'Puravankara', grade: 'A', area: 'Hosahalli · Airport Rd', allIn: '₹1.82–2.53 Cr', oc: 'Jun 2027', score: '72/100', lead: 'Budget + earliest OC', research: 'RERA PRM/…/005303 · web list-price noise · Reddit no named threads' },
-  { n: 2,  track: 'C', name: 'Prestige Avon', builder: 'Prestige', grade: 'A', area: 'Thanisandra', allIn: '~₹3.41 Cr', oc: 'Dec 2028', score: '76/100', lead: 'Manyata + Metro + invest', research: 'RERA confirm · GST thread r/indianrealestate/1rc7n9g · over ceiling' },
-  { n: 3,  track: 'C', name: 'Sattva Lumina', builder: 'Salarpuria Sattva', grade: 'A', area: 'Rajanukunte SH-9', allIn: '₹1.62–1.87 Cr', oc: 'Nov 2029', score: '76/100', lead: 'Value + amenity mass', research: 'PR suffix + full PRM variant · township maint load' },
-  { n: 4,  track: 'C', name: 'Brigade Eternia', builder: 'Brigade', grade: 'A', area: 'Yelahanka NT', allIn: '~₹2.41 Cr', oc: 'Mar 2030*', score: '79/100', lead: 'All-rounder (criteria canvas)', research: 'Mar vs Dec 2030 portals · K-RERA date for BBA' },
-  { n: 5,  track: 'C', name: 'Tata Varnam', builder: 'Tata Housing', grade: 'A+', area: 'Devanahalli', allIn: '₹1.65–2.04 Cr', oc: 'Dec 2029', score: '71/100', lead: 'Builder + specs + airport', research: 'Manyata peak 60–80m · RERA suffix vs marketing full id' },
-  { n: 6,  track: 'E', name: 'Sobha Athena', builder: 'Sobha', grade: 'A', area: 'Thanisandra', allIn: '~₹2.43 Cr', oc: 'Jun 2027 est.', score: '85·ext', lead: 'Boutique vs Avon', research: 'RERA verify portal · possession 2026/27 variance on listings' },
-  { n: 7,  track: 'E', name: 'Prestige Camden Gardens', builder: 'Prestige', grade: 'A', area: 'Thanisandra', allIn: '~₹2.11–2.79 Cr', oc: 'Dec 2027 est.', score: '81·ext', lead: 'Prestige under ceiling', research: 'PR/140524/006872 · 2 ac amenity compact' },
-  { n: 8,  track: 'E', name: 'Brigade Insignia', builder: 'Brigade', grade: 'A', area: 'Yelahanka NH44', allIn: '₹3.18 Cr+', oc: 'Jun 2029', score: '76·ext', lead: 'NH44 flagship size', research: 'PRM/…/006894 · budget edge' },
-  { n: 9,  track: 'E', name: 'Arvind Bel Air', builder: 'Arvind SmartSpaces', grade: 'B+', area: 'Yelahanka NT Rd', allIn: '~₹1.29–1.95 Cr', oc: 'Jun 2026', score: '78·ext', lead: 'Value / earlier keys', research: 'PRM/…/003406 · not Grade A build' },
-  { n: 10, track: 'E', name: 'Birla Yelahanka', builder: 'Birla Estates', grade: 'A', area: 'Yelahanka', allIn: 'TBC', oc: 'TBC', score: '70·est', lead: 'Watch upgrade', research: 'PRM/KA/RERA/1250/304/PR/190724/002725 marketing — verify' },
+  { n: 1,  track: 'C', name: 'Brigade Eternia', builder: 'Brigade', grade: 'A', area: 'Yelahanka NT', allIn: '~₹2.41 Cr', oc: 'Mar 2030*', score: '79/100', lead: 'All-rounder (criteria canvas)', research: 'Mar vs Dec 2030 portals · K-RERA date for BBA' },
+  { n: 2,  track: 'C', name: 'Sattva Lumina', builder: 'Salarpuria Sattva', grade: 'A', area: 'Rajanukunte SH-9', allIn: '₹1.62–1.87 Cr', oc: 'Nov 2029', score: '76/100', lead: 'Value + amenity mass', research: 'PR suffix + full PRM variant · township maint load' },
+  { n: 3,  track: 'C', name: 'Purva Zenium 2', builder: 'Puravankara', grade: 'A', area: 'Hosahalli · Airport Rd', allIn: '₹1.82–2.53 Cr', oc: 'Jun 2027', score: '72/100', lead: 'Budget + earliest OC', research: 'RERA PRM/…/005303 · web list-price noise · Reddit no named threads' },
+  { n: 4,  track: 'C', name: 'Tata Varnam', builder: 'Tata Housing', grade: 'A+', area: 'Devanahalli', allIn: '₹1.65–2.04 Cr', oc: 'Dec 2029', score: '71/100', lead: 'Builder + specs + airport', research: 'Manyata peak 60–80m · RERA suffix vs marketing full id' },
+  { n: 5,  track: 'C', name: 'Prestige Avon', builder: 'Prestige', grade: 'A', area: 'Thanisandra', allIn: '~₹3.41 Cr', oc: 'Dec 2028', score: '76/100', lead: 'Manyata + Metro + invest', research: 'RERA confirm · GST thread r/indianrealestate/1rc7n9g · over ceiling' },
+  { n: 6,  track: 'C', name: 'Sobha Athena', builder: 'Sobha', grade: 'A', area: 'Thanisandra', allIn: '~₹2.43 Cr', oc: 'Jun 2027 est.', score: '85·ext', lead: 'Boutique vs Avon', research: 'RERA verify portal · possession 2026/27 variance on listings' },
+  { n: 7,  track: 'C', name: 'Prestige Camden Gardens', builder: 'Prestige', grade: 'A', area: 'Thanisandra', allIn: '~₹2.11–2.79 Cr', oc: 'Dec 2027 est.', score: '81·ext', lead: 'Prestige under ceiling', research: 'PR/140524/006872 · 2 ac amenity compact' },
+  { n: 8,  track: 'C', name: 'Brigade Insignia', builder: 'Brigade', grade: 'A', area: 'Yelahanka NH44', allIn: '₹3.18 Cr+', oc: 'Jun 2029', score: '76·ext', lead: 'NH44 flagship size', research: 'PRM/…/006894 · budget edge' },
+  { n: 9,  track: 'C', name: 'Arvind Bel Air', builder: 'Arvind SmartSpaces', grade: 'B+', area: 'Yelahanka NT Rd', allIn: '~₹1.29–1.95 Cr', oc: 'Jun 2026', score: '78·ext', lead: 'Value / earlier keys', research: 'PRM/…/003406 · not Grade A build' },
+  { n: 10, track: 'C', name: 'Birla Yelahanka', builder: 'Birla Estates', grade: 'A', area: 'Yelahanka', allIn: 'TBC', oc: 'TBC', score: '70·est', lead: 'Criteria #10 — visit; confirm price + RERA before booking', research: 'PRM/KA/RERA/1250/304/PR/190724/002725 marketing — verify' },
   { n: 11, track: 'W', name: 'Godrej Thanisandra (new)', builder: 'Godrej Properties', grade: 'A', area: 'Thanisandra', allIn: 'TBC', oc: 'TBC', score: '55·est', lead: 'Legal gate when RERA live', research: 'Listings “RERA soon” — do not book blind' },
   { n: 12, track: 'W', name: 'Mantri Manyata Energia', builder: 'Mantri', grade: 'A', area: 'Thanisandra', allIn: 'varies', oc: 'RTM', score: '72·est', lead: 'RTM benchmark Manyata', research: 'PRM/…/000439 cited on sites · UC path differs' },
   { n: 13, track: 'W', name: 'Embassy Manyata Residences', builder: 'Embassy', grade: 'A', area: 'Nagavara', allIn: 'TBC', oc: 'TBC', score: '52·est', lead: 'Best Manyata pin', research: 'RERA pending on embassy residential pages' },
@@ -116,7 +117,8 @@ export default function NorthBLRPropertyHub() {
       <H2>Master table — 20 projects</H2>
       <Text size="small" tone="secondary">{TRACK_LEGEND}</Text>
       <Text size="small" tone="secondary">
-        Sample below: <Text weight="semibold" as="span">{markedC}</Text>× <Text weight="semibold" as="span">C</Text> today (matches the current deep-eval + PWA itinerary) — after your criteria ranking pass, mark exactly <Text weight="semibold" as="span">{CRITERIA_VISIT_TARGET}</Text>× <Text weight="semibold" as="span">C</Text> for the projects that actually land in the top 10.
+        <Text weight="semibold" as="span">Locked (Apr 2026):</Text>{' '}
+        <Text weight="semibold" as="span">{markedC}</Text>× <Text weight="semibold" as="span">C</Text> = criteria top 10 (same order as <Text weight="semibold" as="span">blr-property-criteria</Text> locked table + <Text weight="semibold" as="span">index.html</Text> ranks 1–10).
       </Text>
       <Table
         headers={['#', 'Trk', 'Project', 'Builder', 'G', 'Micro-market', 'All-in', 'OC', 'Σ', 'Lead (criteria)', 'Research / RERA']}

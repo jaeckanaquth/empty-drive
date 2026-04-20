@@ -259,6 +259,25 @@ export default function BLRPropertyCriteria() {
                 (3) Combine into one ordered list; take the <Text weight="semibold" as="span">top 10</Text> — your tie-breakers and weights are yours, but they must be expressible in terms of these families (not a single portal headline).{' '}
                 (4) In the hub, mark those rows <Text weight="semibold" as="span">C</Text> and mirror day/time in <Text weight="semibold" as="span">index.html</Text> <Text weight="semibold" as="span">PROPERTIES</Text>; keep <Text weight="semibold" as="span">E</Text>/<Text weight="semibold" as="span">W</Text>/<Text weight="semibold" as="span">R</Text> for the rest per the hub legend.
               </Text>
+              <Divider />
+              <Text size="small"><Text weight="semibold" as="span">Locked top 10 — Apr 2026</Text> (criteria rank = visit priority #)</Text>
+              <Table
+                headers={['#', 'Project', 'One-line rationale']}
+                rows={[
+                  ['1', 'Brigade Eternia', 'All-rounder: strongest deep-eval sum; Critical area + legal on Yelahanka NT.'],
+                  ['2', 'Sattva Lumina', 'Best ₹/sqft + amenity mass; budget headroom — watch township maint.'],
+                  ['3', 'Purva Zenium 2', 'Earliest Grade A OC (Jun 2027); airport belt — social fabric thinner.'],
+                  ['4', 'Tata Varnam', 'Grade A+ builder + specs; Devanahalli commute is the gate — drive before yes.'],
+                  ['5', 'Prestige Avon', 'Manyata + Metro + liquidity — Budget Critical gate (over ₹3 Cr list) → negotiate or drop.'],
+                  ['6', 'Sobha Athena', 'Thanisandra boutique vs Avon; verify RERA + possession variance on portal.'],
+                  ['7', 'Prestige Camden Gardens', 'Prestige stack under ceiling vs Avon; compact 2 ac amenity.'],
+                  ['8', 'Brigade Insignia', 'NH44 flagship scale; budget edge vs Eternia — size vs timeline.'],
+                  ['9', 'Arvind Bel Air', '2026 keys + value; B+ builder — compare finish vs Grade A peers same day.'],
+                  ['10', 'Birla Yelahanka', 'Aditya Birla pipeline on Yelahanka — price/RERA TBC; book only after certificate.'],
+                ]}
+                striped
+              />
+              <Text size="small" tone="secondary">Hub <Text weight="semibold" as="span">C</Text> rows + PWA <Text weight="semibold" as="span">PROPERTIES</Text> use the same stack order for ranks 1–10; itinerary is geographic (two long days).</Text>
             </Stack>
           </CardBody>
         </Card>

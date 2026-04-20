@@ -62,7 +62,7 @@ const CRITERIA: { key: CritKey; num: number; label: string; subLabel: string }[]
 const PROPS: PropData[] = [
   // ── 1. Purva Zenium 2 ────────────────────────────────────────────────────
   {
-    id: 'purva', rank: 1, name: 'Purva Zenium 2', shortName: 'Purva',
+    id: 'purva', rank: 3, name: 'Purva Zenium 2', shortName: 'Purva',
     builder: 'Puravankara', area: 'Hosahalli · Airport Rd', possession: 'Jun 2027', allIn: '₹1.82–2.53 Cr', grade: 'A',
     cells: {
       area: {
@@ -179,7 +179,7 @@ const PROPS: PropData[] = [
 
   // ── 2. Prestige Avon ─────────────────────────────────────────────────────
   {
-    id: 'prestige', rank: 2, name: 'Prestige Avon', shortName: 'Prestige',
+    id: 'prestige', rank: 5, name: 'Prestige Avon', shortName: 'Prestige',
     builder: 'Prestige Group', area: 'Thanisandra', possession: 'Dec 2028', allIn: '~₹3.41 Cr', grade: 'A',
     cells: {
       area: {
@@ -299,7 +299,7 @@ const PROPS: PropData[] = [
 
   // ── 3. Sattva Lumina ─────────────────────────────────────────────────────
   {
-    id: 'sattva', rank: 3, name: 'Sattva Lumina', shortName: 'Sattva',
+    id: 'sattva', rank: 2, name: 'Sattva Lumina', shortName: 'Sattva',
     builder: 'Salarpuria Sattva', area: 'Yelahanka · Rajanukunte', possession: 'Nov 2029', allIn: '₹1.62–1.87 Cr', grade: 'A',
     cells: {
       area: {
@@ -419,7 +419,7 @@ const PROPS: PropData[] = [
 
   // ── 4. Brigade Eternia ───────────────────────────────────────────────────
   {
-    id: 'brigade', rank: 4, name: 'Brigade Eternia', shortName: 'Brigade',
+    id: 'brigade', rank: 1, name: 'Brigade Eternia', shortName: 'Brigade',
     builder: 'Brigade Group', area: 'Yelahanka New Town', possession: 'Mar 2030', allIn: '~₹2.41 Cr', grade: 'A',
     cells: {
       area: {
@@ -539,7 +539,7 @@ const PROPS: PropData[] = [
 
   // ── 5. Tata Varnam ───────────────────────────────────────────────────────
   {
-    id: 'tata', rank: 5, name: 'Tata Varnam', shortName: 'Tata',
+    id: 'tata', rank: 4, name: 'Tata Varnam', shortName: 'Tata',
     builder: 'Tata Housing', area: 'Devanahalli', possession: 'Dec 2029', allIn: '₹1.65–2.04 Cr', grade: 'A+',
     cells: {
       area: {
@@ -694,7 +694,7 @@ export default function DeepEval() {
         <Text tone="secondary">
           Evaluate each shortlisted property against the full due-diligence framework before site visits.
           Switch between "By criterion" (compare all 5 on one dimension) and "By property" (full card per project).
-          <Text weight="semibold" as="span"> Rank on each card</Text> (Purva = 1) is <Text weight="semibold" as="span">visit / PWA order</Text> — earliest possession first — not the same as the score sum ranking in the strip below, where <Text weight="semibold" as="span">Brigade Eternia</Text> is highest, then Prestige Avon and Sattva Lumina tied, then Purva, then Tata.
+          <Text weight="semibold" as="span"> Rank on each card</Text> is the <Text weight="semibold" as="span">criteria visit #</Text> for this five (matches <Text weight="semibold" as="span">blr-property-criteria</Text> locked top 10 + <Text weight="semibold" as="span">index.html</Text> ranks 1–5 for the deep-eval subset). The score-sum order in the stat strip is separate: <Text weight="semibold" as="span">Brigade Eternia</Text> highest, then Prestige Avon and Sattva Lumina tied, then Purva, then Tata.
         </Text>
       </Stack>
 

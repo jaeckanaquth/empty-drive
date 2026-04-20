@@ -10,11 +10,11 @@ import type { TodoItem } from 'cursor/canvas';
 
 // ── visit list ────────────────────────────────────────────────────────────
 
-// Day 1 = Hosahalli / Thanisandra belt  |  Day 2 = Yelahanka / Devanahalli belt
+// Criteria ranks 1–10 = visit # (blr-property-criteria lock). Geography: Day 1 = ranks 3,5,6,7,8 · Day 2 = 2,10,9,1,4
 const visits = [
   {
     id: 'purva-zenium-2',
-    rank: 1,
+    rank: 3,
     day: 1,
     name: 'Purva Zenium 2',
     builder: 'Puravankara Limited',
@@ -24,13 +24,13 @@ const visits = [
     priceRange: '₹1.71–2.38 Cr (all-in ~₹1.82–2.53 Cr)',
     size: '1,231–1,710 sqft SBA',
     contactApproach: 'RERA: PRM/KA/RERA/1251/309/PR/071022/005303 — verify % completion on Karnataka RERA portal. Puravankara NSE-listed, 50yr track record. Ask for current unsold 3 BHK inventory, construction %, and construction-linked payment plan.',
-    bestVisitTime: '10:00 AM Day 1 — sales team and site activity peak',
+    bestVisitTime: '9:00 AM Day 1',
     driveFromManyata: '~14 km / 24 min from Manyata Tech Park',
-    priority: 'Must Visit — earliest Grade A handover (Jun 2027)',
+    priority: 'Criteria #3 — earliest Grade A keys',
   },
   {
     id: 'prestige-avon',
-    rank: 2,
+    rank: 5,
     day: 1,
     name: 'Prestige Avon',
     builder: 'Prestige Group',
@@ -40,13 +40,61 @@ const visits = [
     priceRange: '₹3.2 Cr base (all-in ~₹3.41 Cr) — ~₹41L over ₹3 Cr ceiling',
     size: 'TBC on visit',
     contactApproach: 'RERA registered — confirm number at sales office. 230 units on 10 acres. Ask: any pricing flexibility near ₹3 Cr? Get sample agreement before paying anything. Ask for possession penalty clause. Possession est. Dec 2028.',
-    bestVisitTime: '12:30 PM Day 1 — combine with Purva Zenium 2, both on Airport Rd / Thanisandra belt',
+    bestVisitTime: '11:00 AM Day 1',
     driveFromManyata: '~10 km / 18–22 min from Manyata Tech Park',
-    priority: 'Visit — 13% over budget; confirm flexibility',
+    priority: 'Criteria #5 — Manyata + Metro (over ceiling)',
+  },
+  {
+    id: 'sobha-athena',
+    rank: 6,
+    day: 1,
+    name: 'Sobha Athena',
+    builder: 'Sobha Limited',
+    address: 'Thanisandra Main Road, North Bangalore – 560077',
+    mapSearch: 'Sobha Athena Thanisandra Bangalore',
+    type: 'Under Construction (UC)',
+    priceRange: '~₹2.43 Cr all-in (est. — confirm)',
+    size: 'TBC on visit',
+    contactApproach: 'Verify RERA on K-RERA before booking. Boutique UC — compare finish vs Prestige Avon same day.',
+    bestVisitTime: '1:15 PM Day 1',
+    driveFromManyata: '~10–14 km / 18–25 min from Manyata Tech Park',
+    priority: 'Criteria #6 — boutique Thanisandra vs Avon',
+  },
+  {
+    id: 'prestige-camden',
+    rank: 7,
+    day: 1,
+    name: 'Prestige Camden Gardens',
+    builder: 'Prestige Group',
+    address: 'Thanisandra Main Road, North Bangalore – 560077',
+    mapSearch: 'Prestige Camden Gardens Thanisandra Bangalore',
+    type: 'Under Construction (UC)',
+    priceRange: '₹2.11–2.79 Cr band (confirm)',
+    size: 'TBC on visit',
+    contactApproach: 'RERA: PR/140524/006872 — verify full PRM on portal. Compare carpet + all-in vs Avon afternoon same day.',
+    bestVisitTime: '3:15 PM Day 1',
+    driveFromManyata: '~10 km / 18–22 min from Manyata Tech Park',
+    priority: 'Criteria #7 — Prestige under ceiling',
+  },
+  {
+    id: 'brigade-insignia',
+    rank: 8,
+    day: 1,
+    name: 'Brigade Insignia',
+    builder: 'Brigade Group',
+    address: 'NH44 / Bellary Road near Kogilu, North Bangalore – 560064',
+    mapSearch: 'Brigade Insignia Yelahanka Bangalore',
+    type: 'Under Construction (UC)',
+    priceRange: '₹3.18 Cr+ (confirm variant)',
+    size: 'TBC on visit',
+    contactApproach: 'Confirm RERA possession end date. Flagship size vs Eternia — budget edge.',
+    bestVisitTime: '5:00 PM Day 1',
+    driveFromManyata: '~12–18 km / 22–35 min from Manyata Tech Park',
+    priority: 'Criteria #8 — NH44 flagship',
   },
   {
     id: 'sattva-lumina',
-    rank: 3,
+    rank: 2,
     day: 2,
     name: 'Sattva Lumina',
     builder: 'Salarpuria Sattva',
@@ -56,13 +104,45 @@ const visits = [
     priceRange: '₹1.52–1.75 Cr (all-in ~₹1.62–1.87 Cr)',
     size: '1,450–1,780 sqft SBA',
     contactApproach: 'RERA: PR/060924/007009. Salarpuria Sattva NSE-listed, large portfolio. 12.8 acres, 1,553 units, 8 towers G+29. 3 clubhouses (35,000 sqft each). Ask for construction-linked payment plan and floor plan for Grand 3 BHK variant.',
-    bestVisitTime: '10:00 AM Day 2 — full day in Yelahanka / Devanahalli belt',
+    bestVisitTime: '9:00 AM Day 2',
     driveFromManyata: '~11 km / 25 min from Manyata Tech Park',
-    priority: 'Must Visit — best ₹/sqft on list',
+    priority: 'Criteria #2 — best ₹/sqft + township mass',
+  },
+  {
+    id: 'birla-yelahanka',
+    rank: 10,
+    day: 2,
+    name: 'Birla Yelahanka',
+    builder: 'Birla Estates',
+    address: 'Yelahanka, North Bangalore – 560064',
+    mapSearch: 'Birla Yelahanka Bangalore',
+    type: 'Under Construction (UC)',
+    priceRange: 'TBC at sales office',
+    size: 'TBC on visit',
+    contactApproach: 'RERA: PRM/KA/RERA/1250/304/PR/190724/002725 — verify on portal before any token.',
+    bestVisitTime: '10:45 AM Day 2',
+    driveFromManyata: '~12–16 km / 22–30 min from Manyata Tech Park',
+    priority: 'Criteria #10 — confirm price + RERA before booking',
+  },
+  {
+    id: 'arvind-bel-air',
+    rank: 9,
+    day: 2,
+    name: 'Arvind Bel Air',
+    builder: 'Arvind SmartSpaces',
+    address: 'Yelahanka New Town Road, North Bangalore – 560064',
+    mapSearch: 'Arvind Bel Air Yelahanka Bangalore',
+    type: 'Under Construction (UC)',
+    priceRange: '₹1.29–1.95 Cr band (confirm)',
+    size: 'TBC on visit',
+    contactApproach: 'RERA suffix on hub — verify on K-RERA. Near-ready; compare finish vs Grade A peers.',
+    bestVisitTime: '12:30 PM Day 2',
+    driveFromManyata: '~13 km / 22–28 min from Manyata Tech Park',
+    priority: 'Criteria #9 — 2026 keys + value (B+ builder)',
   },
   {
     id: 'brigade-eternia',
-    rank: 4,
+    rank: 1,
     day: 2,
     name: 'Brigade Eternia',
     builder: 'Brigade Group',
@@ -72,13 +152,13 @@ const visits = [
     priceRange: '₹2.26 Cr (all-in ~₹2.41 Cr)',
     size: '1,620–1,820 sqft SBA',
     contactApproach: 'RERA: PRM/KA/RERA/1251/309/PR/070325/007559. Brigade Group Grade A, NSE-listed. 14 acres, 1,124 units. Confirm possession date in writing — some sources say Mar 2030, others Dec 2030. Ask for penalty clause for delay.',
-    bestVisitTime: '1:00 PM Day 2 — after Sattva Lumina',
+    bestVisitTime: '2:45 PM Day 2',
     driveFromManyata: '~15 km / 18 min from Manyata Tech Park',
-    priority: 'Must Visit — Grade A + solid value',
+    priority: 'Criteria #1 — all-rounder (highest deep-eval sum)',
   },
   {
     id: 'tata-varnam',
-    rank: 5,
+    rank: 4,
     day: 2,
     name: 'Tata Varnam',
     builder: 'Tata Housing',
@@ -87,10 +167,10 @@ const visits = [
     type: 'Under Construction (UC)',
     priceRange: '₹1.55–1.91 Cr (all-in ~₹1.65–2.04 Cr)',
     size: '1,681–2,061 sqft SBA',
-    contactApproach: 'RERA: PR/110825/007988. Tata Housing — gold-standard Grade A builder. 70 acres within 135-acre Carnatica township. Ask for 3 BHK + 2T floor plan (1,681 sqft, ₹1.55 Cr) — best value per sqft on this list. Check daily commute feel before deciding.',
-    bestVisitTime: '3:30 PM Day 2 — on way back towards Airport Rd / Manyata direction',
-    driveFromManyata: '~25–30 min from Manyata Tech Park (airport direction)',
-    priority: 'Visit — Devanahalli, farther out; commute feel critical',
+    contactApproach: 'RERA: PR/110825/007988. Tata Housing — gold-standard Grade A builder. 70 acres within 135-acre Carnatica township. Ask for 3 BHK + 2T floor plan (1,681 sqft, ₹1.55 Cr). Check Manyata peak commute before deciding.',
+    bestVisitTime: '4:45 PM Day 2',
+    driveFromManyata: '~35–48 min off-peak from Manyata; peak 60–80 min',
+    priority: 'Criteria #4 — builder + specs; commute gate',
   },
 ];
 
@@ -198,7 +278,7 @@ const targetLabels: Record<QuestionTarget, string> = {
 };
 
 export default function VisitGuide() {
-  const [activeVisit, setActiveVisit] = useCanvasState<string>('visitId', 'sobha-athena');
+  const [activeVisit, setActiveVisit] = useCanvasState<string>('visitId', 'brigade-eternia');
   const [activeTarget, setActiveTarget] = useCanvasState<QuestionTarget | 'all'>('qTarget', 'all');
   const [checklistKey, setChecklistKey] = useCanvasState<string>('ckSection', 'At Sales Office');
 
@@ -224,12 +304,12 @@ export default function VisitGuide() {
 
       <Stack gap={4}>
         <H1>Property Visit Guide — UC Edition</H1>
-        <Text tone="secondary">4 UC properties · 20 questions · 30-point checklist · All new build, no RTM</Text>
+        <Text tone="secondary">10 UC criteria visits · 2-day geographic loop · 20 questions · 30-point checklist · Mirrors index.html PROPERTIES</Text>
       </Stack>
 
       <Grid columns={4} gap={14}>
-        <Stat value="4" label="Properties to Visit" tone="info" />
-        <Stat value="2" label="Day 1 (Thanisandra)" tone="warning" />
+        <Stat value="10" label="Properties to Visit" tone="info" />
+        <Stat value="5+5" label="Day 1 / Day 2" tone="warning" />
         <Stat value="20" label="Questions to Ask" tone="warning" />
         <Stat value="30" label="On-Site Checks" tone="danger" />
       </Grid>
@@ -238,43 +318,26 @@ export default function VisitGuide() {
 
       {/* ── visit order ── */}
       <Stack gap={12}>
-        <H2>Visit Schedule — Batch by Location</H2>
-        <Card>
-          <CardHeader trailing={<Pill label="Day 1" tone="warning" size="sm" />}>
-            Thanisandra — 2 Grade A UC sites, same road
-          </CardHeader>
-          <CardBody>
-            <Stack gap={6}>
-              <Text size="small">Sobha Athena and Prestige Camden are both on Thanisandra Main Rd. Visit sales offices + construction sites in one go.</Text>
-              <Table
-                headers={['Order', 'Property', 'Time', 'Note']}
-                rows={[
-                  ['10:00 AM', 'Sobha Athena (UC)', '60–75 min', 'Ask for RERA cert + payment schedule'],
-                  ['12:00 PM', 'Prestige Camden Gardens (UC)', '60 min', 'RERA: PR/140524/006872 — verify on portal'],
-                ]}
-                striped
-              />
-            </Stack>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader trailing={<Pill label="Day 2" tone="info" size="sm" />}>
-            Yelahanka — 2 UC sites, 5–8 min apart
-          </CardHeader>
-          <CardBody>
-            <Stack gap={6}>
-              <Text size="small">Arvind Bel Air (Jun 2026, near-ready) and Brigade Insignia (2029, only if size matters most). Both in Yelahanka.</Text>
-              <Table
-                headers={['Order', 'Property', 'Time', 'Note']}
-                rows={[
-                  ['10:00 AM', 'Arvind Bel Air (UC ~90% done)', '60–75 min', 'Earliest possession — check actual flat condition'],
-                  ['12:00 PM', 'Brigade Insignia (UC 2029)', '45 min', 'Only if size > timeline is your priority'],
-                ]}
-                striped
-              />
-            </Stack>
-          </CardBody>
-        </Card>
+        <H2>Visit schedule — criteria ranks vs clock</H2>
+        <Text size="small" tone="secondary">
+          Rank # = criteria priority from <Text weight="semibold" as="span">blr-property-criteria</Text> (locked Apr 2026). Times match <Text weight="semibold" as="span">index.html</Text>.
+        </Text>
+        <Table
+          headers={['Day', 'Time', '#', 'Property']}
+          rows={[
+            ['1', '9:00 AM', '3', 'Purva Zenium 2'],
+            ['1', '11:00 AM', '5', 'Prestige Avon'],
+            ['1', '1:15 PM', '6', 'Sobha Athena'],
+            ['1', '3:15 PM', '7', 'Prestige Camden Gardens'],
+            ['1', '5:00 PM', '8', 'Brigade Insignia'],
+            ['2', '9:00 AM', '2', 'Sattva Lumina'],
+            ['2', '10:45 AM', '10', 'Birla Yelahanka'],
+            ['2', '12:30 PM', '9', 'Arvind Bel Air'],
+            ['2', '2:45 PM', '1', 'Brigade Eternia'],
+            ['2', '4:45 PM', '4', 'Tata Varnam'],
+          ]}
+          striped
+        />
       </Stack>
 
       <Divider />
@@ -288,7 +351,7 @@ export default function VisitGuide() {
               <Pill
                 key={v.id}
                 active={activeVisit === v.id}
-                tone={v.priority === 'Must Visit' ? 'success' : undefined}
+                tone={v.rank <= 3 ? 'success' : 'warning'}
                 onClick={() => setActiveVisit(v.id)}
               >
                 #{v.rank} {v.name.split(' ').slice(0, 2).join(' ')}
@@ -298,7 +361,7 @@ export default function VisitGuide() {
         </Row>
 
         <Grid columns={4} gap={12}>
-          <Stat value={`#${visit.rank}`} label="Visit Priority" tone={visit.priority === 'Must Visit' ? 'success' : 'warning'} />
+          <Stat value={`#${visit.rank}`} label="Criteria rank" tone={visit.rank <= 3 ? 'success' : 'warning'} />
           <Stat value={visit.type} label="Property Type" tone={visit.type === 'RTM resale' ? 'success' : 'warning'} />
           <Stat value={visit.priceRange} label="Price Range" />
           <Stat value={visit.size} label="Unit Size" />
@@ -306,7 +369,7 @@ export default function VisitGuide() {
 
         <Grid columns={2} gap={14}>
           <Card>
-            <CardHeader trailing={<Pill label={visit.priority} tone={visit.priority === 'Must Visit' ? 'success' : 'warning'} size="sm" />}>
+            <CardHeader trailing={<Pill label={visit.priority} tone={visit.rank <= 3 ? 'success' : 'warning'} size="sm" />}>
               Location & Contact
             </CardHeader>
             <CardBody>
