@@ -448,6 +448,10 @@
   </div>
 
   <div class="tab" id="tab-checklist">
+    <div style="padding:12px 16px 4px">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500">Checklist for property:</div>
+      <div class="chips" id="checklist-prop-selector" style="margin:0 0 4px"></div>
+    </div>
     <div class="section-switch" id="section-switch"></div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
@@ -545,6 +549,7 @@ const Q_CRITICAL   = [0, 1, 2, 3, 14];
 let currentSection = Object.keys(CHECKLIST)[0];
 let activeQFilter  = 'all';
 let activeQProp    = 1;
+let activeChecklistProp = 1;
 let checked = {};
 let scores = {};
 let qAnswers = {};
@@ -555,6 +560,9 @@ function loadScores()   { try { scores   = JSON.parse(localStorage.getItem(SCORE
 function saveScores()   { localStorage.setItem(SCORES_KEY, JSON.stringify(scores)); }
 function loadQAnswers() { try { qAnswers = JSON.parse(localStorage.getItem(Q_ANS_KEY)  || '{}'); } catch (e) { qAnswers = {}; } }
 function saveQAnswers() { localStorage.setItem(Q_ANS_KEY, JSON.stringify(qAnswers)); }
+function getChecklistKey(propRank, section, index) {
+  return `${propRank}__${section}__${index}`;
+}
 function ensureChecklistEntry(key) {
   if (!checked[key] || typeof checked[key] !== 'object') {
     checked[key] = { status: 'todo', detail: '' };
@@ -661,9 +669,12 @@ function renderQPropSelector() {
 
 function setQProp(rank) {
   activeQProp = rank;
+  activeChecklistProp = rank;
   renderQPropSelector();
+  renderChecklistPropSelector();
   renderQuestions();
   renderBuyScoreSummary();
+  renderChecklistItems();
 }
 
 function renderQuestionChips() {
@@ -738,6 +749,18 @@ function renderSectionSwitch() {
   sw.innerHTML = Object.keys(CHECKLIST).map(k => `<button class="section-btn ${currentSection === k ? 'active' : ''}" onclick="setSection('${k}')">${k}</button>`).join('');
 }
 
+function renderChecklistPropSelector() {
+  const el = document.getElementById('checklist-prop-selector');
+  const byRank = PROPERTIES.slice().sort((a, b) => a.rank - b.rank);
+  el.innerHTML = byRank.map(p => `<button class="chip ${activeChecklistProp === p.rank ? 'active' : ''}" onclick="setChecklistProp(${p.rank})" style="font-size:11px">${p.shortName}</button>`).join('');
+}
+
+function setChecklistProp(rank) {
+  activeChecklistProp = rank;
+  renderChecklistPropSelector();
+  renderChecklistItems();
+}
+
 function setSection(s) {
   currentSection = s;
   renderSectionSwitch();
@@ -747,7 +770,7 @@ function setSection(s) {
 function renderChecklistItems() {
   const items = CHECKLIST[currentSection];
   const doneN = items.filter((_, i) => {
-    const key = currentSection + '_' + i;
+    const key = getChecklistKey(activeChecklistProp, currentSection, i);
     return checked[key]?.status === 'done';
   }).length;
   const total = items.length;
@@ -756,7 +779,7 @@ function renderChecklistItems() {
   document.getElementById('progress-label').textContent = `${doneN} of ${total} marked done`;
   document.getElementById('section-total').textContent = `${pct}%`;
   document.getElementById('checklist-items').innerHTML = items.map((item, i) => {
-    const key = currentSection + '_' + i;
+    const key = getChecklistKey(activeChecklistProp, currentSection, i);
     const entry = checked[key] || { status: 'todo', detail: '' };
     return `<div class="check-item-rich">
       <div class="check-item-header">
@@ -788,7 +811,9 @@ function setChecklistDetail(key, evt) {
 
 function resetChecklist() {
   const items = CHECKLIST[currentSection];
-  items.forEach((_, i) => { delete checked[currentSection + '_' + i]; });
+  items.forEach((_, i) => {
+    delete checked[getChecklistKey(activeChecklistProp, currentSection, i)];
+  });
   saveState();
   renderChecklistItems();
 }
@@ -809,6 +834,7 @@ renderQuestionChips();
 renderQuestions();
 renderBuyScoreSummary();
 renderSectionSwitch();
+renderChecklistPropSelector();
 renderChecklistItems();
 </script>
 </body>
