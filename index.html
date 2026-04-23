@@ -474,8 +474,20 @@ const PROPERTIES = [
 const QUESTIONS = [
   { target: 'sales', q: 'What is the exact all-in cost breakup and hidden charges?', why: 'Avoids budget surprises after token payment.', flag: 'Vague charges or refusal to share itemized sheet.' },
   { target: 'sales', q: 'What is possession penalty if delayed beyond committed date?', why: 'Delay compensation must be contractually clear.', flag: 'No written penalty clause.' },
+  { target: 'sales', q: 'Is the payment plan construction-linked or time-linked?', why: 'Construction-linked plans reduce risk when project progress slows.', flag: 'Time-linked demand schedule with large pre-construction collections.' },
+  { target: 'sales', q: 'What are cancellation/refund deductions and max refund timeline?', why: 'Exit terms matter if legal/financial issues appear after booking.', flag: 'High deduction clauses or refund timelines beyond 45-60 days.' },
+  { target: 'sales', q: 'What are maintenance, corpus, clubhouse, and utility charges from possession month?', why: 'Recurring costs can materially change affordability.', flag: 'Incomplete charge disclosure or charges not documented in writing.' },
+  { target: 'sales', q: 'Is covered parking slot allocation fixed in the agreement with slot details?', why: 'Verbal parking commitments are often disputed later.', flag: 'Parking is marked as provisional or not included in agreement annexures.' },
+  { target: 'sales', q: 'Which amenities are guaranteed operational on possession date?', why: 'Many projects hand over units before key amenities are usable.', flag: 'Critical amenities postponed without committed completion date.' },
+  { target: 'sales', q: 'What is the written snag-rectification SLA after handover?', why: 'Post-possession defects are common; closure timelines must be explicit.', flag: 'No formal SLA or only verbal assurance for defect fixes.' },
+  { target: 'sales', q: 'What is DG backup scope: full load including AC points or essential load only?', why: 'WFH reliability depends on actual backup coverage.', flag: 'Only partial backup but marketed as full backup.' },
   { target: 'site', q: 'How active is the site today (workers, pouring, progress)?', why: 'Active construction reduces delivery risk.', flag: 'Empty site during working hours.' },
+  { target: 'site', q: 'Is the last-mile road flood-prone or blocked in monsoon?', why: 'Monsoon access issues directly affect daily usability and resale.', flag: 'Frequent waterlogging or poor drainage on approach roads.' },
+  { target: 'site', q: 'Does the selected unit stack get adequate daylight and cross-ventilation?', why: 'Poor daylight/ventilation reduces livability and rental appeal.', flag: 'Dark interiors even at noon or heavily blocked windows.' },
+  { target: 'site', q: 'Is there significant noise from arterial roads, generators, or STP zones?', why: 'Noise pollution impacts comfort and long-term satisfaction.', flag: 'Constant high noise in living/bedroom-facing sides.' },
+  { target: 'site', q: 'Are fiber internet conduits and provider approvals ready for handover?', why: 'Delayed internet readiness disrupts move-in and WFH setup.', flag: 'No committed provider list or post-handover retrofitting plan.' },
   { target: 'sales', q: 'What is water source split (Cauvery vs tanker/borewell)?', why: 'Utility reliability affects long-term livability.', flag: 'No Cauvery plan and high tanker dependency.' },
+  { target: 'site', q: 'What is the water pressure and storage setup for higher floors?', why: 'Inadequate pressure/storage leads to chronic utility issues.', flag: 'No clear design explanation or reliance on temporary systems.' },
 ];
 
 const CHECKLIST = {
@@ -502,7 +514,7 @@ const CHECKLIST = {
 const STORAGE_KEY  = 'blr_visit_checklist';
 const SCORES_KEY   = 'blr_visit_scores';
 const Q_ANS_KEY    = 'blr_q_answers';
-const Q_CRITICAL   = [0, 1];
+const Q_CRITICAL   = [0, 1, 2, 3, 14];
 let currentSection = Object.keys(CHECKLIST)[0];
 let activeQFilter  = 'all';
 let activeQProp    = 1;
