@@ -1,0 +1,11 @@
+listing_id,project_name,area,property_type,bedrooms,status,builder_name,builder_track_record,builder_delay_history,builder_handover_reliability,builder_legal_cleanliness,builder_construction_sentiment,price_base_cr,price_all_in_cr,water_backup,power_backup,security,parking,clubhouse,kid_senior_spaces,builder_score,rank,effective_price_cr,amenities_score,final_score
+L013,ElmAvenues,Yelahanka,apartment,3,under_construction,Sobha,92,10,94,94,89,2.18,2.39,1,1,1,1,1,1,92.1,1,2.39,100.0,97.63
+L001,NorthGateResidences,SahakaraNagar,apartment,3,under_construction,Prestige,90,12,91,93,88,2.28,2.46,1,1,1,1,1,1,90.2,2,2.46,100.0,97.06
+L011,RunwayEnclave,Yelahanka,apartment,3,under_construction,Prestige,90,12,91,93,88,2.26,2.42,1,1,1,1,1,1,90.2,3,2.42,100.0,97.06
+L027,TerraceOne,Yelahanka,apartment,3,under_construction,Prestige,90,12,91,93,88,2.05,2.23,1,1,1,1,1,1,90.2,4,2.23,100.0,97.06
+L002,CedarPark,SahakaraNagar,row_house,4,under_construction,Brigade,88,15,89,90,86,2.30,2.49,1,1,1,1,1,1,87.8,5,2.49,100.0,96.34
+L028,CanopyRows,SahakaraNagar,row_house,3,under_construction,Brigade,88,15,89,90,86,2.17,2.41,1,1,1,1,1,1,87.8,6,2.41,100.0,96.34
+L020,NorthernArc,Yelahanka,apartment,3,under_construction,Godrej,87,14,88,89,85,2.22,2.47,1,1,1,1,1,1,87.2,7,2.47,100.0,96.16
+L021,JasmineBlocks,Yelahanka,apartment,3,under_construction,ShapoorjiPallonji,86,17,85,88,84,2.06,2.26,1,1,1,1,1,0,85.4,8,2.26,86.0,85.82
+L007,OliveMews,SahakaraNagar,row_house,4,under_construction,Assetz,85,17,86,88,84,2.22,2.45,1,1,1,1,1,0,85.3,9,2.45,86.0,85.79
+L016,AeroVista,Yelahanka,apartment,3,under_construction,Assetz,85,17,86,88,84,2.10,2.28,1,1,1,1,1,0,85.3,10,2.28,86.0,85.79
