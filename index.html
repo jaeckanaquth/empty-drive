@@ -1,83 +1,751 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bangalore Property Visit Scorecard</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <header class="page-header">
-      <h1>Bangalore Property Visit Scorecard</h1>
-      <p>
-        Track your on-site review for each shortlisted property and rank them
-        by live visit score.
-      </p>
-      <p>Mobile quick-tap rating: tap 1-5 on each criterion while at site.</p>
-      <div class="actions">
-        <button id="resetAll" type="button">Reset All Ratings</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BLR Property Visit</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Visit Guide" />
+  <meta name="theme-color" content="#007AFF" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f2f2f7;
+      --surface: #ffffff;
+      --surface2: #f2f2f7;
+      --border: #e5e5ea;
+      --text: #000000;
+      --text2: #6e6e73;
+      --text3: #aeaeb2;
+      --accent: #007AFF;
+      --green: #34C759;
+      --orange: #FF9500;
+      --red: #FF3B30;
+      --nav-height: 84px;
+      --header-height: 56px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1c1c1e;
+        --surface2: #2c2c2e;
+        --border: #38383a;
+        --text: #ffffff;
+        --text2: #98989d;
+        --text3: #636366;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100dvh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      height: var(--header-height);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+    }
+    .header h1 { font-size: 17px; font-weight: 600; flex: 1; }
+    .header-sub { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+    .content {
+      position: fixed;
+      top: var(--header-height);
+      bottom: var(--nav-height);
+      left: 0; right: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      padding-bottom: var(--safe-bottom);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 100;
+    }
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      padding-top: 8px;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.15s;
+    }
+    .nav-btn.active { color: var(--accent); }
+    .nav-btn svg { width: 24px; height: 24px; }
+    .nav-label { font-size: 10px; font-weight: 500; }
+
+    .tab { display: none; padding: 12px 0 16px; }
+    .tab.active { display: block; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px 16px 6px;
+    }
+
+    .card {
+      background: var(--surface);
+      margin: 0 16px 1px;
+      overflow: hidden;
+    }
+    .card:first-of-type, .card-group > .card:first-child { border-radius: 12px 12px 0 0; }
+    .card:last-of-type, .card-group > .card:last-child { border-radius: 0 0 12px 12px; margin-bottom: 16px; }
+    .card-group { margin: 0; }
+    .card-single { border-radius: 12px; margin-bottom: 16px; }
+    .card + .card { border-top: 1px solid var(--border); }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      padding: 13px 16px;
+      gap: 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .card-row:active { background: var(--surface2); }
+    .card-body { padding: 4px 16px 14px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-blue   { background: #e5f0ff; color: #007AFF; }
+    .badge-green  { background: #e5f6eb; color: #1a7a36; }
+    .badge-orange { background: #fff3e5; color: #b36200; }
+    .badge-red    { background: #ffe5e5; color: #cc0000; }
+    .badge-gray   { background: var(--surface2); color: var(--text2); }
+    @media (prefers-color-scheme: dark) {
+      .badge-blue   { background: #00285c; color: #5ac8fa; }
+      .badge-green  { background: #0d3318; color: #34c759; }
+      .badge-orange { background: #3d2200; color: #ff9f0a; }
+      .badge-red    { background: #3d0000; color: #ff6961; }
+    }
+
+    .rank {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-title { font-size: 15px; font-weight: 600; flex: 1; line-height: 1.3; }
+    .card-subtitle { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+    .chevron {
+      color: var(--text3);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .chevron.open { transform: rotate(90deg); }
+
+    .detail { display: none; }
+    .detail.open { display: block; }
+    .detail-row {
+      display: flex;
+      gap: 10px;
+      padding: 6px 16px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .detail-label {
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 12px;
+      min-width: 90px;
+      padding-top: 1px;
+    }
+    .detail-value { color: var(--text); line-height: 1.5; }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.15s;
+    }
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .q-who { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+    .q-text { font-size: 14px; font-weight: 600; line-height: 1.4; }
+    .q-why  { font-size: 13px; color: var(--text2); margin-top: 4px; line-height: 1.4; }
+    .q-flag {
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #fff3e5;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #7a3800;
+      line-height: 1.4;
+    }
+    @media (prefers-color-scheme: dark) {
+      .q-flag { background: #3d1a00; color: #ffb347; }
+    }
+    .q-flag strong { font-weight: 700; }
+    .q-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 6px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .progress-bar-wrap {
+      background: var(--surface2);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+      margin: 0 16px 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--text2);
+      padding: 0 16px 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .check-item:active { background: var(--surface2); }
+    .check-item + .check-item { border-top: 1px solid var(--border); }
+    .check-circle {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      margin-top: 1px;
+    }
+    .check-circle.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .check-circle.done svg { display: block; }
+    .check-circle svg { display: none; width: 14px; height: 14px; }
+    .check-text {
+      font-size: 14px;
+      line-height: 1.45;
+      flex: 1;
+    }
+    .check-text.done {
+      color: var(--text2);
+      text-decoration: line-through;
+      text-decoration-color: var(--text3);
+    }
+
+    .reset-btn {
+      display: block;
+      margin: 8px 16px 0;
+      padding: 11px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 500;
+      width: calc(100% - 32px);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .section-switch {
+      display: flex;
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 2px;
+      margin: 8px 16px 12px;
+    }
+    .section-btn {
+      flex: 1;
+      padding: 7px 4px;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .section-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .score-table { width: 100%; border-collapse: collapse; }
+    .score-table td { padding: 10px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+    .score-table td:first-child { color: var(--text2); font-size: 13px; width: 50%; }
+    .score-dots { display: flex; gap: 4px; }
+    .score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .score-dot.filled { background: var(--accent); }
+
+    .star-row { display:flex; align-items:center; padding:12px 16px; gap:10px; border-top:1px solid var(--border); }
+    .star-row-label { font-size:13px; color:var(--text2); flex:1; }
+    .star-btn { background:none; border:none; padding:4px; cursor:pointer; font-size:24px; color:var(--border); line-height:1; -webkit-tap-highlight-color:transparent; }
+    .star-btn.lit { color:#f5a623; }
+    .score-badge { font-size:11px; font-weight:700; padding:2px 7px; border-radius:20px; background:var(--surface); border:1px solid var(--border); color:var(--text2); white-space:nowrap; }
+    .score-badge.scored { background:#f5a623; border-color:#f5a623; color:#fff; }
+
+    .buy-score { display:inline-flex; align-items:center; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
+    .qs-buy    { background:#16a34a20; color:#16a34a; border:1px solid #16a34a40; }
+    .qs-caution{ background:#d9770620; color:#d97706; border:1px solid #d9770640; }
+    .qs-warn   { background:#dc262620; color:#dc2626; border:1px solid #dc262640; }
+    .qs-dnb    { background:#dc2626; color:#fff; border:1px solid #dc2626; }
+    .qs-empty  { background:var(--surface); color:var(--text3); border:1px solid var(--border); }
+    @media (prefers-color-scheme:dark) {
+      .qs-buy    { background:#16a34a30; color:#4ade80; border-color:#16a34a50; }
+      .qs-caution{ background:#d9770630; color:#fbbf24; border-color:#d9770650; }
+      .qs-warn   { background:#dc262630; color:#f87171; border-color:#dc262650; }
+    }
+
+    .qans-btn { display:inline-flex; align-items:center; gap:4px; padding:6px 12px; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); color:var(--text2); font-size:13px; font-weight:600; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .15s,border-color .15s; }
+    .qans-ok.active  { background:#16a34a18; border-color:#16a34a; color:#16a34a; }
+    .qans-flag.active{ background:#dc262618; border-color:#dc2626; color:#dc2626; }
+    @media (prefers-color-scheme:dark) {
+      .qans-ok.active  { background:#16a34a30; color:#4ade80; border-color:#16a34a; }
+      .qans-flag.active{ background:#dc262630; color:#f87171; border-color:#dc2626; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header h1" style="font-size:17px;font-weight:600">BLR Property Visit</div>
+    <div class="header-sub">₹3 Cr · 3 BHK · 10 criteria visits · North Bangalore · Apr 2026</div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="tab active" id="tab-properties">
+    <div class="section-label">Day 1 — five sites (Hosahalli &rarr; Thanisandra &rarr; Yelahanka NH44)</div>
+    <div id="prop-list"></div>
+
+    <div class="section-label">Day 2 — five sites (SH-9 / Yelahanka NT &rarr; Devanahalli)</div>
+    <div id="prop-list-2"></div>
+
+    <div style="padding:0 16px 24px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Buy Score Summary</div>
+      <div style="background:var(--surface);border-radius:12px;padding:6px 12px" id="buy-score-summary"></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.4">Score from Q&amp;As: 80–100 = Strong Buy · 60–79 = Caution · 40–59 = Reconsider · Any critical flag = Do Not Buy</div>
+    </div>
+  </div>
+
+  <div class="tab" id="tab-questions">
+    <div style="padding:12px 16px 4px">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500">Scoring for property:</div>
+      <div class="chips" id="q-prop-selector" style="margin:0 0 4px"></div>
+    </div>
+    <div class="chips" id="q-chips"></div>
+    <div id="q-list"></div>
+  </div>
+
+  <div class="tab" id="tab-checklist">
+    <div class="section-switch" id="section-switch"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progress-label">0 of 0 done</span>
+      <span id="section-total"></span>
+    </div>
+    <div style="background:var(--surface);border-radius:12px;margin:0 16px 12px;overflow:hidden" id="checklist-items"></div>
+    <button class="reset-btn" onclick="resetChecklist()">Reset This Section</button>
+    <div style="height:8px"></div>
+  </div>
+
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" id="nav-properties" onclick="switchTab('properties')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 22V12h6v10"/>
+    </svg>
+    <span class="nav-label">Properties</span>
+  </button>
+  <button class="nav-btn" id="nav-questions" onclick="switchTab('questions')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+    </svg>
+    <span class="nav-label">Questions</span>
+  </button>
+  <button class="nav-btn" id="nav-checklist" onclick="switchTab('checklist')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+    </svg>
+    <span class="nav-label">Checklist</span>
+  </button>
+</nav>
+
+<script>
+const PROPERTIES = [
+  { rank: 1, day: 1, shortName: 'Elm', name: 'ElmAvenues', builder: 'Sobha', area: 'Yelahanka', status: 'UC', priority: 'Top score', price: '₹2.39 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '9:00 AM', contact: 'Ask for RERA, all-in and possession in writing.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 2, day: 1, shortName: 'NorthGate', name: 'NorthGateResidences', builder: 'Prestige', area: 'SahakaraNagar', status: 'UC', priority: 'High livability', price: '₹2.46 Cr', launched: 'TBC', possession: 'TBC', address: 'SahakaraNagar, Bangalore', mapsUrl: 'https://maps.google.com/?q=SahakaraNagar+Bangalore', drive: '25-40 min', visitTime: '10:30 AM', contact: 'Confirm delay penalty and payment milestones.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 3, day: 1, shortName: 'Runway', name: 'RunwayEnclave', builder: 'Prestige', area: 'Yelahanka', status: 'UC', priority: 'Strong amenities', price: '₹2.42 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '12:00 PM', contact: 'Check loading, carpet, and DG backup scope.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 4, day: 1, shortName: 'Terrace', name: 'TerraceOne', builder: 'Prestige', area: 'Yelahanka', status: 'UC', priority: 'Value pick', price: '₹2.23 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '2:00 PM', contact: 'Ask if all charges are included in all-in.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 5, day: 1, shortName: 'Cedar', name: 'CedarPark', builder: 'Brigade', area: 'SahakaraNagar', status: 'UC', priority: 'Row house option', price: '₹2.49 Cr', launched: 'TBC', possession: 'TBC', address: 'SahakaraNagar, Bangalore', mapsUrl: 'https://maps.google.com/?q=SahakaraNagar+Bangalore', drive: '25-40 min', visitTime: '3:30 PM', contact: 'Check row-house legal docs and plot/title clarity.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 6, day: 2, shortName: 'Canopy', name: 'CanopyRows', builder: 'Brigade', area: 'SahakaraNagar', status: 'UC', priority: '3BHK row house', price: '₹2.41 Cr', launched: 'TBC', possession: 'TBC', address: 'SahakaraNagar, Bangalore', mapsUrl: 'https://maps.google.com/?q=SahakaraNagar+Bangalore', drive: '25-40 min', visitTime: '9:00 AM', contact: 'Confirm maintenance and community charges.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 7, day: 2, shortName: 'NorthArc', name: 'NorthernArc', builder: 'Godrej', area: 'Yelahanka', status: 'UC', priority: 'Builder reputation', price: '₹2.47 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '10:30 AM', contact: 'Ask for phase-wise possession confidence.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 8, day: 2, shortName: 'Jasmine', name: 'JasmineBlocks', builder: 'ShapoorjiPallonji', area: 'Yelahanka', status: 'UC', priority: 'Balanced budget', price: '₹2.26 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '12:00 PM', contact: 'Check if amenities are phase-ready or future.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 9, day: 2, shortName: 'Olive', name: 'OliveMews', builder: 'Assetz', area: 'SahakaraNagar', status: 'UC', priority: 'Alternative row house', price: '₹2.45 Cr', launched: 'TBC', possession: 'TBC', address: 'SahakaraNagar, Bangalore', mapsUrl: 'https://maps.google.com/?q=SahakaraNagar+Bangalore', drive: '25-40 min', visitTime: '2:00 PM', contact: 'Inspect build quality and room usability.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+  { rank: 10, day: 2, shortName: 'Aero', name: 'AeroVista', builder: 'Assetz', area: 'Yelahanka', status: 'UC', priority: 'Last compare', price: '₹2.28 Cr', launched: 'TBC', possession: 'TBC', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '3:30 PM', contact: 'Ask final offer validity and negotiation room.', rera: 'Verify on K-RERA', ocStatus: 'N/A — UC' },
+];
+
+const QUESTIONS = [
+  { target: 'rera', q: 'Show exact RERA registration and project completion %?', why: 'Confirms legal validity and true construction progress.', flag: 'RERA mismatch, missing project details, or low progress vs claim.' },
+  { target: 'sales', q: 'What is the exact all-in cost breakup and hidden charges?', why: 'Avoids budget surprises after token payment.', flag: 'Vague charges or refusal to share itemized sheet.' },
+  { target: 'sales', q: 'What is possession penalty if delayed beyond committed date?', why: 'Delay compensation must be contractually clear.', flag: 'No written penalty clause.' },
+  { target: 'site', q: 'How active is the site today (workers, pouring, progress)?', why: 'Active construction reduces delivery risk.', flag: 'Empty site during working hours.' },
+  { target: 'sales', q: 'What is water source split (Cauvery vs tanker/borewell)?', why: 'Utility reliability affects long-term livability.', flag: 'No Cauvery plan and high tanker dependency.' },
+  { target: 'buyer', q: 'How is delivered quality in builder’s older projects?', why: 'Past handover quality predicts your actual finish.', flag: 'Repeated unresolved quality complaints.' },
+];
+
+const CHECKLIST = {
+  'Sales Office': [
+    'Capture full price breakup in writing',
+    'Capture RERA ID and verify online immediately',
+    'Get sample agreement copy before paying token',
+    'Confirm possession date and delay compensation',
+  ],
+  'Site Visit': [
+    'Check worker activity and stage of construction',
+    'Inspect concrete quality and seepage signs',
+    'Measure key room dimensions for usability',
+    'Check approach road quality and bottlenecks',
+  ],
+  'Documents': [
+    'Ask for Khata/sanction/title packet status',
+    'Confirm Cauvery application/provision evidence',
+    'Note maintenance and corpus charges',
+    'Record next follow-up date with sales manager',
+  ],
+};
+
+const STORAGE_KEY  = 'blr_visit_checklist';
+const SCORES_KEY   = 'blr_visit_scores';
+const Q_ANS_KEY    = 'blr_q_answers';
+const Q_CRITICAL   = [0, 1, 2];
+let currentSection = Object.keys(CHECKLIST)[0];
+let activeQFilter  = 'all';
+let activeQProp    = 1;
+let checked = {};
+let scores = {};
+let qAnswers = {};
+
+function loadState()    { try { checked  = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { checked = {}; } }
+function saveState()    { localStorage.setItem(STORAGE_KEY, JSON.stringify(checked)); }
+function loadScores()   { try { scores   = JSON.parse(localStorage.getItem(SCORES_KEY) || '{}'); } catch (e) { scores = {}; } }
+function saveScores()   { localStorage.setItem(SCORES_KEY, JSON.stringify(scores)); }
+function loadQAnswers() { try { qAnswers = JSON.parse(localStorage.getItem(Q_ANS_KEY)  || '{}'); } catch (e) { qAnswers = {}; } }
+function saveQAnswers() { localStorage.setItem(Q_ANS_KEY, JSON.stringify(qAnswers)); }
+
+function calcBuyScore(rank) {
+  const ans = qAnswers[rank] || {};
+  const answered = Object.keys(ans).length;
+  if (answered === 0) return { label: 'Not scored', cls: '', score: null };
+  let score = 100;
+  let critical = false;
+  QUESTIONS.forEach((q, i) => {
+    if (ans[i] === 'flag') {
+      if (Q_CRITICAL.includes(i)) { critical = true; score -= 25; }
+      else score -= 10;
+    }
+  });
+  score = Math.max(0, score);
+  if (critical || score < 40) return { label: 'Do Not Buy', cls: 'qs-dnb', score, answered };
+  if (score < 60) return { label: 'Reconsider', cls: 'qs-warn', score, answered };
+  if (score < 80) return { label: 'Caution', cls: 'qs-caution', score, answered };
+  return { label: `Buy · ${score}`, cls: 'qs-buy', score, answered };
+}
+
+function renderProperties() {
+  const day1 = PROPERTIES.filter(p => p.day === 1);
+  const day2 = PROPERTIES.filter(p => p.day === 2);
+  document.getElementById('prop-list').innerHTML   = day1.map(propCard).join('');
+  document.getElementById('prop-list-2').innerHTML = day2.map(propCard).join('');
+}
+
+function propCard(p) {
+  const statusCls = p.status === 'RTM' ? 'badge-green' : 'badge-orange';
+  const myScore = scores[p.rank] || 0;
+  const scoreLbl = myScore ? `${myScore}/5 ★` : 'Rate';
+  const scoreCls = myScore ? 'scored' : '';
+  const qs = calcBuyScore(p.rank);
+  return `
+    <div class="card card-single" style="border-radius:12px;margin:0 16px 10px">
+      <div class="card-row" onclick="toggleProp('prop-${p.rank}')">
+        <div class="rank">${p.rank}</div>
+        <div style="flex:1">
+          <div class="card-title">${p.name}</div>
+          <div class="card-subtitle">${p.builder} · ${p.area}</div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:160px">
+          <span class="buy-score ${qs.cls || 'qs-empty'}" id="bscore-${p.rank}">${qs.cls ? qs.label : '?'}</span>
+          <span class="score-badge ${scoreCls}" id="score-badge-${p.rank}">${scoreLbl}</span>
+          <span class="badge ${statusCls}">${p.status}</span>
+          <svg class="chevron" id="chev-prop-${p.rank}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
       </div>
-    </header>
-
-    <main>
-      <section class="panel">
-        <h2>Current Ranking (Based on Site Ratings)</h2>
-        <div class="table-wrap">
-          <table id="rankingTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Project</th>
-                <th>Builder</th>
-                <th>Area</th>
-                <th>All-in Price (Cr)</th>
-                <th>Visit Score</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+      <div class="detail" id="prop-${p.rank}">
+        <div class="detail-row"><div class="detail-label">Price</div><div class="detail-value">${p.price}</div></div>
+        <div class="detail-row"><div class="detail-label">Address</div><div class="detail-value"><a href="${p.mapsUrl}" target="_blank" style="color:var(--accent)">${p.address}</a></div></div>
+        <div class="detail-row"><div class="detail-label">Drive</div><div class="detail-value">${p.drive}</div></div>
+        <div class="detail-row"><div class="detail-label">Visit time</div><div class="detail-value">${p.visitTime}</div></div>
+        <div class="detail-row"><div class="detail-label">RERA</div><div class="detail-value">${p.rera}</div></div>
+        <div class="detail-row"><div class="detail-label">Access</div><div class="detail-value">${p.contact}</div></div>
+        <div class="star-row">
+          <span class="star-row-label">Visit Rating</span>
+          ${[1,2,3,4,5].map(n => `<button class="star-btn ${myScore >= n ? 'lit' : ''}" id="star-${p.rank}-${n}" onclick="setScore(${p.rank}, ${n}, event)">★</button>`).join('')}
         </div>
-      </section>
+      </div>
+    </div>`;
+}
 
-      <section id="propertyCards" class="cards"></section>
-    </main>
+function toggleProp(id) {
+  const el = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  const open = el.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
 
-    <template id="propertyCardTemplate">
-      <article class="panel property-card">
-        <div class="card-header">
-          <h3 class="project-name"></h3>
-          <p class="project-meta"></p>
+function setScore(rank, val, evt) {
+  evt.stopPropagation();
+  scores[rank] = (scores[rank] === val) ? 0 : val;
+  saveScores();
+  for (let n = 1; n <= 5; n++) {
+    const s = document.getElementById(`star-${rank}-${n}`);
+    if (s) s.className = 'star-btn' + (scores[rank] >= n ? ' lit' : '');
+  }
+  const badge = document.getElementById(`score-badge-${rank}`);
+  if (badge) {
+    const v = scores[rank];
+    badge.textContent = v ? `${v}/5 ★` : 'Rate';
+    badge.className = 'score-badge' + (v ? ' scored' : '');
+  }
+}
+
+const Q_LABELS = { all: 'All', sales: 'Ask Sales', rera: 'Check RERA', buyer: 'Ask Buyers', site: 'Check Site' };
+const Q_COLORS = { sales: 'badge-orange', rera: 'badge-red', buyer: 'badge-green', site: 'badge-blue' };
+
+function renderQPropSelector() {
+  const el = document.getElementById('q-prop-selector');
+  const byRank = PROPERTIES.slice().sort((a, b) => a.rank - b.rank);
+  el.innerHTML = byRank.map(p => `<button class="chip ${activeQProp === p.rank ? 'active' : ''}" onclick="setQProp(${p.rank})" style="font-size:11px">${p.shortName}</button>`).join('');
+}
+
+function setQProp(rank) {
+  activeQProp = rank;
+  renderQPropSelector();
+  renderQuestions();
+  renderBuyScoreSummary();
+}
+
+function renderQuestionChips() {
+  const chips = document.getElementById('q-chips');
+  chips.innerHTML = Object.entries(Q_LABELS).map(([k, v]) => `<button class="chip ${activeQFilter === k ? 'active' : ''}" onclick="setQFilter('${k}')">${v}</button>`).join('');
+}
+
+function setQFilter(f) {
+  activeQFilter = f;
+  renderQuestionChips();
+  renderQuestions();
+}
+
+function setQAnswer(propRank, qIdx, val, evt) {
+  evt.stopPropagation();
+  if (!qAnswers[propRank]) qAnswers[propRank] = {};
+  qAnswers[propRank][qIdx] = (qAnswers[propRank][qIdx] === val) ? null : val;
+  if (qAnswers[propRank][qIdx] === null) delete qAnswers[propRank][qIdx];
+  saveQAnswers();
+  renderQuestions();
+  renderBuyScoreSummary();
+  renderProperties();
+}
+
+function renderQuestions() {
+  const filtered = activeQFilter === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.target === activeQFilter);
+  const ans = qAnswers[activeQProp] || {};
+  document.getElementById('q-list').innerHTML = filtered.map((q) => {
+    const realIdx = QUESTIONS.indexOf(q);
+    const cur = ans[realIdx];
+    const isCrit = Q_CRITICAL.includes(realIdx) ? '<span style="color:#ef4444;font-size:10px;font-weight:700;margin-left:4px">CRITICAL</span>' : '';
+    return `
+      <div class="card card-single" style="margin:0 16px 8px;border-radius:12px">
+        <div style="padding:12px 16px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span class="badge ${Q_COLORS[q.target]}">${Q_LABELS[q.target]}</span>
+            <span style="font-size:11px;color:var(--text3)">Q${realIdx + 1}</span>${isCrit}
+          </div>
+          <div class="q-text">${q.q}</div>
+          <div class="q-why">${q.why}</div>
+          <div id="flag-${realIdx}" style="display:${cur === 'flag' ? 'block' : 'none'}"><div class="q-flag"><strong>Red flag:</strong> ${q.flag}</div></div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button id="qbtn-ok-${realIdx}" class="qans-btn qans-ok${cur === 'ok' ? ' active' : ''}" onclick="setQAnswer(${activeQProp}, ${realIdx}, 'ok', event)">OK</button>
+            <button id="qbtn-flag-${realIdx}" class="qans-btn qans-flag${cur === 'flag' ? ' active' : ''}" onclick="setQAnswer(${activeQProp}, ${realIdx}, 'flag', event)">Red Flag</button>
+          </div>
         </div>
-        <p class="project-details"></p>
+      </div>`;
+  }).join('');
+}
 
-        <div class="card-tabs" role="tablist" aria-label="Property sections">
-          <button type="button" class="card-tab active" data-tab-target="rate">
-            Rate
-          </button>
-          <button type="button" class="card-tab" data-tab-target="questions">
-            Questions
-          </button>
-        </div>
+function renderBuyScoreSummary() {
+  const el = document.getElementById('buy-score-summary');
+  const byRank = PROPERTIES.slice().sort((a, b) => a.rank - b.rank);
+  el.innerHTML = byRank.map(p => {
+    const qs = calcBuyScore(p.rank);
+    const stars = scores[p.rank] ? `${scores[p.rank]}/5 ★` : '';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div class="rank" style="width:28px;height:28px;min-width:28px;font-size:14px">${p.rank}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        ${stars ? `<span style="font-size:11px;color:var(--text2)">${stars}</span>` : ''}
+        <span class="buy-score ${qs.cls || 'qs-empty'}">${qs.cls ? qs.label : '—'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-        <section class="tab-panel active" data-tab-panel="rate">
-          <div class="score-grid"></div>
-          <label class="note-label" for="">
-            Visit Notes
-            <textarea rows="3" placeholder="Quick notes from your site visit..."></textarea>
-          </label>
-        </section>
+function renderSectionSwitch() {
+  const sw = document.getElementById('section-switch');
+  sw.innerHTML = Object.keys(CHECKLIST).map(k => `<button class="section-btn ${currentSection === k ? 'active' : ''}" onclick="setSection('${k}')">${k}</button>`).join('');
+}
 
-        <section class="tab-panel" data-tab-panel="questions">
-          <h4>Questions To Ask At Site</h4>
-          <ul class="question-list"></ul>
-        </section>
+function setSection(s) {
+  currentSection = s;
+  renderSectionSwitch();
+  renderChecklistItems();
+}
 
-        <p class="score-line">
-          Property Visit Score: <strong class="score-value">Not rated</strong>
-        </p>
-      </article>
-    </template>
+function renderChecklistItems() {
+  const items = CHECKLIST[currentSection];
+  const doneN = items.filter((_, i) => checked[currentSection + '_' + i]).length;
+  const total = items.length;
+  const pct = total ? Math.round(doneN / total * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${doneN} of ${total} done`;
+  document.getElementById('section-total').textContent = `${pct}%`;
+  document.getElementById('checklist-items').innerHTML = items.map((text, i) => {
+    const key = currentSection + '_' + i;
+    const done = !!checked[key];
+    return `<div class="check-item" onclick="toggleCheck('${key}')">
+      <div class="check-circle ${done ? 'done' : ''}"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="check-text ${done ? 'done' : ''}">${text}</div>
+    </div>`;
+  }).join('');
+}
 
-    <script src="./script.js"></script>
-  </body>
+function toggleCheck(key) {
+  checked[key] = !checked[key];
+  saveState();
+  renderChecklistItems();
+}
+
+function resetChecklist() {
+  const items = CHECKLIST[currentSection];
+  items.forEach((_, i) => { delete checked[currentSection + '_' + i]; });
+  saveState();
+  renderChecklistItems();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+}
+
+loadState();
+loadScores();
+loadQAnswers();
+renderProperties();
+renderQPropSelector();
+renderQuestionChips();
+renderQuestions();
+renderBuyScoreSummary();
+renderSectionSwitch();
+renderChecklistItems();
+</script>
+</body>
 </html>
