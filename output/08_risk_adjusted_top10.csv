@@ -1,1 +1,11 @@
 listing_id,project_name,area,property_type,bedrooms,status,builder_name,builder_track_record,builder_delay_history,builder_handover_reliability,builder_legal_cleanliness,builder_construction_sentiment,price_base_cr,price_all_in_cr,water_backup,power_backup,security,parking,clubhouse,kid_senior_spaces,builder_risk_score,amenities_score,price_fit,builder_score,risk_adjusted_score,rank
+C004,Brigade Insignia,Yelahanka,apartment,3,under_construction,Brigade Group,100,73,95,100,68,2.38,2.49,1,1,1,1,1,1,12.8,100,50.2,87.2,84.28,1
+C002,Prestige Camden Gardens,Thanisandra,apartment,3,under_construction,Prestige Group,100,70,95,100,68,2.34,2.45,1,1,1,1,1,1,13.4,100,51.0,86.6,84.17,2
+C003,Sobha Athena,Thanisandra,apartment,3,under_construction,Sobha Limited,100,67,94,100,68,2.32,2.43,1,1,1,1,1,1,14.2,100,51.4,85.8,83.89,3
+C001,Purva Zenium 2,SahakaraNagar,apartment,3,under_construction,Puravankara Limited,95,64,94,100,68,2.27,2.38,1,1,1,1,1,1,15.8,100,52.4,84.2,83.37,4
+C008,Sattva Lumina,Hennur,apartment,3,under_construction,Sattva Group,95,64,92,100,68,2.24,2.35,1,1,1,1,1,1,16.2,100,53.0,83.8,83.31,5
+C005,Godrej Reserve North,Yelahanka,apartment,3,under_construction,Godrej Properties,87,61,93,100,68,2.21,2.32,1,1,1,1,1,1,18.2,100,53.6,81.8,82.53,6
+C009,Provident Ecopolitan,AirportRoad,apartment,3,under_construction,Provident Housing,79,55,91,100,68,1.87,1.98,1,1,1,1,1,1,21.4,100,60.4,78.6,82.45,7
+C006,Assetz Soho and Sky,Jakkur,apartment,3,under_construction,Assetz Property Group,79,64,92,100,68,2.17,2.28,1,1,1,1,1,1,19.4,100,54.4,80.6,82.15,8
+C007,Century Ethos Annex,Hebbal,apartment,3,under_construction,Century Real Estate,87,58,91,100,68,2.39,2.5,1,1,1,1,1,1,19.2,100,50.0,80.8,81.36,9
+C010,Birla Trimaya,Devanahalli,row_house,3,under_construction,Birla Estates,71,52,93,100,68,2.29,2.4,1,1,1,1,1,1,23.2,100,52.0,76.8,79.96,10
