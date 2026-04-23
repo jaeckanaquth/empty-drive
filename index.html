@@ -472,12 +472,10 @@ const PROPERTIES = [
 ];
 
 const QUESTIONS = [
-  { target: 'rera', q: 'Show exact RERA registration and project completion %?', why: 'Confirms legal validity and true construction progress.', flag: 'RERA mismatch, missing project details, or low progress vs claim.' },
   { target: 'sales', q: 'What is the exact all-in cost breakup and hidden charges?', why: 'Avoids budget surprises after token payment.', flag: 'Vague charges or refusal to share itemized sheet.' },
   { target: 'sales', q: 'What is possession penalty if delayed beyond committed date?', why: 'Delay compensation must be contractually clear.', flag: 'No written penalty clause.' },
   { target: 'site', q: 'How active is the site today (workers, pouring, progress)?', why: 'Active construction reduces delivery risk.', flag: 'Empty site during working hours.' },
   { target: 'sales', q: 'What is water source split (Cauvery vs tanker/borewell)?', why: 'Utility reliability affects long-term livability.', flag: 'No Cauvery plan and high tanker dependency.' },
-  { target: 'buyer', q: 'How is delivered quality in builder’s older projects?', why: 'Past handover quality predicts your actual finish.', flag: 'Repeated unresolved quality complaints.' },
 ];
 
 const CHECKLIST = {
@@ -504,7 +502,7 @@ const CHECKLIST = {
 const STORAGE_KEY  = 'blr_visit_checklist';
 const SCORES_KEY   = 'blr_visit_scores';
 const Q_ANS_KEY    = 'blr_q_answers';
-const Q_CRITICAL   = [0, 1, 2];
+const Q_CRITICAL   = [0, 1];
 let currentSection = Object.keys(CHECKLIST)[0];
 let activeQFilter  = 'all';
 let activeQProp    = 1;
@@ -606,8 +604,8 @@ function setScore(rank, val, evt) {
   }
 }
 
-const Q_LABELS = { all: 'All', sales: 'Ask Sales', rera: 'Check RERA', buyer: 'Ask Buyers', site: 'Check Site' };
-const Q_COLORS = { sales: 'badge-orange', rera: 'badge-red', buyer: 'badge-green', site: 'badge-blue' };
+const Q_LABELS = { all: 'All', sales: 'Ask Sales', site: 'Check Site' };
+const Q_COLORS = { sales: 'badge-orange', site: 'badge-blue' };
 
 function renderQPropSelector() {
   const el = document.getElementById('q-prop-selector');
