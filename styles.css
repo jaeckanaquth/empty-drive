@@ -105,6 +105,33 @@ th {
   font-size: 0.95rem;
 }
 
+.card-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.card-tab {
+  text-align: center;
+  font-weight: 600;
+  border-color: #9ca3af;
+}
+
+.card-tab.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #1d4ed8;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
 .question-list {
   margin: 0.4rem 0 0.9rem;
   padding-left: 1rem;

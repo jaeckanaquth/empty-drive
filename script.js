@@ -152,6 +152,22 @@ function updateRating(propertyId, criterionIndex, value) {
   render();
 }
 
+function wireCardTabs(cardRoot) {
+  const tabs = Array.from(cardRoot.querySelectorAll(".card-tab"));
+  const panels = Array.from(cardRoot.querySelectorAll(".tab-panel"));
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.tabTarget;
+      tabs.forEach((item) => item.classList.remove("active"));
+      panels.forEach((panel) => panel.classList.remove("active"));
+      tab.classList.add("active");
+      const activePanel = cardRoot.querySelector(`.tab-panel[data-tab-panel="${target}"]`);
+      if (activePanel) activePanel.classList.add("active");
+    });
+  });
+}
+
 function render() {
   const state = readState();
   const cards = document.querySelector("#propertyCards");
@@ -183,6 +199,7 @@ function render() {
 
   properties.forEach((property) => {
     const node = template.content.cloneNode(true);
+    const card = node.querySelector(".property-card");
     const cardState = state[property.id] || {};
     const projectName = node.querySelector(".project-name");
     const projectMeta = node.querySelector(".project-meta");
@@ -249,6 +266,7 @@ function render() {
     const score = calculateScore(cardState);
     scoreValue.textContent = score === null ? "Not rated" : `${score} / 5`;
 
+    wireCardTabs(card);
     cards.appendChild(node);
   });
 }

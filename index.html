@@ -50,15 +50,27 @@
         </div>
         <p class="project-details"></p>
 
-        <h4>Questions To Ask At Site</h4>
-        <ul class="question-list"></ul>
+        <div class="card-tabs" role="tablist" aria-label="Property sections">
+          <button type="button" class="card-tab active" data-tab-target="rate">
+            Rate
+          </button>
+          <button type="button" class="card-tab" data-tab-target="questions">
+            Questions
+          </button>
+        </div>
 
-        <div class="score-grid"></div>
+        <section class="tab-panel active" data-tab-panel="rate">
+          <div class="score-grid"></div>
+          <label class="note-label" for="">
+            Visit Notes
+            <textarea rows="3" placeholder="Quick notes from your site visit..."></textarea>
+          </label>
+        </section>
 
-        <label class="note-label" for="">
-          Visit Notes
-          <textarea rows="3" placeholder="Quick notes from your site visit..."></textarea>
-        </label>
+        <section class="tab-panel" data-tab-panel="questions">
+          <h4>Questions To Ask At Site</h4>
+          <ul class="question-list"></ul>
+        </section>
 
         <p class="score-line">
           Property Visit Score: <strong class="score-value">Not rated</strong>
