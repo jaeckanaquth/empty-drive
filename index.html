@@ -442,10 +442,10 @@
 
 <div class="content">
   <div class="tab active" id="tab-properties">
-    <div class="section-label">Qualified Sites (RERA + Handover >= 2026)</div>
+    <div class="section-label">Day 1 — five sites (Hosahalli &rarr; Thanisandra &rarr; Yelahanka NH44)</div>
     <div id="prop-list"></div>
 
-    <div class="section-label">Additional Qualified Sites</div>
+    <div class="section-label">Day 2 — five sites (SH-9 / Yelahanka NT &rarr; Devanahalli)</div>
     <div id="prop-list-2"></div>
 
     <div style="padding:0 16px 24px">
@@ -512,7 +512,16 @@
 
 <script>
 const PROPERTIES = [
-  { rank: 1, day: 1, shortName: 'Elm', name: 'ElmAvenues', builder: 'Sobha', area: 'Yelahanka', status: 'UC', priority: 'Strict filter pass: valid RERA + handover >= 2026', price: '₹2.39 Cr', launched: 'TBC', possession: 'Expected 2026 (marketing-source claim; verify on K-RERA)', address: 'Yelahanka, Bangalore', mapsUrl: 'https://maps.google.com/?q=Yelahanka+Bangalore', drive: '30-50 min', visitTime: '10:15 AM', contact: 'Ask for RERA, all-in and possession in writing.', rera: 'PR/200526/003430 (web marketing source; verify exact project match on K-RERA)', ocStatus: 'N/A — UC', buyerPulse: 'Mixed-positive for build quality, but some projects report seepage/cracks and weak post-handover response. Confidence: Medium-Low.' },
+  { rank: 1, day: 1, shortName: 'DewDrops', name: 'Prestige Dew Drops', builder: 'Prestige', area: 'Rajanukunte', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Mar 2023', possession: 'Apr 2026', address: 'Doddaballapura Road, Rajanukunte, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Prestige+Dew+Drops+Rajanukunte+Bangalore', drive: '35-55 min', visitTime: '9:00 AM', contact: 'Ask for latest phase inventory and payment plan.', rera: 'PRM/KA/RERA/1251/472/PR/150323/005797', ocStatus: 'N/A — UC', buyerPulse: 'Prestige generally has dependable delivery; verify handover quality via recent owners. Confidence: Medium.' },
+  { rank: 2, day: 1, shortName: 'Zenium2', name: 'Purva Zenium 2', builder: 'Puravankara', area: 'International Airport Road belt', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Oct 2022', possession: 'Jun 2027', address: 'New International Airport Road, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Purva+Zenium+2+Bangalore', drive: '35-60 min', visitTime: '10:45 AM', contact: 'Validate milestone progress against RERA filing.', rera: 'PRM/KA/RERA/1251/309/PR/071022/005303', ocStatus: 'N/A — UC', buyerPulse: 'Reasonable brand trust; verify final finishing quality in delivered projects. Confidence: Medium.' },
+  { rank: 3, day: 1, shortName: 'Camden', name: 'Prestige Camden Gardens', builder: 'Prestige', area: 'Thanisandra/Kannuru', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'May 2024', possession: 'Dec 2027', address: 'Kannuru, Thanisandra Main Road, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Prestige+Camden+Gardens+Kannuru+Bangalore', drive: '20-40 min', visitTime: '12:30 PM', contact: 'Confirm exact tower handover timeline and amenities readiness.', rera: 'PRM/KA/RERA/1251/472/PR/140524/006872', ocStatus: 'N/A — UC', buyerPulse: 'Prestige projects are usually structured well; inspect for post-handover service responsiveness. Confidence: Medium.' },
+  { rank: 4, day: 1, shortName: 'Lumina', name: 'Sattva Lumina', builder: 'Sattva', area: 'Yelahanka/Rajanukunte', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Sep 2024', possession: 'Nov 2029', address: 'Yelahanka-Doddaballapura Road, Rajanukunte', mapsUrl: 'https://maps.google.com/?q=Sattva+Lumina+Rajanukunte+Bangalore', drive: '30-50 min', visitTime: '2:30 PM', contact: 'Ask for phase-wise handover and utility commissioning timeline.', rera: 'PRM/KA/RERA/1251/472/PR/060924/007009', ocStatus: 'N/A — UC', buyerPulse: 'Generally positive planning/value sentiment; verify long-term maintenance assumptions. Confidence: Medium.' },
+  { rank: 5, day: 1, shortName: 'Eternia', name: 'Brigade Eternia', builder: 'Brigade', area: 'Yelahanka', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Mar 2025', possession: 'Mar 2030', address: 'Yelahanka New Town, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Brigade+Eternia+Yelahanka+Bangalore', drive: '25-45 min', visitTime: '4:30 PM', contact: 'Confirm date consistency across RERA and sales commitments.', rera: 'PRM/KA/RERA/1251/309/PR/070325/007559', ocStatus: 'N/A — UC', buyerPulse: 'Strong township execution reputation; check admin/document turnaround rigorously. Confidence: Medium.' },
+  { rank: 6, day: 2, shortName: 'Varnam', name: 'TATA Varnam', builder: 'Tata Housing', area: 'Devanahalli/Shettigere', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Aug 2025', possession: 'Dec 2029', address: 'Shettigere Road, Devanahalli, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Tata+Varnam+Shettigere+Devanahalli', drive: '40-70 min', visitTime: '9:00 AM', contact: 'Check peak-hour commute impact before shortlisting final.', rera: 'PRM/KA/RERA/1250/303/PR/110825/007988', ocStatus: 'N/A — UC', buyerPulse: 'High trust brand perception; still verify project-level execution and timeline certainty. Confidence: Medium.' },
+  { rank: 7, day: 2, shortName: 'Trimaya', name: 'Birla Trimaya', builder: 'Birla Estates', area: 'Devanahalli', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Jan 2025', possession: '2030', address: 'Devanahalli, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Birla+Trimaya+Devanahalli+Bangalore', drive: '45-75 min', visitTime: '10:45 AM', contact: 'Ask for phase map and exact tower-level possession schedule.', rera: 'PRM/KA/RERA/1250/303/PR/300125/007458', ocStatus: 'N/A — UC', buyerPulse: 'Brand confidence is solid; verify handover dependency across phases. Confidence: Medium.' },
+  { rank: 8, day: 2, shortName: 'Nikoo', name: 'Bhartiya Nikoo Garden Estate', builder: 'Bhartiya', area: 'Sadahalli/North Bangalore', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Aug 2025', possession: '2030', address: 'Sadahalli, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Bhartiya+Nikoo+Garden+Estate+Sadahalli', drive: '35-65 min', visitTime: '12:15 PM', contact: 'Check utility readiness and society charges in writing.', rera: 'PRM/KA/RERA/1251/472/PR/260825/008038', ocStatus: 'N/A — UC', buyerPulse: 'Less long-cycle delivery history than mega-builders; insist on stronger documentation evidence. Confidence: Low-Medium.' },
+  { rank: 9, day: 2, shortName: 'Tiara', name: 'Godrej Tiara', builder: 'Godrej', area: 'Yeshwanthpur/North zone', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: 'Jun 2025', possession: '2030', address: 'Yeshwanthpur, Bangalore', mapsUrl: 'https://maps.google.com/?q=Godrej+Tiara+Yeshwanthpur+Bangalore', drive: '35-60 min', visitTime: '2:00 PM', contact: 'Validate amenities handover and post-possession maintenance model.', rera: 'PRM/KA/RERA/1251/309/PR/110625/007817', ocStatus: 'N/A — UC', buyerPulse: 'Mixed buyer sentiment in some projects; use stricter legal and quality checks. Confidence: Medium.' },
+  { rank: 10, day: 2, shortName: 'Insignia', name: 'Brigade Insignia', builder: 'Brigade', area: 'Yelahanka/Kogilu belt', status: 'UC', priority: 'Strict-valid shortlist (RERA + handover >= 2026)', price: 'On request', launched: '2024', possession: 'Jun 2029', address: 'Yelahanka-Kogilu belt, North Bangalore', mapsUrl: 'https://maps.google.com/?q=Brigade+Insignia+Yelahanka+Bangalore', drive: '25-45 min', visitTime: '3:45 PM', contact: 'Confirm exact unit inventory and RERA tower mapping.', rera: 'PRM/KA/RERA/1251/309/PR/070624/006894', ocStatus: 'N/A — UC', buyerPulse: 'Brigade execution quality often rated well; verify timeline and admin clauses in agreement. Confidence: Medium.' },
 ];
 
 const QUESTIONS = [
@@ -749,12 +758,8 @@ function downloadExportCsv() {
 function renderProperties() {
   const day1 = PROPERTIES.filter(p => p.day === 1);
   const day2 = PROPERTIES.filter(p => p.day === 2);
-  document.getElementById('prop-list').innerHTML = day1.length
-    ? day1.map(propCard).join('')
-    : '<div style="padding:12px 16px;color:var(--text2);font-size:13px">No properties match this strict filter.</div>';
-  document.getElementById('prop-list-2').innerHTML = day2.length
-    ? day2.map(propCard).join('')
-    : '<div style="padding:12px 16px;color:var(--text2);font-size:13px">No additional properties match this strict filter.</div>';
+  document.getElementById('prop-list').innerHTML   = day1.map(propCard).join('');
+  document.getElementById('prop-list-2').innerHTML = day2.map(propCard).join('');
 }
 
 function propCard(p) {
