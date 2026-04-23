@@ -274,41 +274,68 @@
       justify-content: space-between;
     }
 
-    .check-item {
+    .check-item-rich {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .check-item-rich:first-child {
+      border-top: none;
+    }
+    .check-item-header {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 13px 16px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 8px;
     }
-    .check-item:active { background: var(--surface2); }
-    .check-item + .check-item { border-top: 1px solid var(--border); }
-    .check-circle {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
-      margin-top: 1px;
-    }
-    .check-circle.done {
-      background: var(--green);
-      border-color: var(--green);
-    }
-    .check-circle.done svg { display: block; }
-    .check-circle svg { display: none; width: 14px; height: 14px; }
     .check-text {
       font-size: 14px;
-      line-height: 1.45;
+      line-height: 1.4;
       flex: 1;
+      font-weight: 500;
     }
-    .check-text.done {
+    .check-status {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .check-state-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
       color: var(--text2);
-      text-decoration: line-through;
-      text-decoration-color: var(--text3);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 5px 9px;
+      line-height: 1.1;
+      min-height: auto;
+    }
+    .check-state-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 122, 255, 0.12);
+    }
+    .check-state-btn.done.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(52, 199, 89, 0.12);
+    }
+    .check-state-btn.issue.active {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(255, 59, 48, 0.12);
+    }
+    .check-detail-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.4;
+      resize: vertical;
+      min-height: 56px;
     }
 
     .reset-btn {
@@ -492,22 +519,22 @@ const QUESTIONS = [
 
 const CHECKLIST = {
   'Sales Office': [
-    'Capture full price breakup in writing',
-    'Capture RERA ID and verify online immediately',
-    'Get sample agreement copy before paying token',
-    'Confirm possession date and delay compensation',
+    { id: 'price_breakup', label: 'Price breakup (base, GST, registration, extras)', placeholder: 'Enter quoted values and any hidden line items...' },
+    { id: 'payment_schedule', label: 'Payment schedule type and milestone terms', placeholder: 'Construction-linked or time-linked? Note milestone percentages...' },
+    { id: 'refund_terms', label: 'Cancellation/refund terms', placeholder: 'Write refund timeline, deductions, and clause reference...' },
+    { id: 'possession_clause', label: 'Possession + delay compensation clause', placeholder: 'Enter promised possession month and penalty details...' },
   ],
   'Site Visit': [
-    'Check worker activity and stage of construction',
-    'Inspect concrete quality and seepage signs',
-    'Measure key room dimensions for usability',
-    'Check approach road quality and bottlenecks',
+    { id: 'site_activity', label: 'Live construction activity and progress reality', placeholder: 'Workers count, active zones, current slab/floor progress...' },
+    { id: 'quality_flags', label: 'Construction quality checks (cracks/seepage/honeycombing)', placeholder: 'Record observed defects with tower/floor context...' },
+    { id: 'livability_observation', label: 'Unit livability (light, ventilation, noise, room usability)', placeholder: 'Note daylight, cross-ventilation, noise sources, room fit...' },
+    { id: 'access_risk', label: 'Last-mile approach and flooding/bottleneck risk', placeholder: 'Capture road condition and monsoon risk observations...' },
   ],
   'Documents': [
-    'Ask for Khata/sanction/title packet status',
-    'Confirm Cauvery application/provision evidence',
-    'Note maintenance and corpus charges',
-    'Record next follow-up date with sales manager',
+    { id: 'khata_sanction', label: 'Khata/sanction/title packet status', placeholder: 'List documents shown and missing items...' },
+    { id: 'water_proof', label: 'Water source proof (Cauvery/borewell/tanker plan)', placeholder: 'Write utility source split and supporting evidence...' },
+    { id: 'charges_sheet', label: 'Maintenance/corpus/clubhouse charge sheet', placeholder: 'Capture recurring monthly costs and one-time deposits...' },
+    { id: 'follow_up', label: 'Follow-up owner and target date', placeholder: 'Who will share pending docs, and by when...' },
   ],
 };
 
@@ -528,6 +555,13 @@ function loadScores()   { try { scores   = JSON.parse(localStorage.getItem(SCORE
 function saveScores()   { localStorage.setItem(SCORES_KEY, JSON.stringify(scores)); }
 function loadQAnswers() { try { qAnswers = JSON.parse(localStorage.getItem(Q_ANS_KEY)  || '{}'); } catch (e) { qAnswers = {}; } }
 function saveQAnswers() { localStorage.setItem(Q_ANS_KEY, JSON.stringify(qAnswers)); }
+function ensureChecklistEntry(key) {
+  if (!checked[key] || typeof checked[key] !== 'object') {
+    checked[key] = { status: 'todo', detail: '' };
+  }
+  if (!checked[key].status) checked[key].status = 'todo';
+  if (!('detail' in checked[key])) checked[key].detail = '';
+}
 
 function calcBuyScore(rank) {
   const ans = qAnswers[rank] || {};
@@ -712,26 +746,44 @@ function setSection(s) {
 
 function renderChecklistItems() {
   const items = CHECKLIST[currentSection];
-  const doneN = items.filter((_, i) => checked[currentSection + '_' + i]).length;
+  const doneN = items.filter((_, i) => {
+    const key = currentSection + '_' + i;
+    return checked[key]?.status === 'done';
+  }).length;
   const total = items.length;
   const pct = total ? Math.round(doneN / total * 100) : 0;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = `${doneN} of ${total} done`;
+  document.getElementById('progress-label').textContent = `${doneN} of ${total} marked done`;
   document.getElementById('section-total').textContent = `${pct}%`;
-  document.getElementById('checklist-items').innerHTML = items.map((text, i) => {
+  document.getElementById('checklist-items').innerHTML = items.map((item, i) => {
     const key = currentSection + '_' + i;
-    const done = !!checked[key];
-    return `<div class="check-item" onclick="toggleCheck('${key}')">
-      <div class="check-circle ${done ? 'done' : ''}"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="check-text ${done ? 'done' : ''}">${text}</div>
+    const entry = checked[key] || { status: 'todo', detail: '' };
+    return `<div class="check-item-rich">
+      <div class="check-item-header">
+        <div class="check-text">${item.label}</div>
+        <div class="check-status">
+          <button class="check-state-btn ${entry.status === 'todo' ? 'active' : ''}" onclick="setChecklistStatus('${key}','todo',event)">Todo</button>
+          <button class="check-state-btn done ${entry.status === 'done' ? 'active' : ''}" onclick="setChecklistStatus('${key}','done',event)">Done</button>
+          <button class="check-state-btn issue ${entry.status === 'issue' ? 'active' : ''}" onclick="setChecklistStatus('${key}','issue',event)">Issue</button>
+        </div>
+      </div>
+      <textarea class="check-detail-input" rows="2" placeholder="${item.placeholder}" oninput="setChecklistDetail('${key}', event)">${entry.detail || ''}</textarea>
     </div>`;
   }).join('');
 }
 
-function toggleCheck(key) {
-  checked[key] = !checked[key];
+function setChecklistStatus(key, status, evt) {
+  evt.stopPropagation();
+  ensureChecklistEntry(key);
+  checked[key].status = status;
   saveState();
   renderChecklistItems();
+}
+
+function setChecklistDetail(key, evt) {
+  ensureChecklistEntry(key);
+  checked[key].detail = evt.target.value;
+  saveState();
 }
 
 function resetChecklist() {
