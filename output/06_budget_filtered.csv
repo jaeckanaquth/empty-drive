@@ -1,17 +1,1 @@
 listing_id,project_name,area,property_type,bedrooms,status,builder_name,builder_track_record,builder_delay_history,builder_handover_reliability,builder_legal_cleanliness,builder_construction_sentiment,price_base_cr,price_all_in_cr,water_backup,power_backup,security,parking,clubhouse,kid_senior_spaces,builder_score,rank,effective_price_cr
-L013,ElmAvenues,Yelahanka,apartment,3,under_construction,Sobha,92,10,94,94,89,2.18,2.39,1,1,1,1,1,1,92.1,2,2.39
-L001,NorthGateResidences,SahakaraNagar,apartment,3,under_construction,Prestige,90,12,91,93,88,2.28,2.46,1,1,1,1,1,1,90.2,3,2.46
-L011,RunwayEnclave,Yelahanka,apartment,3,under_construction,Prestige,90,12,91,93,88,2.26,2.42,1,1,1,1,1,1,90.2,4,2.42
-L027,TerraceOne,Yelahanka,apartment,3,under_construction,Prestige,90,12,91,93,88,2.05,2.23,1,1,1,1,1,1,90.2,5,2.23
-L002,CedarPark,SahakaraNagar,row_house,4,under_construction,Brigade,88,15,89,90,86,2.30,2.49,1,1,1,1,1,1,87.8,8,2.49
-L028,CanopyRows,SahakaraNagar,row_house,3,under_construction,Brigade,88,15,89,90,86,2.17,2.41,1,1,1,1,1,1,87.8,10,2.41
-L020,NorthernArc,Yelahanka,apartment,3,under_construction,Godrej,87,14,88,89,85,2.22,2.47,1,1,1,1,1,1,87.2,11,2.47
-L021,JasmineBlocks,Yelahanka,apartment,3,under_construction,ShapoorjiPallonji,86,17,85,88,84,2.06,2.26,1,1,1,1,1,0,85.4,12,2.26
-L007,OliveMews,SahakaraNagar,row_house,4,under_construction,Assetz,85,17,86,88,84,2.22,2.45,1,1,1,1,1,0,85.3,13,2.45
-L016,AeroVista,Yelahanka,apartment,3,under_construction,Assetz,85,17,86,88,84,2.10,2.28,1,1,1,1,1,0,85.3,14,2.28
-L008,SkylineCourtyard,SahakaraNagar,apartment,3,under_construction,Puravankara,84,19,83,86,81,2.12,2.31,1,1,1,1,0,1,83.3,15,2.31
-L017,CityPortico,Yelahanka,apartment,3,under_construction,Puravankara,84,19,83,86,81,2.01,2.20,1,1,1,1,0,1,83.3,16,2.2
-L004,MapleVista,SahakaraNagar,apartment,3,under_construction,Goyal,83,18,84,85,80,2.05,2.24,1,1,1,1,0,1,83.1,17,2.24
-L014,GardenCraft,Yelahanka,apartment,3,under_construction,Goyal,83,18,84,85,80,1.92,2.08,1,1,1,1,0,1,83.1,18,2.08
-L010,UrbanCanopy,SahakaraNagar,apartment,3,under_construction,KoltePatil,79,21,80,82,77,1.98,2.16,1,1,1,1,0,0,79.6,19,2.16
-L019,WoodlandSquare,Yelahanka,apartment,3,under_construction,KoltePatil,79,21,80,82,77,1.89,2.03,1,1,1,1,0,0,79.6,20,2.03

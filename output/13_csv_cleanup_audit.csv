@@ -1,0 +1,13 @@
+file,before_rows,after_rows,removed_rows,action,reason,compatible_key
+01_area_universe.csv,8,8,0,unchanged_incompatible,no_key_columns,False
+02_top5_livability_areas.csv,5,5,0,unchanged_incompatible,no_key_columns,False
+03_top2_amenities_cauvery_areas.csv,2,2,0,unchanged_incompatible,no_key_columns,False
+04_inventory_filtered.csv,23,0,23,filtered_by_current_ids,derived_shortlist_file,True
+05_top20_builder_ranked.csv,20,0,20,filtered_by_current_ids,derived_shortlist_file,True
+06_budget_filtered.csv,16,0,16,filtered_by_current_ids,derived_shortlist_file,True
+07_final_top10.csv,10,0,10,filtered_by_current_ids,derived_shortlist_file,True
+08_risk_adjusted_top10.csv,18,0,18,filtered_by_current_ids,derived_shortlist_file,True
+09_enriched_inventory_strict.csv,23,0,23,filtered_by_current_ids,derived_shortlist_file,True
+10_strict_eligible.csv,0,0,0,filtered_by_current_ids,strict_current_scope,True
+11_strict_exclusions.csv,23,23,0,kept_strict_exclusions,strict_audit_file,True
+12_strict_top10.csv,0,0,0,filtered_by_current_ids,strict_current_scope,True
